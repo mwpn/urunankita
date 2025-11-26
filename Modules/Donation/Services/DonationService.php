@@ -315,47 +315,77 @@ class DonationService
                 return;
             }
             
-            // Get tenant info
-            $tenant = $this->tenantModel->find($donationData['tenant_id']);
-            log_message('debug', 'Tenant found: ' . ($tenant ? 'yes (ID: ' . $tenant['id'] . ')' : 'no'));
+            // STEP 1: Get campaign info to know which tenant owns this urunan
+            $campaign = null;
+            $campaignTitle = '';
+            $tenantId = null;
             
-            if (!$tenant) {
-                log_message('warning', 'Tenant not found for tenant_id: ' . ($donationData['tenant_id'] ?? 'null'));
+            if (!empty($donationData['campaign_id'])) {
+                $campaign = $this->campaignModel->find($donationData['campaign_id']);
+                log_message('debug', 'Campaign found: ' . ($campaign ? 'yes (ID: ' . $campaign['id'] . ', Title: ' . ($campaign['title'] ?? 'null') . ', Tenant ID: ' . ($campaign['tenant_id'] ?? 'null') . ')' : 'no'));
+                
+                if ($campaign) {
+                    $campaignTitle = $campaign['title'] ?? '';
+                    $tenantId = (int) $campaign['tenant_id'];
+                    log_message('debug', 'Campaign belongs to tenant_id: ' . $tenantId);
+                } else {
+                    log_message('warning', 'Campaign not found for campaign_id: ' . $donationData['campaign_id']);
+                }
+            }
+            
+            // Fallback to donationData tenant_id if campaign not found
+            if (!$tenantId && !empty($donationData['tenant_id'])) {
+                $tenantId = (int) $donationData['tenant_id'];
+                log_message('debug', 'Using tenant_id from donationData: ' . $tenantId);
+            }
+            
+            if (!$tenantId) {
+                log_message('error', 'Cannot determine tenant_id - both campaign and donationData tenant_id are missing');
                 return;
             }
             
-            // Get owner/tenant user phone
+            // STEP 2: Get tenant info
+            $tenant = $this->tenantModel->find($tenantId);
+            log_message('debug', 'Tenant found: ' . ($tenant ? 'yes (ID: ' . $tenant['id'] . ', Name: ' . ($tenant['name'] ?? 'null') . ', Owner ID: ' . ($tenant['owner_id'] ?? 'null') . ')' : 'no'));
+            
+            if (!$tenant) {
+                log_message('warning', 'Tenant not found for tenant_id: ' . $tenantId);
+                return;
+            }
+            
+            // STEP 3: Get owner/tenant user phone
             $db = \Config\Database::connect();
             $owner = null;
             $ownerPhone = null;
             
-            // Try to get owner by owner_id first
+            // Try to get owner by owner_id first (from tenant table)
             if (!empty($tenant['owner_id'])) {
                 $owner = $db->table('users')
                     ->where('id', (int) $tenant['owner_id'])
                     ->get()
                     ->getRowArray();
-                log_message('debug', 'Owner found by owner_id: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+                log_message('debug', 'Owner found by owner_id (' . $tenant['owner_id'] . '): ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Name: ' . ($owner['name'] ?? 'null') . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
                 
-                if ($owner && !empty($owner['phone'])) {
-                    $ownerPhone = $owner['phone'];
+                if ($owner && !empty($owner['phone']) && trim($owner['phone']) !== '') {
+                    $ownerPhone = trim($owner['phone']);
+                    log_message('debug', 'Using owner from owner_id: ' . $ownerPhone);
                 }
             }
             
             // If owner_id is empty or owner not found, try to find tenant owner/admin user
             if (empty($ownerPhone)) {
-                log_message('debug', 'Owner_id is empty or owner not found, trying to find tenant owner/admin user');
+                log_message('debug', 'Owner_id is empty or owner not found, trying to find tenant owner/admin user for tenant_id: ' . $tenantId);
                 
                 // Try to find user with tenant_owner or tenant_admin role for this tenant
                 // Remove phone filter first to see all users
                 $allOwners = $db->table('users')
-                    ->where('tenant_id', (int) $donationData['tenant_id'])
+                    ->where('tenant_id', $tenantId)
                     ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
                     ->orderBy('id', 'ASC')
                     ->get()
                     ->getResultArray();
                 
-                log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role');
+                log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role for tenant_id: ' . $tenantId);
                 
                 // Find first one with phone
                 foreach ($allOwners as $ownerCandidate) {
@@ -371,14 +401,14 @@ class DonationService
             
             // If still not found, try to find any user with tenant_id that has phone
             if (empty($ownerPhone)) {
-                log_message('debug', 'Still no owner found, trying any user with tenant_id');
+                log_message('debug', 'Still no owner found, trying any user with tenant_id: ' . $tenantId);
                 $allUsers = $db->table('users')
-                    ->where('tenant_id', (int) $donationData['tenant_id'])
+                    ->where('tenant_id', $tenantId)
                     ->orderBy('id', 'ASC')
                     ->get()
                     ->getResultArray();
                 
-                log_message('debug', 'Found ' . count($allUsers) . ' total users with tenant_id');
+                log_message('debug', 'Found ' . count($allUsers) . ' total users with tenant_id: ' . $tenantId);
                 
                 // Find first one with phone
                 foreach ($allUsers as $userCandidate) {
@@ -394,33 +424,38 @@ class DonationService
             
             log_message('debug', 'Final owner check: ' . ($ownerPhone ? 'yes (Phone: ' . $ownerPhone . ')' : 'no'));
             
+            // STEP 4: Final check - ensure we have owner phone
             if (empty($ownerPhone)) {
-                log_message('warning', 'Owner not found or phone is empty for tenant_id: ' . $donationData['tenant_id'] . ' (owner_id: ' . ($tenant['owner_id'] ?? 'null') . ')');
+                log_message('warning', 'Owner not found or phone is empty for tenant_id: ' . $tenantId . ' (owner_id: ' . ($tenant['owner_id'] ?? 'null') . ')');
                 log_message('warning', 'Skipping tenant notification - no valid owner phone number found');
                 
                 // Log semua user dengan tenant_id untuk debugging
                 $allUsers = $db->table('users')
-                    ->where('tenant_id', (int) $donationData['tenant_id'])
+                    ->where('tenant_id', $tenantId)
                     ->get()
                     ->getResultArray();
-                log_message('debug', 'All users with tenant_id ' . $donationData['tenant_id'] . ': ' . count($allUsers));
+                log_message('debug', 'All users with tenant_id ' . $tenantId . ': ' . count($allUsers));
                 foreach ($allUsers as $u) {
-                    log_message('debug', '  - User ID: ' . $u['id'] . ', Role: ' . ($u['role'] ?? 'null') . ', Phone: ' . ($u['phone'] ?? 'empty'));
+                    log_message('debug', '  - User ID: ' . $u['id'] . ', Name: ' . ($u['name'] ?? 'null') . ', Role: ' . ($u['role'] ?? 'null') . ', Phone: ' . ($u['phone'] ?? 'empty'));
                 }
                 
                 return;
             }
             
-            // Get campaign title
-            $campaignTitle = '';
-            if (!empty($donationData['campaign_id'])) {
-                $campaign = $this->campaignModel->find($donationData['campaign_id']);
+            log_message('info', 'Owner found for tenant notification: User ID ' . ($owner['id'] ?? 'unknown') . ', Phone: ' . $ownerPhone);
+            
+            // Campaign title already retrieved in STEP 1
+            // If not retrieved yet, get it now
+            if (empty($campaignTitle) && !empty($donationData['campaign_id'])) {
+                if (!$campaign) {
+                    $campaign = $this->campaignModel->find($donationData['campaign_id']);
+                }
                 $campaignTitle = $campaign['title'] ?? '';
             }
             
             $paymentPlaceholders = $this->getPaymentPlaceholderData($donationData);
             
-            log_message('debug', 'Rendering template tenant_donation_new for tenant_id: ' . $donationData['tenant_id']);
+            log_message('debug', 'Rendering template tenant_donation_new for tenant_id: ' . $tenantId);
             log_message('debug', 'Template data: amount=' . $donationData['amount'] . ', donor_name=' . ($donationData['donor_name'] ?? 'Anonim') . ', campaign_title=' . $campaignTitle);
             
             // Default template if not found in settings
@@ -432,7 +467,7 @@ class DonationService
                 'donor_name' => $donationData['donor_name'] ?? 'Anonim',
                 'campaign_title' => $campaignTitle,
                 'donation_id' => $donationId,
-            ], $paymentPlaceholders), $defaultTemplate, $donationData['tenant_id'] ?? null);
+            ], $paymentPlaceholders), $defaultTemplate, $tenantId);
             
             log_message('debug', 'Template rendered message: ' . ($message ? 'yes (' . strlen($message) . ' chars)' : 'null/empty'));
             if ($message) {
