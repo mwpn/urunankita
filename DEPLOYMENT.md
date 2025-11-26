@@ -203,29 +203,51 @@ sudo service apache2 restart
 ```
 
 ### Nginx Configuration
+
+**File konfigurasi lengkap ada di: `nginx.conf.example`**
+
 ```nginx
 server {
-    listen 80;
+    listen 443 ssl http2;
     server_name urunankita.id *.urunankita.id;
-    root /path/to/urunankita/public;
-    index index.php;
-
+    
+    # SSL Configuration
+    ssl_certificate /path/to/ssl/certificate.crt;
+    ssl_certificate_key /path/to/ssl/private.key;
+    
+    # PENTING: Document root harus point ke folder public/
+    root /www/wwwroot/urunankita.id/urunankita/public;
+    index index.php index.html;
+    
+    # CodeIgniter 4 Routing - PENTING!
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
-
+    
+    # PHP Handler
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        try_files $uri =404;
+        fastcgi_pass unix:/tmp/php-cgi-83.sock;  # Sesuaikan dengan PHP version
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
-
+    
+    # Security - Deny access to .env and hidden files
     location ~ /\. {
+        deny all;
+    }
+    location ~ /\.env {
         deny all;
     }
 }
 ```
+
+**Catatan Penting:**
+- `root` harus point ke folder `public/`, bukan root project
+- `try_files` harus ada `/index.php?$query_string` untuk routing CodeIgniter
+- Pastikan PHP-FPM socket path sesuai dengan versi PHP Anda
+- Untuk BT Panel, biasanya socket di: `/tmp/php-cgi-XX.sock` (XX = versi PHP)
 
 ---
 

@@ -201,6 +201,51 @@
                     </div>
                 </div>
 
+                <!-- Pengaturan Rekening Bank -->
+                <?php
+                $bankAccounts = $bank_accounts ?? [];
+                $canUseOwnBank = $can_use_own_bank_account ?? false;
+                ?>
+                <?php if ($canUseOwnBank && !empty($bankAccounts)): ?>
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <strong class="card-title">Pengaturan Rekening Bank</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch mb-3">
+                                <input 
+                                    type="checkbox" 
+                                    class="custom-control-input" 
+                                    id="use_tenant_bank_account" 
+                                    name="use_tenant_bank_account" 
+                                    value="1"
+                                    <?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? 'checked' : '' ?>
+                                    onchange="toggleBankAccountSelection()"
+                                >
+                                <label class="custom-control-label" for="use_tenant_bank_account">
+                                    <strong>Gunakan rekening terpisah untuk urunan ini</strong>
+                                </label>
+                                <small class="form-text text-muted d-block">Jika aktif, donasi akan masuk ke rekening yang dipilih di bawah. Jika tidak aktif, donasi akan masuk ke rekening platform.</small>
+                            </div>
+
+                            <div id="bankAccountSelection" class="<?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? '' : 'd-none' ?>">
+                                <label for="bank_account_id">Pilih Rekening Bank <span class="text-danger">*</span></label>
+                                <select id="bank_account_id" name="bank_account_id" class="form-control">
+                                    <option value="">-- Pilih Rekening --</option>
+                                    <?php foreach ($bankAccounts as $idx => $acc): ?>
+                                        <option value="<?= esc($idx) ?>" <?= (isset($campaign['bank_account_id']) && $campaign['bank_account_id'] == $idx) ? 'selected' : '' ?>>
+                                            <?= esc(($acc['bank'] ?? 'Bank') . ' - ' . ($acc['account_number'] ?? '-') . ' a.n ' . ($acc['account_name'] ?? '-')) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small class="form-text text-muted">Pilih rekening bank yang akan digunakan untuk menerima donasi urunan ini</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <!-- Action Buttons -->
                 <div class="row mb-4">
                     <div class="col-12">

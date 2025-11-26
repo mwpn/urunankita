@@ -459,6 +459,12 @@ class CampaignController extends BaseController
             }
         }
 
+        // Get tenant info with bank accounts
+        $tenantModel = new \Modules\Tenant\Models\TenantModel();
+        $tenant = $tenantModel->findWithBankAccounts($tenantId);
+        $bankAccounts = $tenant['bank_accounts'] ?? [];
+        $canUseOwnBank = !empty($tenant['can_use_own_bank_account']) && $tenant['can_use_own_bank_account'] == 1;
+
         // Get beneficiaries for dropdown
         $beneficiaryModel = new \Modules\Beneficiary\Models\BeneficiaryModel();
         $beneficiaries = $beneficiaryModel->where('tenant_id', $tenantId)->findAll();
@@ -473,6 +479,9 @@ class CampaignController extends BaseController
             'user_role' => 'Penggalang Urunan',
             'beneficiaries' => $beneficiaries,
             'campaign' => null,
+            'tenant' => $tenant,
+            'bank_accounts' => $bankAccounts,
+            'can_use_own_bank_account' => $canUseOwnBank,
         ];
 
         return view('Modules\\Campaign\\Views\\form', $data);
@@ -553,6 +562,8 @@ class CampaignController extends BaseController
             'location_address' => $this->request->getPost('location_address') ?: null,
             'status' => $this->request->getPost('status') ?? $defaultStatus,
             'is_priority' => $this->request->getPost('is_priority') ? 1 : 0,
+            'use_tenant_bank_account' => $this->request->getPost('use_tenant_bank_account') ? 1 : 0,
+            'bank_account_id' => $this->request->getPost('bank_account_id') ? (int) $this->request->getPost('bank_account_id') : null,
         ];
 
         if (empty($data['title'])) {
@@ -1460,6 +1471,11 @@ class CampaignController extends BaseController
         $beneficiaryModel = new \Modules\Beneficiary\Models\BeneficiaryModel();
         $beneficiaries = $beneficiaryModel->where('tenant_id', $platformTenantId)->findAll();
 
+        // Get platform tenant with bank accounts
+        $tenantModel = new \Modules\Tenant\Models\TenantModel();
+        $platformTenant = $tenantModel->findWithBankAccounts($platformTenantId);
+        $platformBankAccounts = $platformTenant['bank_accounts'] ?? [];
+
         $data = [
             'pageTitle' => 'Buat Urunan Baru',
             'userRole' => 'admin',
@@ -1471,6 +1487,8 @@ class CampaignController extends BaseController
             'campaign' => null,
             'beneficiaries' => $beneficiaries,
             'platform_tenant_id' => $platformTenantId,
+            'tenant' => $platformTenant,
+            'bank_accounts' => $platformBankAccounts,
         ];
 
         return view('Modules\\Campaign\\Views\\admin_form', $data);
