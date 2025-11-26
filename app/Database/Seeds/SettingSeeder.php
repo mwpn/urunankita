@@ -361,6 +361,16 @@ class SettingSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            [
+                'key' => 'whatsapp_template_tenant_donation_new_enabled',
+                'value' => '1',
+                'type' => 'string',
+                'scope' => 'global',
+                'scope_id' => null,
+                'description' => 'Aktifkan/nonaktifkan template notifikasi donasi baru untuk tenant',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
             
             // Payment Gateway Settings
             [
