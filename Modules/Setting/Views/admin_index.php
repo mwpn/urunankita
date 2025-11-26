@@ -993,15 +993,47 @@
                                 $('#logo-preview-container').empty();
                             });
 
-                            myDropzone.on('error', function(file, errorMessage) {
-                                console.error('Dropzone error:', errorMessage);
-                                if (typeof errorMessage === 'string') {
+                            myDropzone.on('error', function(file, errorMessage, xhr) {
+                                console.error('Dropzone error:', errorMessage, xhr);
+                                var finalMessage = 'Gagal mengupload logo';
+                                
+                                // Handle different error formats
+                                if (typeof errorMessage === 'object' && errorMessage !== null) {
+                                    // If errorMessage is an object, try to extract message
+                                    if (errorMessage.message) {
+                                        finalMessage = errorMessage.message;
+                                    } else if (errorMessage.error) {
+                                        finalMessage = errorMessage.error;
+                                    } else {
+                                        finalMessage = JSON.stringify(errorMessage);
+                                    }
+                                } else if (typeof errorMessage === 'string') {
                                     try {
                                         var errorObj = JSON.parse(errorMessage);
-                                        errorMessage = errorObj.message || errorMessage;
-                                    } catch (e) {}
+                                        finalMessage = errorObj.message || errorObj.error || errorMessage;
+                                    } catch (e) {
+                                        finalMessage = errorMessage;
+                                    }
+                                } else {
+                                    finalMessage = String(errorMessage);
                                 }
-                                alert('Error uploading logo: ' + errorMessage);
+                                
+                                // Check xhr response if available
+                                if (xhr && xhr.responseText) {
+                                    try {
+                                        var response = JSON.parse(xhr.responseText);
+                                        if (response.message) {
+                                            finalMessage = response.message;
+                                        }
+                                    } catch (e) {
+                                        // If not JSON, use responseText as is
+                                        if (xhr.responseText && xhr.responseText.trim()) {
+                                            finalMessage = xhr.responseText;
+                                        }
+                                    }
+                                }
+                                
+                                alert('Error uploading logo: ' + finalMessage);
                             });
                         }
                     });
@@ -1066,15 +1098,43 @@
                                 $('#favicon-preview-container').empty();
                             });
 
-                            myDropzone.on('error', function(file, errorMessage) {
-                                console.error('Dropzone error:', errorMessage);
-                                if (typeof errorMessage === 'string') {
+                            myDropzone.on('error', function(file, errorMessage, xhr) {
+                                console.error('Dropzone error:', errorMessage, xhr);
+                                var finalMessage = 'Gagal mengupload favicon';
+                                
+                                if (typeof errorMessage === 'object' && errorMessage !== null) {
+                                    if (errorMessage.message) {
+                                        finalMessage = errorMessage.message;
+                                    } else if (errorMessage.error) {
+                                        finalMessage = errorMessage.error;
+                                    } else {
+                                        finalMessage = JSON.stringify(errorMessage);
+                                    }
+                                } else if (typeof errorMessage === 'string') {
                                     try {
                                         var errorObj = JSON.parse(errorMessage);
-                                        errorMessage = errorObj.message || errorMessage;
-                                    } catch (e) {}
+                                        finalMessage = errorObj.message || errorObj.error || errorMessage;
+                                    } catch (e) {
+                                        finalMessage = errorMessage;
+                                    }
+                                } else {
+                                    finalMessage = String(errorMessage);
                                 }
-                                alert('Error uploading favicon: ' + errorMessage);
+                                
+                                if (xhr && xhr.responseText) {
+                                    try {
+                                        var response = JSON.parse(xhr.responseText);
+                                        if (response.message) {
+                                            finalMessage = response.message;
+                                        }
+                                    } catch (e) {
+                                        if (xhr.responseText && xhr.responseText.trim()) {
+                                            finalMessage = xhr.responseText;
+                                        }
+                                    }
+                                }
+                                
+                                alert('Error uploading favicon: ' + finalMessage);
                             });
                         }
                     });
@@ -1138,15 +1198,43 @@
                                 $('#hero-image-preview-container').empty();
                             });
 
-                            myDropzone.on('error', function(file, errorMessage) {
-                                console.error('Dropzone error:', errorMessage);
-                                if (typeof errorMessage === 'string') {
+                            myDropzone.on('error', function(file, errorMessage, xhr) {
+                                console.error('Dropzone error:', errorMessage, xhr);
+                                var finalMessage = 'Gagal mengupload hero image';
+                                
+                                if (typeof errorMessage === 'object' && errorMessage !== null) {
+                                    if (errorMessage.message) {
+                                        finalMessage = errorMessage.message;
+                                    } else if (errorMessage.error) {
+                                        finalMessage = errorMessage.error;
+                                    } else {
+                                        finalMessage = JSON.stringify(errorMessage);
+                                    }
+                                } else if (typeof errorMessage === 'string') {
                                     try {
                                         var errorObj = JSON.parse(errorMessage);
-                                        errorMessage = errorObj.message || errorMessage;
-                                    } catch (e) {}
+                                        finalMessage = errorObj.message || errorObj.error || errorMessage;
+                                    } catch (e) {
+                                        finalMessage = errorMessage;
+                                    }
+                                } else {
+                                    finalMessage = String(errorMessage);
                                 }
-                                alert('Error uploading hero image: ' + errorMessage);
+                                
+                                if (xhr && xhr.responseText) {
+                                    try {
+                                        var response = JSON.parse(xhr.responseText);
+                                        if (response.message) {
+                                            finalMessage = response.message;
+                                        }
+                                    } catch (e) {
+                                        if (xhr.responseText && xhr.responseText.trim()) {
+                                            finalMessage = xhr.responseText;
+                                        }
+                                    }
+                                }
+                                
+                                alert('Error uploading hero image: ' + finalMessage);
                             });
                         }
                     });
