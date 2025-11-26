@@ -347,36 +347,48 @@ class DonationService
                 log_message('debug', 'Owner_id is empty or owner not found, trying to find tenant owner/admin user');
                 
                 // Try to find user with tenant_owner or tenant_admin role for this tenant
-                $owner = $db->table('users')
+                // Remove phone filter first to see all users
+                $allOwners = $db->table('users')
                     ->where('tenant_id', (int) $donationData['tenant_id'])
                     ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
-                    ->where('phone IS NOT NULL')
-                    ->where('phone !=', '')
                     ->orderBy('id', 'ASC')
                     ->get()
-                    ->getRowArray();
+                    ->getResultArray();
                 
-                log_message('debug', 'Owner found by tenant_id and role: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Role: ' . ($owner['role'] ?? 'unknown') . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+                log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role');
                 
-                if ($owner && !empty($owner['phone'])) {
-                    $ownerPhone = $owner['phone'];
+                // Find first one with phone
+                foreach ($allOwners as $ownerCandidate) {
+                    log_message('debug', 'Checking user ID: ' . $ownerCandidate['id'] . ', Role: ' . ($ownerCandidate['role'] ?? 'null') . ', Phone: ' . ($ownerCandidate['phone'] ?? 'empty'));
+                    if (!empty($ownerCandidate['phone']) && trim($ownerCandidate['phone']) !== '') {
+                        $owner = $ownerCandidate;
+                        $ownerPhone = trim($ownerCandidate['phone']);
+                        log_message('debug', 'Owner found by tenant_id and role: yes (ID: ' . $owner['id'] . ', Role: ' . ($owner['role'] ?? 'unknown') . ', Phone: ' . $ownerPhone . ')');
+                        break;
+                    }
                 }
             }
             
             // If still not found, try to find any user with tenant_id that has phone
             if (empty($ownerPhone)) {
-                $owner = $db->table('users')
+                log_message('debug', 'Still no owner found, trying any user with tenant_id');
+                $allUsers = $db->table('users')
                     ->where('tenant_id', (int) $donationData['tenant_id'])
-                    ->where('phone IS NOT NULL')
-                    ->where('phone !=', '')
                     ->orderBy('id', 'ASC')
                     ->get()
-                    ->getRowArray();
+                    ->getResultArray();
                 
-                log_message('debug', 'Owner found by tenant_id (any user with phone): ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+                log_message('debug', 'Found ' . count($allUsers) . ' total users with tenant_id');
                 
-                if ($owner && !empty($owner['phone'])) {
-                    $ownerPhone = $owner['phone'];
+                // Find first one with phone
+                foreach ($allUsers as $userCandidate) {
+                    log_message('debug', 'Checking user ID: ' . $userCandidate['id'] . ', Role: ' . ($userCandidate['role'] ?? 'null') . ', Phone: ' . ($userCandidate['phone'] ?? 'empty'));
+                    if (!empty($userCandidate['phone']) && trim($userCandidate['phone']) !== '') {
+                        $owner = $userCandidate;
+                        $ownerPhone = trim($userCandidate['phone']);
+                        log_message('debug', 'Owner found by tenant_id (any user with phone): yes (ID: ' . $owner['id'] . ', Phone: ' . $ownerPhone . ')');
+                        break;
+                    }
                 }
             }
             
@@ -428,9 +440,26 @@ class DonationService
             }
             
             // Skip sending if template is disabled or message is empty
+            // BUT: Use default template if message is empty (force send)
             if (empty($message)) {
-                log_message('warning', 'Template tenant_donation_new is disabled or empty, skipping WhatsApp notification to tenant owner');
-                log_message('warning', 'Check if template whatsapp_template_tenant_donation_new exists in database and is enabled');
+                log_message('warning', 'Template tenant_donation_new is disabled or empty, using default template');
+                // Force use default template
+                $message = str_replace(
+                    ['{amount}', '{donor_name}', '{campaign_title}', '{donation_id}'],
+                    [
+                        'Rp ' . number_format((float) $donationData['amount'], 0, ',', '.'),
+                        $donationData['donor_name'] ?? 'Anonim',
+                        $campaignTitle,
+                        $donationId
+                    ],
+                    $defaultTemplate
+                );
+                log_message('debug', 'Using forced default template: ' . substr($message, 0, 150));
+            }
+            
+            // Final check - if still empty, skip
+            if (empty($message)) {
+                log_message('error', 'Message is still empty after all attempts, skipping notification');
                 return;
             }
             
