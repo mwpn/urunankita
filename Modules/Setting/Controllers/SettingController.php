@@ -502,7 +502,28 @@ class SettingController extends BaseController
             // Create platform uploads directory
             $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform' . DIRECTORY_SEPARATOR;
             if (!is_dir($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
+                if (!mkdir($uploadPath, 0755, true)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/uploads/ writable.',
+                    ])->setStatusCode(500);
+                }
+            }
+            
+            // Check if directory is writable
+            if (!is_writable($uploadPath)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Folder uploads tidak writable. Jalankan: chmod -R 775 public/uploads/',
+                ])->setStatusCode(500);
+            }
+            
+            // Check if directory is writable
+            if (!is_writable($uploadPath)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Folder uploads tidak writable. Jalankan: chmod -R 775 public/uploads/',
+                ])->setStatusCode(500);
             }
 
             // Validate file type
@@ -528,9 +549,10 @@ class SettingController extends BaseController
 
             // Move uploaded file
             if (!$file->move($uploadPath, $newFilename)) {
+                $errors = $file->getErrorString();
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file',
+                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
                 ])->setStatusCode(500);
             }
 
@@ -577,7 +599,28 @@ class SettingController extends BaseController
             // Create platform uploads directory
             $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform' . DIRECTORY_SEPARATOR;
             if (!is_dir($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
+                if (!mkdir($uploadPath, 0755, true)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/uploads/ writable.',
+                    ])->setStatusCode(500);
+                }
+            }
+            
+            // Check if directory is writable
+            if (!is_writable($uploadPath)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Folder uploads tidak writable. Jalankan: chmod -R 775 public/uploads/',
+                ])->setStatusCode(500);
+            }
+            
+            // Check if directory is writable
+            if (!is_writable($uploadPath)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Folder uploads tidak writable. Jalankan: chmod -R 775 public/uploads/',
+                ])->setStatusCode(500);
             }
 
             // Validate file type
@@ -603,9 +646,10 @@ class SettingController extends BaseController
 
             // Move uploaded file
             if (!$file->move($uploadPath, $newFilename)) {
+                $errors = $file->getErrorString();
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file',
+                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
                 ])->setStatusCode(500);
             }
 
@@ -693,7 +737,28 @@ class SettingController extends BaseController
             // Create platform uploads directory
             $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform' . DIRECTORY_SEPARATOR;
             if (!is_dir($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
+                if (!mkdir($uploadPath, 0755, true)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/uploads/ writable.',
+                    ])->setStatusCode(500);
+                }
+            }
+            
+            // Check if directory is writable
+            if (!is_writable($uploadPath)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Folder uploads tidak writable. Jalankan: chmod -R 775 public/uploads/',
+                ])->setStatusCode(500);
+            }
+            
+            // Check if directory is writable
+            if (!is_writable($uploadPath)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Folder uploads tidak writable. Jalankan: chmod -R 775 public/uploads/',
+                ])->setStatusCode(500);
             }
 
             // Validate file type
@@ -719,9 +784,10 @@ class SettingController extends BaseController
 
             // Move uploaded file
             if (!$file->move($uploadPath, $newFilename)) {
+                $errors = $file->getErrorString();
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file',
+                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
                 ])->setStatusCode(500);
             }
 
@@ -821,9 +887,10 @@ class SettingController extends BaseController
 
             // Move uploaded file
             if (!$file->move($uploadPath, $newFilename)) {
+                $errors = $file->getErrorString();
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file',
+                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
                 ])->setStatusCode(500);
             }
 
