@@ -562,13 +562,24 @@ class SettingController extends BaseController
             $newFilename = 'logo_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
 
             // Move uploaded file
+            // CodeIgniter move() needs directory path without trailing slash
+            // Log for debugging
+            log_message('debug', 'Attempting to move file to: ' . $uploadPath . '/' . $newFilename);
+            log_message('debug', 'Upload path exists: ' . (is_dir($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Upload path writable: ' . (is_writable($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Temp file: ' . $file->getTempName());
+            
             if (!$file->move($uploadPath, $newFilename)) {
                 $errors = $file->getErrorString();
+                $errorCode = $file->getError();
+                log_message('error', 'File move failed: ' . $errors . ' (Code: ' . $errorCode . ')');
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
+                    'message' => 'Gagal menyimpan file: ' . $errors . ' (Error code: ' . $errorCode . '). Pastikan folder ' . $uploadPath . ' writable.',
                 ])->setStatusCode(500);
             }
+            
+            log_message('debug', 'File moved successfully');
 
             $filePath = 'uploads/platform/' . $newFilename;
             $fullUrl = base_url($filePath);
@@ -673,13 +684,24 @@ class SettingController extends BaseController
             $newFilename = 'favicon_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
 
             // Move uploaded file
+            // CodeIgniter move() needs directory path without trailing slash
+            // Log for debugging
+            log_message('debug', 'Attempting to move file to: ' . $uploadPath . '/' . $newFilename);
+            log_message('debug', 'Upload path exists: ' . (is_dir($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Upload path writable: ' . (is_writable($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Temp file: ' . $file->getTempName());
+            
             if (!$file->move($uploadPath, $newFilename)) {
                 $errors = $file->getErrorString();
+                $errorCode = $file->getError();
+                log_message('error', 'File move failed: ' . $errors . ' (Code: ' . $errorCode . ')');
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
+                    'message' => 'Gagal menyimpan file: ' . $errors . ' (Error code: ' . $errorCode . '). Pastikan folder ' . $uploadPath . ' writable.',
                 ])->setStatusCode(500);
             }
+            
+            log_message('debug', 'File moved successfully');
 
             $filePath = 'uploads/platform/' . $newFilename;
             $fullUrl = base_url($filePath);
@@ -825,13 +847,24 @@ class SettingController extends BaseController
             $newFilename = 'hero_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
 
             // Move uploaded file
+            // CodeIgniter move() needs directory path without trailing slash
+            // Log for debugging
+            log_message('debug', 'Attempting to move file to: ' . $uploadPath . '/' . $newFilename);
+            log_message('debug', 'Upload path exists: ' . (is_dir($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Upload path writable: ' . (is_writable($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Temp file: ' . $file->getTempName());
+            
             if (!$file->move($uploadPath, $newFilename)) {
                 $errors = $file->getErrorString();
+                $errorCode = $file->getError();
+                log_message('error', 'File move failed: ' . $errors . ' (Code: ' . $errorCode . ')');
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
+                    'message' => 'Gagal menyimpan file: ' . $errors . ' (Error code: ' . $errorCode . '). Pastikan folder ' . $uploadPath . ' writable.',
                 ])->setStatusCode(500);
             }
+            
+            log_message('debug', 'File moved successfully');
 
             $filePath = 'uploads/platform/' . $newFilename;
             $fullUrl = base_url($filePath);
@@ -928,13 +961,24 @@ class SettingController extends BaseController
             $newFilename = 'hero_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
 
             // Move uploaded file
+            // CodeIgniter move() needs directory path without trailing slash
+            // Log for debugging
+            log_message('debug', 'Attempting to move file to: ' . $uploadPath . '/' . $newFilename);
+            log_message('debug', 'Upload path exists: ' . (is_dir($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Upload path writable: ' . (is_writable($uploadPath) ? 'yes' : 'no'));
+            log_message('debug', 'Temp file: ' . $file->getTempName());
+            
             if (!$file->move($uploadPath, $newFilename)) {
                 $errors = $file->getErrorString();
+                $errorCode = $file->getError();
+                log_message('error', 'File move failed: ' . $errors . ' (Code: ' . $errorCode . ')');
                 return $this->response->setJSON([
                     'success' => false,
-                    'message' => 'Gagal menyimpan file: ' . $errors . '. Pastikan folder public/uploads/platform/ writable.',
+                    'message' => 'Gagal menyimpan file: ' . $errors . ' (Error code: ' . $errorCode . '). Pastikan folder ' . $uploadPath . ' writable.',
                 ])->setStatusCode(500);
             }
+            
+            log_message('debug', 'File moved successfully');
 
             // Path untuk tenant (BUKAN platform)
             $filePath = 'uploads/tenants/' . $tenantId . '/' . $newFilename;
