@@ -386,14 +386,20 @@ class DonationService
                 
                 // Try to find user with tenant_owner or tenant_admin role for this tenant
                 // Remove phone filter first to see all users
-                $allOwners = $db->table('users')
-                    ->where('tenant_id', $tenantId)
-                    ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
-                    ->orderBy('id', 'ASC')
-                    ->get()
-                    ->getResultArray();
-                
-                log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role for tenant_id: ' . $tenantId);
+                try {
+                    $allOwners = $db->table('users')
+                        ->where('tenant_id', $tenantId)
+                        ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
+                        ->orderBy('id', 'ASC')
+                        ->get()
+                        ->getResultArray();
+                    
+                    log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role for tenant_id: ' . $tenantId);
+                } catch (\Exception $e) {
+                    log_message('error', 'Error querying users table: ' . $e->getMessage());
+                    log_message('error', 'Stack trace: ' . $e->getTraceAsString());
+                    $allOwners = [];
+                }
                 
                 // Find first one with phone
                 foreach ($allOwners as $ownerCandidate) {
