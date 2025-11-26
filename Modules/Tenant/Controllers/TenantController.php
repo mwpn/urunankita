@@ -176,11 +176,18 @@ class TenantController extends BaseController
 
         $data = [];
         if ($this->request->getPost('name')) $data['name'] = $this->request->getPost('name');
+        if ($this->request->getPost('slug')) $data['slug'] = $this->request->getPost('slug');
         if ($this->request->getPost('domain') !== null) $data['domain'] = $this->request->getPost('domain');
         if ($this->request->getPost('youtube_url') !== null) $data['youtube_url'] = $this->request->getPost('youtube_url');
         if ($this->request->getPost('status') !== null) $data['status'] = $this->request->getPost('status');
         $data['can_create_without_verification'] = $this->request->getPost('can_create_without_verification') ? 1 : 0;
         $data['can_use_own_bank_account'] = $this->request->getPost('can_use_own_bank_account') ? 1 : 0;
+        
+        // Handle bank_accounts if provided
+        $bankAccounts = $this->request->getPost('bank_accounts');
+        if ($bankAccounts !== null) {
+            $data['bank_accounts'] = is_array($bankAccounts) ? $bankAccounts : json_decode($bankAccounts, true);
+        }
 
         try {
             $result = $this->tenantService->update($id, $data);
