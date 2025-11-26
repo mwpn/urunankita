@@ -190,6 +190,11 @@ class TenantController extends BaseController
         }
 
         try {
+            // Ensure we have at least one field to update
+            if (empty($data)) {
+                return redirect()->back()->withInput()->with('error', 'Tidak ada data yang diubah');
+            }
+            
             $result = $this->tenantService->update($id, $data);
             if ($result) {
                 // Optional: update/create owner user if provided

@@ -142,7 +142,21 @@ class TenantService
                 : $data['bank_accounts'];
         }
 
+        // If no data to update, return true (nothing changed)
+        if (empty($updateData)) {
+            return true;
+        }
+        
+        // Skip validation for update if only optional fields are being updated
+        $this->tenantModel->skipValidation(false);
+        
         $result = $this->tenantModel->update($id, $updateData);
+        
+        // Check for validation errors
+        if (!$result && $this->tenantModel->errors()) {
+            log_message('error', 'Tenant update validation failed: ' . json_encode($this->tenantModel->errors()));
+            throw new \RuntimeException('Validasi gagal: ' . implode(', ', $this->tenantModel->errors()));
+        }
 
         if ($result) {
             $this->activityLog->logUpdate('Tenant', $id, $oldTenant, $updateData, 'Tenant updated');
