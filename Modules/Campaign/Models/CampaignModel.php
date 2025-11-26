@@ -33,7 +33,7 @@ class CampaignModel extends BaseModel
         'longitude',
         'location_address',
         'use_tenant_bank_account',
-        'bank_account_id',
+        'payment_method_id',
         'verified_at',
         'verified_by',
         'rejection_reason',

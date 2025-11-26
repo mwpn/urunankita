@@ -15,12 +15,12 @@ class AddBankAccountToCampaigns extends Migration
                 'default' => 0,
                 'comment' => 'Gunakan rekening tenant sendiri (1=ya, 0=tidak/gunakan rekening platform)',
             ],
-            'bank_account_id' => [
+            'payment_method_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
                 'null' => true,
-                'comment' => 'ID rekening bank yang dipilih (index dari array bank_accounts tenant)',
+                'comment' => 'ID payment method yang dipilih dari tabel payment_methods',
             ],
         ];
 
@@ -32,14 +32,14 @@ class AddBankAccountToCampaigns extends Migration
             $this->forge->addColumn('campaigns', ['use_tenant_bank_account' => $fields['use_tenant_bank_account']]);
         }
         
-        if (!in_array('bank_account_id', $columns)) {
-            $this->forge->addColumn('campaigns', ['bank_account_id' => $fields['bank_account_id']]);
+        if (!in_array('payment_method_id', $columns)) {
+            $this->forge->addColumn('campaigns', ['payment_method_id' => $fields['payment_method_id']]);
         }
     }
 
     public function down()
     {
-        $this->forge->dropColumn('campaigns', ['use_tenant_bank_account', 'bank_account_id']);
+        $this->forge->dropColumn('campaigns', ['use_tenant_bank_account', 'payment_method_id']);
     }
 }
 

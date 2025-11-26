@@ -201,15 +201,15 @@
                     </div>
                 </div>
 
-                <!-- Pengaturan Rekening Bank -->
+                <!-- Pengaturan Metode Pembayaran -->
                 <?php
-                $bankAccounts = $bank_accounts ?? [];
+                $paymentMethods = $payment_methods ?? [];
                 $canUseOwnBank = $can_use_own_bank_account ?? false;
                 ?>
-                <?php if ($canUseOwnBank && !empty($bankAccounts)): ?>
+                <?php if ($canUseOwnBank && !empty($paymentMethods)): ?>
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">Pengaturan Rekening Bank</strong>
+                        <strong class="card-title">Pengaturan Metode Pembayaran</strong>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -221,25 +221,28 @@
                                     name="use_tenant_bank_account" 
                                     value="1"
                                     <?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? 'checked' : '' ?>
-                                    onchange="toggleBankAccountSelection()"
+                                    onchange="togglePaymentMethodSelection()"
                                 >
                                 <label class="custom-control-label" for="use_tenant_bank_account">
-                                    <strong>Gunakan rekening terpisah untuk urunan ini</strong>
+                                    <strong>Gunakan metode pembayaran terpisah untuk urunan ini</strong>
                                 </label>
-                                <small class="form-text text-muted d-block">Jika aktif, donasi akan masuk ke rekening yang dipilih di bawah. Jika tidak aktif, donasi akan masuk ke rekening platform.</small>
+                                <small class="form-text text-muted d-block">Jika aktif, donasi akan menggunakan metode pembayaran yang dipilih di bawah. Jika tidak aktif, donasi akan menggunakan metode pembayaran default platform.</small>
                             </div>
 
-                            <div id="bankAccountSelection" class="<?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? '' : 'd-none' ?>">
-                                <label for="bank_account_id">Pilih Rekening Bank <span class="text-danger">*</span></label>
-                                <select id="bank_account_id" name="bank_account_id" class="form-control">
-                                    <option value="">-- Pilih Rekening --</option>
-                                    <?php foreach ($bankAccounts as $idx => $acc): ?>
-                                        <option value="<?= esc($idx) ?>" <?= (isset($campaign['bank_account_id']) && $campaign['bank_account_id'] == $idx) ? 'selected' : '' ?>>
-                                            <?= esc(($acc['bank'] ?? 'Bank') . ' - ' . ($acc['account_number'] ?? '-') . ' a.n ' . ($acc['account_name'] ?? '-')) ?>
+                            <div id="paymentMethodSelection" class="<?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? '' : 'd-none' ?>">
+                                <label for="payment_method_id">Pilih Metode Pembayaran <span class="text-danger">*</span></label>
+                                <select id="payment_method_id" name="payment_method_id" class="form-control">
+                                    <option value="">-- Pilih Metode Pembayaran --</option>
+                                    <?php foreach ($paymentMethods as $method): ?>
+                                        <option value="<?= esc($method['id']) ?>" <?= (isset($campaign['payment_method_id']) && $campaign['payment_method_id'] == $method['id']) ? 'selected' : '' ?>>
+                                            <?= esc($method['name']) ?>
+                                            <?php if (!empty($method['provider'])): ?>
+                                                (<?= esc($method['provider']) ?>)
+                                            <?php endif; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
-                                <small class="form-text text-muted">Pilih rekening bank yang akan digunakan untuk menerima donasi urunan ini</small>
+                                <small class="form-text text-muted">Pilih metode pembayaran yang akan digunakan untuk menerima donasi urunan ini. Metode pembayaran dapat dikelola di pengaturan tenant.</small>
                             </div>
                         </div>
                     </div>
@@ -427,11 +430,11 @@
         }
     })();
 
-    // Toggle bank account selection
-    function toggleBankAccountSelection() {
+    // Toggle payment method selection
+    function togglePaymentMethodSelection() {
         const checkbox = document.getElementById('use_tenant_bank_account');
-        const selection = document.getElementById('bankAccountSelection');
-        const select = document.getElementById('bank_account_id');
+        const selection = document.getElementById('paymentMethodSelection');
+        const select = document.getElementById('payment_method_id');
         
         if (checkbox && checkbox.checked) {
             if (selection) selection.classList.remove('d-none');
@@ -444,6 +447,6 @@
             }
         }
     }
-    window.toggleBankAccountSelection = toggleBankAccountSelection;
+    window.togglePaymentMethodSelection = togglePaymentMethodSelection;
 </script>
 <?= $this->endSection() ?>
