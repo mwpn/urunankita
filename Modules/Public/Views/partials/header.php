@@ -153,7 +153,7 @@ $menuModel = new \Modules\Content\Models\MenuItemModel();
                 endforeach; ?>
             </div>
 
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4 ml-auto md:ml-0">
                 <button class="md:hidden text-black focus:outline-none" id="mobileMenuBtn" aria-label="Toggle menu">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
