@@ -8,26 +8,30 @@
  * (Hapus file ini setelah selesai untuk keamanan)
  */
 
-// Bootstrap CodeIgniter
+// Load environment
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-// Get paths
-$pathsConfig = require __DIR__ . '/../../../app/Config/Paths.php';
-$pathsConfig->systemDirectory = __DIR__ . '/../../../vendor/codeigniter4/framework/system';
-$pathsConfig->appDirectory = __DIR__ . '/../../../app';
-$pathsConfig->writableDirectory = __DIR__ . '/../../../writable';
-$pathsConfig->testsDirectory = __DIR__ . '/../../../tests';
-$pathsConfig->viewDirectory = __DIR__ . '/../../../app/Views';
-
-// Load environment
 $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../..');
 $dotenv->load();
 
-// Bootstrap CodeIgniter
-require __DIR__ . '/../../../vendor/codeigniter4/framework/system/bootstrap.php';
+// Koneksi database langsung (tanpa bootstrap penuh CodeIgniter)
+$hostname = $_ENV['database.default.hostname'] ?? 'localhost';
+$username = $_ENV['database.default.username'] ?? 'root';
+$password = $_ENV['database.default.password'] ?? '';
+$database = $_ENV['database.default.database'] ?? 'urunankita_master';
+$port = (int) ($_ENV['database.default.port'] ?? 3306);
 
-// Get database connection
-$db = \Config\Database::connect();
+try {
+    $db = new mysqli($hostname, $username, $password, $database, $port);
+    
+    if ($db->connect_error) {
+        die("❌ Koneksi database gagal: " . $db->connect_error . "\n");
+    }
+    
+    $db->set_charset('utf8mb4');
+} catch (Exception $e) {
+    die("❌ Error koneksi database: " . $e->getMessage() . "\n");
+}
 
 echo "🔍 Memeriksa template notifikasi tenant...\n\n";
 
@@ -52,32 +56,53 @@ $requiredTemplates = [
 ];
 
 foreach ($requiredTemplates as $template) {
-    $exists = $db->table('settings')
-        ->where('key', $template['key'])
-        ->where('scope', $template['scope'])
-        ->where('scope_id', $template['scope_id'])
-        ->get()
-        ->getRowArray();
+    // Escape untuk SQL
+    $key = $db->real_escape_string($template['key']);
+    $scope = $db->real_escape_string($template['scope']);
+    $scopeId = $template['scope_id'] === null ? 'NULL' : "'" . $db->real_escape_string($template['scope_id']) . "'";
+    
+    // Cek apakah sudah ada
+    $query = "SELECT id, `value` FROM settings 
+              WHERE `key` = '$key' 
+              AND scope = '$scope' 
+              AND (scope_id = $scopeId OR (scope_id IS NULL AND $scopeId = 'NULL'))";
+    
+    $result = $db->query($query);
+    $exists = $result ? $result->fetch_assoc() : null;
 
     if ($exists) {
         // Update value jika berbeda (terutama untuk enabled)
         if ($exists['value'] !== $template['value']) {
-            $db->table('settings')
-                ->where('id', $exists['id'])
-                ->update([
-                    'value' => $template['value'],
-                    'updated_at' => date('Y-m-d H:i:s'),
-                ]);
-            echo "✓ Setting '{$template['key']}' di-update: '{$exists['value']}' → '{$template['value']}'\n";
+            $newValue = $db->real_escape_string($template['value']);
+            $updatedAt = date('Y-m-d H:i:s');
+            $updateQuery = "UPDATE settings 
+                           SET `value` = '$newValue', updated_at = '$updatedAt' 
+                           WHERE id = " . (int)$exists['id'];
+            
+            if ($db->query($updateQuery)) {
+                echo "✓ Setting '{$template['key']}' di-update: '{$exists['value']}' → '{$template['value']}'\n";
+            } else {
+                echo "❌ Error update '{$template['key']}': " . $db->error . "\n";
+            }
         } else {
             echo "✓ Setting '{$template['key']}' sudah ada dan benar\n";
         }
     } else {
         // Insert jika belum ada
-        $template['created_at'] = date('Y-m-d H:i:s');
-        $template['updated_at'] = date('Y-m-d H:i:s');
-        $db->table('settings')->insert($template);
-        echo "✓ Setting '{$template['key']}' berhasil ditambahkan\n";
+        $value = $db->real_escape_string($template['value']);
+        $type = $db->real_escape_string($template['type']);
+        $description = $db->real_escape_string($template['description']);
+        $createdAt = date('Y-m-d H:i:s');
+        $updatedAt = date('Y-m-d H:i:s');
+        
+        $insertQuery = "INSERT INTO settings (`key`, `value`, `type`, scope, scope_id, `description`, created_at, updated_at) 
+                       VALUES ('$key', '$value', '$type', '$scope', $scopeId, '$description', '$createdAt', '$updatedAt')";
+        
+        if ($db->query($insertQuery)) {
+            echo "✓ Setting '{$template['key']}' berhasil ditambahkan\n";
+        } else {
+            echo "❌ Error insert '{$template['key']}': " . $db->error . "\n";
+        }
     }
 }
 
@@ -85,14 +110,19 @@ echo "\n✅ Semua template notifikasi tenant sudah dipastikan ada dan enabled!\n
 
 // Verifikasi
 echo "📋 Verifikasi:\n";
-$templates = $db->table('settings')
-    ->whereIn('key', ['whatsapp_template_tenant_donation_new', 'whatsapp_template_tenant_donation_new_enabled'])
-    ->get()
-    ->getResultArray();
+$verifyQuery = "SELECT `key`, `value` FROM settings 
+                WHERE `key` IN ('whatsapp_template_tenant_donation_new', 'whatsapp_template_tenant_donation_new_enabled')
+                ORDER BY `key`";
+$verifyResult = $db->query($verifyQuery);
 
-foreach ($templates as $t) {
-    echo "  - {$t['key']}: {$t['value']}\n";
+if ($verifyResult) {
+    while ($t = $verifyResult->fetch_assoc()) {
+        echo "  - {$t['key']}: {$t['value']}\n";
+    }
+} else {
+    echo "  ❌ Error verifikasi: " . $db->error . "\n";
 }
 
+$db->close();
 echo "\n";
 
