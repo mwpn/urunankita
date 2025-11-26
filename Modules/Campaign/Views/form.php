@@ -426,5 +426,24 @@
             setupJenisToggle();
         }
     })();
+
+    // Toggle bank account selection
+    function toggleBankAccountSelection() {
+        const checkbox = document.getElementById('use_tenant_bank_account');
+        const selection = document.getElementById('bankAccountSelection');
+        const select = document.getElementById('bank_account_id');
+        
+        if (checkbox && checkbox.checked) {
+            if (selection) selection.classList.remove('d-none');
+            if (select) select.setAttribute('required', 'required');
+        } else {
+            if (selection) selection.classList.add('d-none');
+            if (select) {
+                select.removeAttribute('required');
+                if (select) select.value = '';
+            }
+        }
+    }
+    window.toggleBankAccountSelection = toggleBankAccountSelection;
 </script>
 <?= $this->endSection() ?>
