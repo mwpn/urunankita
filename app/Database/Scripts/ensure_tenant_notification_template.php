@@ -8,18 +8,50 @@
  * (Hapus file ini setelah selesai untuk keamanan)
  */
 
-// Load environment
-require_once __DIR__ . '/../../../vendor/autoload.php';
+// Fungsi untuk membaca .env file secara manual
+function loadEnv($path) {
+    if (!file_exists($path)) {
+        return [];
+    }
+    
+    $env = [];
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    
+    foreach ($lines as $line) {
+        // Skip komentar
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+        
+        // Parse key=value
+        if (strpos($line, '=') !== false) {
+            list($key, $value) = explode('=', $line, 2);
+            $key = trim($key);
+            $value = trim($value);
+            
+            // Remove quotes jika ada
+            if ((substr($value, 0, 1) === '"' && substr($value, -1) === '"') ||
+                (substr($value, 0, 1) === "'" && substr($value, -1) === "'")) {
+                $value = substr($value, 1, -1);
+            }
+            
+            $env[$key] = $value;
+        }
+    }
+    
+    return $env;
+}
 
-$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../..');
-$dotenv->load();
+// Load .env file
+$envFile = __DIR__ . '/../../../.env';
+$env = loadEnv($envFile);
 
 // Koneksi database langsung (tanpa bootstrap penuh CodeIgniter)
-$hostname = $_ENV['database.default.hostname'] ?? 'localhost';
-$username = $_ENV['database.default.username'] ?? 'root';
-$password = $_ENV['database.default.password'] ?? '';
-$database = $_ENV['database.default.database'] ?? 'urunankita_master';
-$port = (int) ($_ENV['database.default.port'] ?? 3306);
+$hostname = $env['database.default.hostname'] ?? $_ENV['database.default.hostname'] ?? 'localhost';
+$username = $env['database.default.username'] ?? $_ENV['database.default.username'] ?? 'root';
+$password = $env['database.default.password'] ?? $_ENV['database.default.password'] ?? '';
+$database = $env['database.default.database'] ?? $_ENV['database.default.database'] ?? 'urunankita_master';
+$port = (int) ($env['database.default.port'] ?? $_ENV['database.default.port'] ?? 3306);
 
 try {
     $db = new mysqli($hostname, $username, $password, $database, $port);
