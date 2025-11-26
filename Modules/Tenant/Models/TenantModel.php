@@ -59,7 +59,7 @@ class TenantModel extends Model
     protected $validationRules = [
         'name' => 'required|max_length[150]',
         'slug' => 'required|max_length[100]|is_unique[tenants.slug,id,{id}]',
-        'db_name' => 'required|max_length[150]',
+        'db_name' => 'permit_empty|max_length[150]', // db_name is optional now (can be null)
         'status' => 'in_list[active,inactive,suspended]',
     ];
 
