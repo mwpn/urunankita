@@ -73,14 +73,17 @@ class DonationController extends BaseController
         $donationModel = new \Modules\Donation\Models\DonationModel();
         $allDonations = $donationModel->where('tenant_id', $platformTenantId)->findAll();
         
-        $total_donations = array_sum(array_column($allDonations, 'amount'));
-        $total_donors = count(array_unique(array_filter(array_column($allDonations, 'donor_email'))));
+        // Only count paid donations for statistics
+        $paidDonations = array_filter($allDonations, fn($d) => ($d['payment_status'] ?? '') === 'paid');
+        
+        $total_donations = array_sum(array_column($paidDonations, 'amount'));
+        $total_donors = count(array_unique(array_filter(array_column($paidDonations, 'donor_email'))));
         $today = date('Y-m-d');
         $today_donations = array_sum(array_column(
-            array_filter($allDonations, fn($d) => date('Y-m-d', strtotime($d['created_at'])) === $today),
+            array_filter($paidDonations, fn($d) => date('Y-m-d', strtotime($d['created_at'])) === $today),
             'amount'
         ));
-        $today_count = count(array_filter($allDonations, fn($d) => date('Y-m-d', strtotime($d['created_at'])) === $today));
+        $today_count = count(array_filter($paidDonations, fn($d) => date('Y-m-d', strtotime($d['created_at'])) === $today));
         $avg_donation = $total_donors > 0 ? ($total_donations / $total_donors) : 0;
 
         $data = [
