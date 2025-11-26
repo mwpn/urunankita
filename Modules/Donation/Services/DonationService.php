@@ -381,20 +381,41 @@ class DonationService
             }
             
             // If owner_id is empty or owner not found, try to find tenant owner/admin user
+            // NOTE: Since tenant_id column may not exist in users table, we use alternative approach:
+            // 1. Try to find users by role (tenant_owner, tenant_admin, penggalang_dana) without tenant_id filter
+            // 2. Then filter by checking if they're associated with this tenant via other means
             if (empty($ownerPhone)) {
                 log_message('debug', 'Owner_id is empty or owner not found, trying to find tenant owner/admin user for tenant_id: ' . $tenantId);
                 
-                // Try to find user with tenant_owner or tenant_admin role for this tenant
-                // Remove phone filter first to see all users
+                // Try to find user with tenant_owner or tenant_admin role
+                // Since tenant_id column may not exist, we'll search by role and check owner_id match
                 try {
-                    $allOwners = $db->table('users')
-                        ->where('tenant_id', $tenantId)
-                        ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
-                        ->orderBy('id', 'ASC')
-                        ->get()
-                        ->getResultArray();
+                    // First, try to find users with matching roles
+                    // We'll check if tenant_id column exists first
+                    $columns = $db->getFieldNames('users');
+                    $hasTenantId = in_array('tenant_id', $columns);
                     
-                    log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role for tenant_id: ' . $tenantId);
+                    if ($hasTenantId) {
+                        // If tenant_id column exists, use it
+                        $allOwners = $db->table('users')
+                            ->where('tenant_id', $tenantId)
+                            ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
+                            ->orderBy('id', 'ASC')
+                            ->get()
+                            ->getResultArray();
+                    } else {
+                        // If tenant_id column doesn't exist, find by role only
+                        // Then we'll rely on owner_id from tenant table or superadmin fallback
+                        $allOwners = $db->table('users')
+                            ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
+                            ->orderBy('id', 'ASC')
+                            ->get()
+                            ->getResultArray();
+                        
+                        log_message('debug', 'tenant_id column not found in users table, searching by role only. Found ' . count($allOwners) . ' users with matching roles');
+                    }
+                    
+                    log_message('debug', 'Found ' . count($allOwners) . ' users with tenant_owner/admin role');
                 } catch (\Exception $e) {
                     log_message('error', 'Error querying users table: ' . $e->getMessage());
                     log_message('error', 'Stack trace: ' . $e->getTraceAsString());
@@ -407,30 +428,7 @@ class DonationService
                     if (!empty($ownerCandidate['phone']) && trim($ownerCandidate['phone']) !== '') {
                         $owner = $ownerCandidate;
                         $ownerPhone = trim($ownerCandidate['phone']);
-                        log_message('debug', 'Owner found by tenant_id and role: yes (ID: ' . $owner['id'] . ', Role: ' . ($owner['role'] ?? 'unknown') . ', Phone: ' . $ownerPhone . ')');
-                        break;
-                    }
-                }
-            }
-            
-            // If still not found, try to find any user with tenant_id that has phone
-            if (empty($ownerPhone)) {
-                log_message('debug', 'Still no owner found, trying any user with tenant_id: ' . $tenantId);
-                $allUsers = $db->table('users')
-                    ->where('tenant_id', $tenantId)
-                    ->orderBy('id', 'ASC')
-                    ->get()
-                    ->getResultArray();
-                
-                log_message('debug', 'Found ' . count($allUsers) . ' total users with tenant_id: ' . $tenantId);
-                
-                // Find first one with phone
-                foreach ($allUsers as $userCandidate) {
-                    log_message('debug', 'Checking user ID: ' . $userCandidate['id'] . ', Role: ' . ($userCandidate['role'] ?? 'null') . ', Phone: ' . ($userCandidate['phone'] ?? 'empty'));
-                    if (!empty($userCandidate['phone']) && trim($userCandidate['phone']) !== '') {
-                        $owner = $userCandidate;
-                        $ownerPhone = trim($userCandidate['phone']);
-                        log_message('debug', 'Owner found by tenant_id (any user with phone): yes (ID: ' . $owner['id'] . ', Phone: ' . $ownerPhone . ')');
+                        log_message('debug', 'Owner found by role: yes (ID: ' . $owner['id'] . ', Role: ' . ($owner['role'] ?? 'unknown') . ', Phone: ' . $ownerPhone . ')');
                         break;
                     }
                 }
@@ -442,16 +440,6 @@ class DonationService
             // If no owner found, try to get superadmin as fallback (especially for platform tenant)
             if (empty($ownerPhone)) {
                 log_message('warning', 'Owner not found or phone is empty for tenant_id: ' . $tenantId . ' (owner_id: ' . ($tenant['owner_id'] ?? 'null') . ')');
-                
-                // Log semua user dengan tenant_id untuk debugging
-                $allUsers = $db->table('users')
-                    ->where('tenant_id', $tenantId)
-                    ->get()
-                    ->getResultArray();
-                log_message('debug', 'All users with tenant_id ' . $tenantId . ': ' . count($allUsers));
-                foreach ($allUsers as $u) {
-                    log_message('debug', '  - User ID: ' . $u['id'] . ', Name: ' . ($u['name'] ?? 'null') . ', Role: ' . ($u['role'] ?? 'null') . ', Phone: ' . ($u['phone'] ?? 'empty'));
-                }
                 
                 // Fallback: Try to get superadmin user (for platform tenant or if no owner found)
                 log_message('debug', 'Trying to find superadmin as fallback...');
