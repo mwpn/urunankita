@@ -116,20 +116,27 @@ class TenantService
         }
 
         $updateData = [];
-        if (isset($data['name'])) {
-            $updateData['name'] = $data['name'];
+        
+        // Update all allowed fields
+        $allowedFields = [
+            'name',
+            'slug',
+            'domain',
+            'status',
+            'owner_id',
+            'youtube_url',
+            'can_create_without_verification',
+            'can_use_own_bank_account',
+        ];
+        
+        foreach ($allowedFields as $field) {
+            if (isset($data[$field])) {
+                $updateData[$field] = $data[$field];
+            }
         }
-        if (isset($data['domain'])) {
-            $updateData['domain'] = $data['domain'];
-        }
-        if (isset($data['status'])) {
-            $updateData['status'] = $data['status'];
-        }
-        if (isset($data['owner_id'])) {
-            $updateData['owner_id'] = $data['owner_id'];
-        }
+        
+        // Handle bank_accounts separately (needs JSON encoding)
         if (isset($data['bank_accounts'])) {
-            // Ensure it's JSON encoded
             $updateData['bank_accounts'] = is_array($data['bank_accounts']) 
                 ? json_encode($data['bank_accounts']) 
                 : $data['bank_accounts'];
