@@ -130,7 +130,7 @@
                                     id="can_create_without_verification" 
                                     name="can_create_without_verification" 
                                     value="1"
-                                    <?= ($tenant['can_create_without_verification'] ?? 0) ? 'checked' : '' ?>
+                                    <?= (!empty($tenant['can_create_without_verification']) || (isset($tenant['can_create_without_verification']) && $tenant['can_create_without_verification'] == 1)) ? 'checked' : '' ?>
                                 >
                                 <label class="custom-control-label" for="can_create_without_verification">
                                     Bisa membuat urunan tanpa verifikasi
@@ -147,7 +147,7 @@
                                     id="can_use_own_bank_account" 
                                     name="can_use_own_bank_account" 
                                     value="1"
-                                    <?= ($tenant['can_use_own_bank_account'] ?? 0) ? 'checked' : '' ?>
+                                    <?= (!empty($tenant['can_use_own_bank_account']) || (isset($tenant['can_use_own_bank_account']) && $tenant['can_use_own_bank_account'] == 1)) ? 'checked' : '' ?>
                                 >
                                 <label class="custom-control-label" for="can_use_own_bank_account">
                                     Bisa menggunakan rekening sendiri
