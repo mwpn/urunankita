@@ -652,6 +652,21 @@ class CampaignController extends BaseController
         $beneficiaryModel = new \Modules\Beneficiary\Models\BeneficiaryModel();
         $beneficiaries = $beneficiaryModel->where('tenant_id', $tenantId)->findAll();
 
+        // Get tenant info
+        $tenantModel = new \Modules\Tenant\Models\TenantModel();
+        $tenant = $tenantModel->find($tenantId);
+        $canUseOwnBank = !empty($tenant['can_use_own_bank_account']) && $tenant['can_use_own_bank_account'] == 1;
+
+        // Get tenant payment methods (bank-transfer only) if can use own bank
+        $paymentMethods = [];
+        if ($canUseOwnBank) {
+            $paymentMethodModel = new \Modules\Setting\Models\PaymentMethodModel();
+            $paymentMethods = $paymentMethodModel->where('tenant_id', $tenantId)
+                ->where('type', 'bank-transfer')
+                ->where('enabled', 1)
+                ->findAll();
+        }
+
         $data = [
             'pageTitle' => 'Edit Urunan',
             'userRole' => 'penggalang_dana',
@@ -662,6 +677,8 @@ class CampaignController extends BaseController
             'user_role' => 'Penggalang Urunan',
             'campaign' => $campaign,
             'beneficiaries' => $beneficiaries,
+            'can_use_own_bank_account' => $canUseOwnBank,
+            'payment_methods' => $paymentMethods,
         ];
 
         return view('Modules\\Campaign\\Views\\form', $data);
@@ -913,6 +930,12 @@ class CampaignController extends BaseController
         }
         if ($this->request->getPost('beneficiary_id') !== null) {
             $data['beneficiary_id'] = $this->request->getPost('beneficiary_id');
+        }
+        if ($this->request->getPost('use_tenant_bank_account') !== null) {
+            $data['use_tenant_bank_account'] = $this->request->getPost('use_tenant_bank_account') ? 1 : 0;
+        }
+        if ($this->request->getPost('payment_method_id') !== null) {
+            $data['payment_method_id'] = $this->request->getPost('payment_method_id') ? (int) $this->request->getPost('payment_method_id') : null;
         }
 
         if (empty($data)) {
@@ -1627,6 +1650,18 @@ class CampaignController extends BaseController
             $beneficiary['tenant_id'] = $tenant['id'];
         }
 
+        // Get platform payment methods (bank-transfer only)
+        $platformTenantId = (int) ($tenant['slug'] === 'platform' ? $tenant['id'] : null);
+        if (!$platformTenantId) {
+            $platformTenant = $tenantModel->where('slug', 'platform')->first();
+            $platformTenantId = $platformTenant ? (int) $platformTenant['id'] : 1;
+        }
+        $paymentMethodModel = new \Modules\Setting\Models\PaymentMethodModel();
+        $platformPaymentMethods = $paymentMethodModel->where('tenant_id', $platformTenantId)
+            ->where('type', 'bank-transfer')
+            ->where('enabled', 1)
+            ->findAll();
+
         $data = [
             'title' => 'Edit Urunan - Admin Dashboard',
             'page_title' => 'Edit Urunan',
@@ -1637,6 +1672,8 @@ class CampaignController extends BaseController
             'tenants' => $tenants,
             'selected_tenant_id' => $tenant['id'],
             'beneficiaries' => $beneficiaries,
+            'platform_tenant_id' => $platformTenantId,
+            'payment_methods' => $platformPaymentMethods,
         ];
 
         return view('Modules\\Campaign\\Views\\admin_form', $data);
@@ -1680,6 +1717,12 @@ class CampaignController extends BaseController
         if ($this->request->getPost('beneficiary_id') !== null) $data['beneficiary_id'] = $this->request->getPost('beneficiary_id');
         if ($this->request->getPost('status') !== null) $data['status'] = $this->request->getPost('status');
         $data['is_priority'] = $this->request->getPost('is_priority') ? 1 : 0;
+        if ($this->request->getPost('use_tenant_bank_account') !== null) {
+            $data['use_tenant_bank_account'] = $this->request->getPost('use_tenant_bank_account') ? 1 : 0;
+        }
+        if ($this->request->getPost('payment_method_id') !== null) {
+            $data['payment_method_id'] = $this->request->getPost('payment_method_id') ? (int) $this->request->getPost('payment_method_id') : null;
+        }
         
         // Handle featured image upload if present
         try {
