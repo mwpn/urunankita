@@ -1,0 +1,370 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Profil Saya</h2>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalEditProfil">
+              <span class="fe fe-edit fe-12 mr-1"></span>Edit Profil
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Sidebar Profil -->
+          <div class="col-md-4 mb-4">
+            <div class="card shadow">
+              <div class="card-body text-center">
+                <div class="mb-3">
+                  <img src="assets/avatars/face-1.jpg" alt="Avatar" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #e9ecef;">
+                </div>
+                <h5 class="mb-1">Admin Platform</h5>
+                <p class="text-muted small mb-3">admin@urunankita.test</p>
+                <div class="mb-3">
+                  <span class="badge badge-success">Admin</span>
+                  <span class="badge badge-primary">Aktif</span>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                  <button class="btn btn-sm btn-outline-primary" type="button" data-toggle="modal" data-target="#modalUbahFoto">
+                    <span class="fe fe-camera fe-12 mr-1"></span>Ubah Foto
+                  </button>
+                </div>
+                <hr>
+                <div class="text-left">
+                  <small class="text-muted d-block mb-2">Terdaftar Sejak</small>
+                  <p class="mb-3"><strong>15 Januari 2023</strong></p>
+                  <small class="text-muted d-block mb-2">Terakhir Login</small>
+                  <p class="mb-0"><strong>15 Januari 2024, 14:30 WIB</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card shadow mt-3">
+              <div class="card-header">
+                <strong class="card-title">Statistik Akun</strong>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Total Urunan</small>
+                    <strong>45</strong>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Total Donasi</small>
+                    <strong>Rp 450.000.000</strong>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Urunan Aktif</small>
+                    <strong>12</strong>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 26.7%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="col-md-8">
+            <!-- Informasi Pribadi -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Informasi Pribadi</strong>
+              </div>
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <small class="text-muted d-block mb-1">Nama Lengkap</small>
+                    <p class="mb-0"><strong>Admin Platform</strong></p>
+                  </div>
+                  <div class="col-md-4">
+                    <small class="text-muted d-block mb-1">Email</small>
+                    <p class="mb-0"><strong>admin@urunankita.test</strong></p>
+                  </div>
+                  <div class="col-md-4">
+                    <small class="text-muted d-block mb-1">Nomor Telepon</small>
+                    <p class="mb-0"><strong>081234567890</strong></p>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <small class="text-muted d-block mb-1">Username</small>
+                    <p class="mb-0"><strong>admin</strong></p>
+                  </div>
+                  <div class="col-md-4">
+                    <small class="text-muted d-block mb-1">Role</small>
+                    <p class="mb-0"><span class="badge badge-success">Admin</span></p>
+                  </div>
+                  <div class="col-md-4">
+                    <small class="text-muted d-block mb-1">Status Akun</small>
+                    <p class="mb-0"><span class="badge badge-primary">Aktif</span></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <small class="text-muted d-block mb-1">Alamat</small>
+                    <p class="mb-0"><strong>Jl. Raya Contoh No. 123, Jakarta Selatan, DKI Jakarta 12345</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informasi Organisasi (Jika Ada) -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Informasi Organisasi</strong>
+              </div>
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <small class="text-muted d-block mb-1">Nama Organisasi</small>
+                    <p class="mb-0"><strong>UrunanKita Platform</strong></p>
+                  </div>
+                  <div class="col-md-6">
+                    <small class="text-muted d-block mb-1">Jenis Organisasi</small>
+                    <p class="mb-0"><strong>Platform Crowdfunding</strong></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <small class="text-muted d-block mb-1">Deskripsi Organisasi</small>
+                    <p class="mb-0">Platform crowdfunding terpercaya untuk membantu berbagai kebutuhan sosial dan kemanusiaan.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subdomain & Akses -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Subdomain & Akses</strong>
+              </div>
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <small class="text-muted d-block mb-1">Subdomain</small>
+                    <p class="mb-0">
+                      <strong>
+                        <a href="http://urunankita.test" target="_blank" class="text-primary">
+                          urunankita.test
+                        </a>
+                      </strong>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <small class="text-muted d-block mb-1">Dashboard URL</small>
+                    <p class="mb-0">
+                      <strong>
+                        <a href="http://admin.urunankita.test" target="_blank" class="text-primary">
+                          admin.urunankita.test
+                        </a>
+                      </strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Aktivitas Terkini -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Aktivitas Terkini</strong>
+              </div>
+              <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item px-0">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <div class="avatar avatar-sm">
+                          <span class="fe fe-check-circle fe-16 text-success"></span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <small class="text-muted">Urunan baru dibuat</small>
+                        <p class="mb-0"><strong>Bantuan Korban Banjir Jakarta</strong></p>
+                      </div>
+                      <div class="col-auto">
+                        <small class="text-muted">2 jam lalu</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <div class="avatar avatar-sm">
+                          <span class="fe fe-dollar-sign fe-16 text-info"></span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <small class="text-muted">Donasi masuk</small>
+                        <p class="mb-0"><strong>Rp 500.000</strong> untuk Operasi Katarak Gratis</p>
+                      </div>
+                      <div class="col-auto">
+                        <small class="text-muted">5 jam lalu</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <div class="avatar avatar-sm">
+                          <span class="fe fe-edit fe-16 text-primary"></span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <small class="text-muted">Profil diupdate</small>
+                        <p class="mb-0"><strong>Informasi pribadi diperbarui</strong></p>
+                      </div>
+                      <div class="col-auto">
+                        <small class="text-muted">1 hari lalu</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Edit Profil -->
+<div class="modal fade" id="modalEditProfil" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Profil</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditProfil">
+          <div class="form-group">
+            <label>Nama Lengkap <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="Admin Platform" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" value="admin@urunankita.test" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Nomor Telepon</label>
+              <input type="text" class="form-control" value="081234567890">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Alamat</label>
+            <textarea class="form-control" rows="3">Jl. Raya Contoh No. 123, Jakarta Selatan, DKI Jakarta 12345</textarea>
+          </div>
+          <div class="form-group">
+            <label>Nama Organisasi</label>
+            <input type="text" class="form-control" value="UrunanKita Platform">
+          </div>
+          <div class="form-group">
+            <label>Deskripsi Organisasi</label>
+            <textarea class="form-control" rows="3">Platform crowdfunding terpercaya untuk membantu berbagai kebutuhan sosial dan kemanusiaan.</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ubah Foto -->
+<div class="modal fade" id="modalUbahFoto" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ubah Foto Profil</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formUbahFoto">
+          <div class="form-group text-center">
+            <img src="assets/avatars/face-1.jpg" alt="Current Avatar" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #e9ecef;">
+            <div class="dropzone bg-light rounded-lg" id="dropzone-avatar">
+              <div class="dz-message needsclick">
+                <div class="circle circle-lg bg-primary">
+                  <i class="fe fe-upload fe-24 text-white"></i>
+                </div>
+                <h5 class="text-muted mt-4">Drop gambar di sini atau klik untuk upload</h5>
+                <span class="text-muted">Max: 2MB, Format: JPG/PNG</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Simpan Foto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize Dropzone for avatar (if available)
+  (function() {
+    function initDropzone() {
+      if (typeof Dropzone !== 'undefined' && document.getElementById('dropzone-avatar')) {
+        var dropzone = new Dropzone('#dropzone-avatar', {
+          url: '/upload-avatar', // TODO: Set actual upload URL
+          maxFiles: 1,
+          maxFilesize: 2, // MB
+          acceptedFiles: 'image/jpeg,image/png',
+          addRemoveLinks: true,
+          dictDefaultMessage: '',
+          dictRemoveFile: 'Hapus',
+          init: function() {
+            this.on('success', function(file, response) {
+              console.log('Avatar uploaded:', response);
+              // Update preview image
+              if (response.url) {
+                document.querySelector('#modalUbahFoto img').src = response.url;
+              }
+            });
+          }
+        });
+        console.log('Dropzone initialized for avatar');
+      } else {
+        console.warn('Dropzone library not loaded');
+        setTimeout(initDropzone, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDropzone, 300);
+      });
+    } else {
+      setTimeout(initDropzone, 300);
+    }
+  })();
+</script>
+

@@ -1,0 +1,627 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Support</h2>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTambahTicket">
+              <span class="fe fe-plus fe-12 mr-1"></span>Buat Tiket Baru
+            </button>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Tiket</small>
+                <h3 class="mb-0">24</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 8 baru</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Tiket Terbuka</small>
+                <h3 class="mb-0 text-warning">12</h3>
+                <small class="text-muted">Menunggu respons</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Tiket Selesai</small>
+                <h3 class="mb-0 text-success">10</h3>
+                <small class="text-muted">41.7%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Rata-rata Respon</small>
+                <h3 class="mb-0">2.5 jam</h3>
+                <small class="text-info">Bulan ini</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="filterStatus" class="small text-muted mb-1">Status</label>
+                    <select id="filterStatus" class="form-control form-control-sm select2">
+                      <option value="all">Semua Status</option>
+                      <option value="open">Terbuka</option>
+                      <option value="pending">Pending</option>
+                      <option value="resolved">Selesai</option>
+                      <option value="closed">Ditutup</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="filterPrioritas" class="small text-muted mb-1">Prioritas</label>
+                    <select id="filterPrioritas" class="form-control form-control-sm select2">
+                      <option value="all">Semua Prioritas</option>
+                      <option value="low">Rendah</option>
+                      <option value="medium">Sedang</option>
+                      <option value="high">Tinggi</option>
+                      <option value="urgent">Urgent</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="filterKategori" class="small text-muted mb-1">Kategori</label>
+                    <select id="filterKategori" class="form-control form-control-sm select2">
+                      <option value="all">Semua Kategori</option>
+                      <option value="technical">Teknis</option>
+                      <option value="billing">Billing</option>
+                      <option value="account">Akun</option>
+                      <option value="general">Umum</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="filterPeriode" class="small text-muted mb-1">Periode</label>
+                    <select id="filterPeriode" class="form-control form-control-sm select2">
+                      <option value="all">Semua Periode</option>
+                      <option value="today">Hari Ini</option>
+                      <option value="week">Minggu Ini</option>
+                      <option value="month" selected>Bulan Ini</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-right">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="applyFilters()">
+                      <span class="fe fe-filter fe-12 mr-1"></span>Terapkan Filter
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="resetFilters()">
+                      <span class="fe fe-refresh-cw fe-12 mr-1"></span>Reset
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Tiket -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Daftar Tiket Support</strong>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table datatables table-hover" id="dataTable-support">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Tiket ID</th>
+                        <th>Subjek</th>
+                        <th>Kategori</th>
+                        <th>Prioritas</th>
+                        <th>Status</th>
+                        <th>Dibuat Oleh</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>#TKT-001</strong>
+                        </td>
+                        <td>
+                          <strong>Masalah Login ke Dashboard</strong>
+                          <small class="d-block text-muted">Tidak bisa login ke dashboard penggalang dana</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">Teknis</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-danger">Urgent</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Terbuka</span>
+                        </td>
+                        <td>Yayasan Peduli</td>
+                        <td>15 Jan 2024, 10:30</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalDetailTicket"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Balas</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check fe-12 mr-2"></i>Tandai Selesai</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-x fe-12 mr-2"></i>Tutup Tiket</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>#TKT-002</strong>
+                        </td>
+                        <td>
+                          <strong>Pertanyaan tentang Verifikasi Rekening</strong>
+                          <small class="d-block text-muted">Bagaimana cara verifikasi rekening bank?</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Umum</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">Sedang</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Terbuka</span>
+                        </td>
+                        <td>DKM Masjid Al-Ikhlas</td>
+                        <td>14 Jan 2024, 14:20</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalDetailTicket"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Balas</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check fe-12 mr-2"></i>Tandai Selesai</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-x fe-12 mr-2"></i>Tutup Tiket</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>#TKT-003</strong>
+                        </td>
+                        <td>
+                          <strong>Masalah Upload Gambar Urunan</strong>
+                          <small class="d-block text-muted">Gambar tidak bisa diupload saat membuat urunan baru</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">Teknis</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Tinggi</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary">Pending</span>
+                        </td>
+                        <td>Relawan Peduli</td>
+                        <td>13 Jan 2024, 09:15</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalDetailTicket"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Balas</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check fe-12 mr-2"></i>Tandai Selesai</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-x fe-12 mr-2"></i>Tutup Tiket</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>#TKT-004</strong>
+                        </td>
+                        <td>
+                          <strong>Pertanyaan Billing</strong>
+                          <small class="d-block text-muted">Kapan invoice untuk komisi platform akan dikirim?</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Billing</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary">Rendah</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Selesai</span>
+                        </td>
+                        <td>Panti Asuhan Harapan</td>
+                        <td>12 Jan 2024, 16:45</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalDetailTicket"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Lihat Riwayat</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>#TKT-005</strong>
+                        </td>
+                        <td>
+                          <strong>Reset Password Akun</strong>
+                          <small class="d-block text-muted">Lupa password dan tidak bisa reset</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-danger">Akun</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Tinggi</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Selesai</span>
+                        </td>
+                        <td>Jerry Foundation</td>
+                        <td>10 Jan 2024, 11:30</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalDetailTicket"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Lihat Riwayat</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Tambah Tiket -->
+<div class="modal fade" id="modalTambahTicket" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Buat Tiket Support Baru</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahTicket">
+          <div class="form-group">
+            <label>Subjek <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Contoh: Masalah Login ke Dashboard" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Kategori <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="">Pilih Kategori</option>
+                <option value="technical">Teknis</option>
+                <option value="billing">Billing</option>
+                <option value="account">Akun</option>
+                <option value="general">Umum</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Prioritas</label>
+              <select class="form-control">
+                <option value="low">Rendah</option>
+                <option value="medium" selected>Sedang</option>
+                <option value="high">Tinggi</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi Masalah <span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="5" placeholder="Jelaskan masalah atau pertanyaan Anda secara detail..." required></textarea>
+            <small class="form-text text-muted">Semakin detail deskripsi, semakin cepat kami dapat membantu</small>
+          </div>
+          <div class="form-group">
+            <label>Lampiran (Opsional)</label>
+            <div class="dropzone bg-light rounded-lg" id="dropzone-ticket">
+              <div class="dz-message needsclick">
+                <div class="circle circle-lg bg-primary">
+                  <i class="fe fe-upload fe-24 text-white"></i>
+                </div>
+                <h5 class="text-muted mt-4">Drop file di sini atau klik untuk upload</h5>
+                <span class="text-muted">Max: 10MB, Format: JPG/PNG/PDF/DOC</span>
+              </div>
+            </div>
+            <small class="form-text text-muted">Upload screenshot atau dokumen pendukung jika ada</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Kirim Tiket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detail Tiket -->
+<div class="modal fade" id="modalDetailTicket" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Tiket #TKT-001</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h6 class="mb-1">Masalah Login ke Dashboard</h6>
+              <small class="text-muted">Oleh: Yayasan Peduli | 15 Jan 2024, 10:30 WIB</small>
+            </div>
+            <div>
+              <span class="badge badge-info mr-1">Teknis</span>
+              <span class="badge badge-danger">Urgent</span>
+              <span class="badge badge-warning">Terbuka</span>
+            </div>
+          </div>
+          <p class="mb-0">Tidak bisa login ke dashboard penggalang dana. Sudah coba reset password tapi tetap tidak bisa.</p>
+        </div>
+
+        <hr>
+
+        <!-- Timeline Conversation -->
+        <div class="timeline-support">
+          <div class="timeline-item-support mb-3">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <div class="avatar avatar-sm bg-primary text-white">
+                  <span class="fe fe-user fe-16"></span>
+                </div>
+              </div>
+              <div class="flex-grow-1 ml-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                      <strong>Yayasan Peduli</strong>
+                      <small class="text-muted">15 Jan 2024, 10:30 WIB</small>
+                    </div>
+                    <p class="mb-0">Tidak bisa login ke dashboard penggalang dana. Sudah coba reset password tapi tetap tidak bisa.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item-support mb-3">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <div class="avatar avatar-sm bg-success text-white">
+                  <span class="fe fe-headphones fe-16"></span>
+                </div>
+              </div>
+              <div class="flex-grow-1 ml-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                      <strong>Admin Support</strong>
+                      <small class="text-muted">15 Jan 2024, 11:15 WIB</small>
+                    </div>
+                    <p class="mb-0">Terima kasih telah menghubungi kami. Kami akan memeriksa masalah login Anda. Apakah Anda masih ingat username yang digunakan?</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- Form Balasan -->
+        <form id="formBalasanTicket">
+          <div class="form-group">
+            <label>Balasan</label>
+            <textarea class="form-control" rows="3" placeholder="Tulis balasan Anda di sini..."></textarea>
+          </div>
+          <div class="form-group mb-0">
+            <button type="button" class="btn btn-primary">
+              <span class="fe fe-send fe-12 mr-1"></span>Kirim Balasan
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              <span class="fe fe-check fe-12 mr-1"></span>Tandai Selesai
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .timeline-support {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .timeline-item-support {
+    position: relative;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  // Initialize Select2
+  (function() {
+    function initSelect2() {
+      if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('#filterStatus, #filterPrioritas, #filterKategori, #filterPeriode').select2({
+          theme: 'bootstrap4',
+          width: '100%'
+        });
+        console.log('Select2 initialized for filters');
+      } else {
+        setTimeout(initSelect2, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initSelect2, 300);
+      });
+    } else {
+      setTimeout(initSelect2, 300);
+    }
+  })();
+
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-support').length) {
+        $('#dataTable-support').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[7, "desc"]], // Sort by tanggal dibuat descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          },
+          "columnDefs": [
+            {
+              "targets": [0], // Checkbox column
+              "orderable": false
+            },
+            {
+              "targets": [8], // Action column
+              "orderable": false
+            }
+          ]
+        });
+        console.log('DataTable support initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+
+  // Filter functions
+  function applyFilters() {
+    var status = $('#filterStatus').val();
+    var prioritas = $('#filterPrioritas').val();
+    var kategori = $('#filterKategori').val();
+    var periode = $('#filterPeriode').val();
+    
+    console.log('Applying filters:', {
+      status: status,
+      prioritas: prioritas,
+      kategori: kategori,
+      periode: periode
+    });
+    
+    // TODO: Implement filter logic
+    alert('Filter diterapkan! (Fitur akan diimplementasikan)');
+  }
+
+  function resetFilters() {
+    $('#filterStatus').val('all').trigger('change');
+    $('#filterPrioritas').val('all').trigger('change');
+    $('#filterKategori').val('all').trigger('change');
+    $('#filterPeriode').val('month').trigger('change');
+    
+    console.log('Filters reset');
+  }
+
+  // Make functions global
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+</script>
+

@@ -1,0 +1,196 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Pengaturan</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Ubah Password -->
+          <div class="col-md-6 mb-4">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Ubah Password</strong>
+              </div>
+              <div class="card-body">
+                <form id="formUbahPassword" class="needs-validation" novalidate>
+                  <div class="form-group">
+                    <label>Password Saat Ini <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" required>
+                    <div class="invalid-feedback">Password saat ini wajib diisi</div>
+                  </div>
+                  <div class="form-group">
+                    <label>Password Baru <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="passwordBaru" required minlength="8">
+                    <div class="invalid-feedback">Password baru minimal 8 karakter</div>
+                    <small class="form-text text-muted">Minimal 8 karakter, kombinasi huruf dan angka</small>
+                  </div>
+                  <div class="form-group">
+                    <label>Konfirmasi Password Baru <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="konfirmasiPasswordBaru" required>
+                    <div class="invalid-feedback">Konfirmasi password harus sama dengan password baru</div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    <span class="fe fe-save fe-12 mr-1"></span>Ubah Password
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pengaturan Keamanan -->
+          <div class="col-md-6 mb-4">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Pengaturan Keamanan</strong>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="twoFactorAuth">
+                    <label class="custom-control-label" for="twoFactorAuth">
+                      <strong>Two Factor Authentication (2FA)</strong>
+                      <small class="d-block text-muted">Tingkatkan keamanan akun dengan 2FA</small>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="emailNotifikasi" checked>
+                    <label class="custom-control-label" for="emailNotifikasi">
+                      <strong>Email Notifikasi</strong>
+                      <small class="d-block text-muted">Terima notifikasi via email</small>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group mb-0">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="loginNotifikasi" checked>
+                    <label class="custom-control-label" for="loginNotifikasi">
+                      <strong>Notifikasi Login</strong>
+                      <small class="d-block text-muted">Dapatkan notifikasi saat ada login baru</small>
+                    </label>
+                  </div>
+                </div>
+                <hr>
+                <button type="button" class="btn btn-outline-secondary btn-sm">
+                  <span class="fe fe-refresh-cw fe-12 mr-1"></span>Simpan Pengaturan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sesi Aktif -->
+        <div class="row">
+          <div class="col-md-12 mb-4">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Sesi Aktif</strong>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Perangkat</th>
+                        <th>Browser</th>
+                        <th>IP Address</th>
+                        <th>Lokasi</th>
+                        <th>Waktu Login</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="fe fe-monitor fe-16 mr-2"></span>
+                          <strong>Windows PC</strong>
+                        </td>
+                        <td>Chrome 120.0</td>
+                        <td>192.168.1.100</td>
+                        <td>Jakarta, Indonesia</td>
+                        <td>15 Jan 2024, 14:30 WIB</td>
+                        <td><span class="badge badge-success">Aktif</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-danger">
+                            <span class="fe fe-log-out fe-12"></span> Logout
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="fe fe-smartphone fe-16 mr-2"></span>
+                          <strong>Android Phone</strong>
+                        </td>
+                        <td>Chrome Mobile</td>
+                        <td>192.168.1.101</td>
+                        <td>Jakarta, Indonesia</td>
+                        <td>14 Jan 2024, 10:15 WIB</td>
+                        <td><span class="badge badge-secondary">Tidak Aktif</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-danger">
+                            <span class="fe fe-log-out fe-12"></span> Logout
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+  // Form Validation
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var form = document.getElementById('formUbahPassword');
+      var passwordBaru = document.getElementById('passwordBaru');
+      var konfirmasiPasswordBaru = document.getElementById('konfirmasiPasswordBaru');
+      
+      function validatePasswordMatch() {
+        if (konfirmasiPasswordBaru.value !== passwordBaru.value) {
+          konfirmasiPasswordBaru.setCustomValidity('Password tidak cocok');
+        } else {
+          konfirmasiPasswordBaru.setCustomValidity('');
+        }
+      }
+      
+      passwordBaru.addEventListener('input', validatePasswordMatch);
+      konfirmasiPasswordBaru.addEventListener('input', validatePasswordMatch);
+      
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        } else {
+          validatePasswordMatch();
+          if (konfirmasiPasswordBaru.value !== passwordBaru.value) {
+            event.preventDefault();
+            event.stopPropagation();
+            konfirmasiPasswordBaru.focus();
+          } else {
+            event.preventDefault();
+            alert('Password berhasil diubah! (Simulasi)');
+            form.reset();
+            form.classList.remove('was-validated');
+          }
+        }
+        form.classList.add('was-validated');
+      }, false);
+    }, false);
+  })();
+</script>
+

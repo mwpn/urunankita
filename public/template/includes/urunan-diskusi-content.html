@@ -1,0 +1,459 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <a href="index.php?page=urunan-detail" class="btn btn-sm btn-outline-secondary mb-2" data-content="includes/urunan-detail-content.html">
+              <span class="fe fe-arrow-left fe-12 mr-1"></span>Kembali ke Detail Urunan
+            </a>
+            <div class="d-flex justify-content-between align-items-end">
+              <div>
+                <h2 class="h5 page-title mb-0">Diskusi & Komentar</h2>
+                <small class="text-muted" id="urunan-diskusi-title">Bantuan Korban Banjir Jakarta - ID: #URN-001</small>
+              </div>
+              <div style="min-width: 300px;" class="text-right">
+                <label for="selectUrunanDiskusi" class="small text-muted mb-1 d-block">Pilih Urunan:</label>
+                <select id="selectUrunanDiskusi" class="form-control form-control-sm select2" onchange="filterDiskusiUrunan(this.value)">
+                  <option value="URN-001" selected>Bantuan Korban Banjir Jakarta - #URN-001</option>
+                  <option value="URN-002">Bantuan Pendidikan Anak Yatim - #URN-002</option>
+                  <option value="URN-003">Operasi Katarak Gratis - #URN-003</option>
+                  <option value="URN-004">Bantuan Renovasi Masjid - #URN-004</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Main Content -->
+          <div class="col-lg-8">
+            <!-- Form Komentar Baru (Disembunyikan - hanya untuk public view) -->
+            <div class="card shadow mb-4 d-none" id="form-komentar-card" style="display: none !important;">
+              <div class="card-header">
+                <strong class="card-title">Tulis Komentar</strong>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label>Nama <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Nama Anda" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" placeholder="email@example.com" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Komentar <span class="text-danger">*</span></label>
+                    <textarea class="form-control" rows="4" placeholder="Tulis komentar atau pertanyaan Anda di sini..." required></textarea>
+                  </div>
+                  <div class="form-group mb-0">
+                    <button type="submit" class="btn btn-primary">
+                      <span class="fe fe-send fe-12 mr-1"></span>Kirim Komentar
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary">
+                      <span class="fe fe-eye-off fe-12 mr-1"></span>Komentar sebagai Anonim
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Daftar Komentar -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="card-title mb-0">Komentar (<span id="total-komentar">12</span>)</strong>
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-outline-secondary active">Terbaru</button>
+                    <button type="button" class="btn btn-outline-secondary">Terlama</button>
+                    <button type="button" class="btn btn-outline-secondary">Terpopuler</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <!-- Komentar 1 -->
+                <div class="media mb-4 pb-4 border-bottom">
+                  <img src="assets/avatars/face-1.jpg" class="mr-3 rounded-circle" alt="Avatar" style="width: 48px; height: 48px;">
+                  <div class="media-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h6 class="mt-0 mb-0">Budi Santoso</h6>
+                        <small class="text-muted">15 Jan 2024, 14:30 WIB</small>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link text-muted" type="button" data-toggle="dropdown">
+                          <span class="fe fe-more-vertical fe-12"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><span class="fe fe-flag fe-12 mr-2"></span>Laporkan</a>
+                          <a class="dropdown-item" href="#"><span class="fe fe-trash-2 fe-12 mr-2"></span>Hapus</a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mb-2">Semoga bantuan ini bisa sampai ke tangan yang membutuhkan. Semoga lekas pulih untuk korban banjir Jakarta 🙏</p>
+                    <div class="d-flex align-items-center">
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3">
+                        <span class="fe fe-thumbs-up fe-12 mr-1"></span>Suka (5)
+                      </button>
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3" data-toggle="collapse" data-target="#reply1">
+                        <span class="fe fe-message-circle fe-12 mr-1"></span>Balas
+                      </button>
+                      <small class="text-muted">Donatur • Rp 500.000</small>
+                    </div>
+                    <!-- Reply Form -->
+                    <div class="collapse mt-3" id="reply1">
+                      <div class="card card-body bg-light">
+                        <form>
+                          <div class="form-group mb-2">
+                            <textarea class="form-control form-control-sm" rows="2" placeholder="Tulis balasan..."></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-primary">Kirim Balasan</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Komentar 2 -->
+                <div class="media mb-4 pb-4 border-bottom">
+                  <img src="assets/avatars/face-2.jpg" class="mr-3 rounded-circle" alt="Avatar" style="width: 48px; height: 48px;">
+                  <div class="media-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h6 class="mt-0 mb-0">Siti Nurhaliza</h6>
+                        <small class="text-muted">15 Jan 2024, 12:15 WIB</small>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link text-muted" type="button" data-toggle="dropdown">
+                          <span class="fe fe-more-vertical fe-12"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><span class="fe fe-flag fe-12 mr-2"></span>Laporkan</a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mb-2">Bagaimana cara memastikan bantuan benar-benar sampai ke korban? Apakah ada mekanisme verifikasi?</p>
+                    <div class="d-flex align-items-center">
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3">
+                        <span class="fe fe-thumbs-up fe-12 mr-1"></span>Suka (3)
+                      </button>
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3" data-toggle="collapse" data-target="#reply2">
+                        <span class="fe fe-message-circle fe-12 mr-1"></span>Balas
+                      </button>
+                      <small class="text-muted">Donatur • Rp 1.000.000</small>
+                    </div>
+                    <!-- Reply dari Admin -->
+                    <div class="media mt-3 ml-4">
+                      <img src="assets/avatars/user-default.jpg" class="mr-3 rounded-circle" alt="Admin" style="width: 40px; height: 40px;">
+                      <div class="media-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mt-0 mb-0">Admin Urunankita <span class="badge badge-primary badge-sm">Admin</span></h6>
+                            <small class="text-muted">15 Jan 2024, 13:00 WIB</small>
+                          </div>
+                        </div>
+                        <p class="mb-2">Terima kasih atas pertanyaannya. Kami memiliki tim verifikasi yang akan memastikan bantuan sampai ke tangan yang tepat. Semua proses akan didokumentasikan dan bisa dilihat di laporan penggunaan dana.</p>
+                        <div class="d-flex align-items-center">
+                          <button class="btn btn-sm btn-link text-muted p-0 mr-3">
+                            <span class="fe fe-thumbs-up fe-12 mr-1"></span>Suka (8)
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Reply Form -->
+                    <div class="collapse mt-3" id="reply2">
+                      <div class="card card-body bg-light">
+                        <form>
+                          <div class="form-group mb-2">
+                            <textarea class="form-control form-control-sm" rows="2" placeholder="Tulis balasan..."></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-primary">Kirim Balasan</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Komentar 3 -->
+                <div class="media mb-4 pb-4 border-bottom">
+                  <div class="mr-3">
+                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                      <span class="fe fe-user fe-16 text-white"></span>
+                    </div>
+                  </div>
+                  <div class="media-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h6 class="mt-0 mb-0">Anonim</h6>
+                        <small class="text-muted">14 Jan 2024, 18:20 WIB</small>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link text-muted" type="button" data-toggle="dropdown">
+                          <span class="fe fe-more-vertical fe-12"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><span class="fe fe-flag fe-12 mr-2"></span>Laporkan</a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mb-2">Semoga bantuan ini bisa membantu meringankan beban korban banjir. Semoga Allah membalas kebaikan semua donatur.</p>
+                    <div class="d-flex align-items-center">
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3">
+                        <span class="fe fe-thumbs-up fe-12 mr-1"></span>Suka (12)
+                      </button>
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3" data-toggle="collapse" data-target="#reply3">
+                        <span class="fe fe-message-circle fe-12 mr-1"></span>Balas
+                      </button>
+                      <small class="text-muted">Donatur • Rp 250.000</small>
+                    </div>
+                    <!-- Reply Form -->
+                    <div class="collapse mt-3" id="reply3">
+                      <div class="card card-body bg-light">
+                        <form>
+                          <div class="form-group mb-2">
+                            <textarea class="form-control form-control-sm" rows="2" placeholder="Tulis balasan..."></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-primary">Kirim Balasan</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Komentar 4 -->
+                <div class="media mb-4 pb-4 border-bottom">
+                  <img src="assets/avatars/face-3.jpg" class="mr-3 rounded-circle" alt="Avatar" style="width: 48px; height: 48px;">
+                  <div class="media-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h6 class="mt-0 mb-0">Ahmad Wijaya</h6>
+                        <small class="text-muted">14 Jan 2024, 16:10 WIB</small>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link text-muted" type="button" data-toggle="dropdown">
+                          <span class="fe fe-more-vertical fe-12"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><span class="fe fe-flag fe-12 mr-12"></span>Laporkan</a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mb-2">Apakah ada update terbaru tentang distribusi bantuan? Kapan rencana pendistribusiannya?</p>
+                    <div class="d-flex align-items-center">
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3">
+                        <span class="fe fe-thumbs-up fe-12 mr-1"></span>Suka (2)
+                      </button>
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3" data-toggle="collapse" data-target="#reply4">
+                        <span class="fe fe-message-circle fe-12 mr-1"></span>Balas
+                      </button>
+                      <small class="text-muted">Donatur • Rp 2.000.000</small>
+                    </div>
+                    <!-- Reply Form -->
+                    <div class="collapse mt-3" id="reply4">
+                      <div class="card card-body bg-light">
+                        <form>
+                          <div class="form-group mb-2">
+                            <textarea class="form-control form-control-sm" rows="2" placeholder="Tulis balasan..."></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-primary">Kirim Balasan</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Komentar 5 -->
+                <div class="media mb-4">
+                  <img src="assets/avatars/face-4.jpg" class="mr-3 rounded-circle" alt="Avatar" style="width: 48px; height: 48px;">
+                  <div class="media-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h6 class="mt-0 mb-0">Maya Sari</h6>
+                        <small class="text-muted">13 Jan 2024, 20:00 WIB</small>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link text-muted" type="button" data-toggle="dropdown">
+                          <span class="fe fe-more-vertical fe-12"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><span class="fe fe-flag fe-12 mr-2"></span>Laporkan</a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mb-2">Terima kasih untuk platform yang memudahkan kami untuk membantu sesama. Semoga bantuan ini bermanfaat!</p>
+                    <div class="d-flex align-items-center">
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3">
+                        <span class="fe fe-thumbs-up fe-12 mr-1"></span>Suka (7)
+                      </button>
+                      <button class="btn btn-sm btn-link text-muted p-0 mr-3" data-toggle="collapse" data-target="#reply5">
+                        <span class="fe fe-message-circle fe-12 mr-1"></span>Balas
+                      </button>
+                      <small class="text-muted">Donatur • Rp 750.000</small>
+                    </div>
+                    <!-- Reply Form -->
+                    <div class="collapse mt-3" id="reply5">
+                      <div class="card card-body bg-light">
+                        <form>
+                          <div class="form-group mb-2">
+                            <textarea class="form-control form-control-sm" rows="2" placeholder="Tulis balasan..."></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-primary">Kirim Balasan</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">Sebelumnya</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Selanjutnya</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="col-lg-4">
+            <!-- Statistik Komentar -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Statistik</strong>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <small class="text-muted d-block">Total Komentar</small>
+                  <strong class="h5">12</strong>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted d-block">Komentar Hari Ini</small>
+                  <strong class="h5">3</strong>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted d-block">Total Balasan</small>
+                  <strong class="h5">5</strong>
+                </div>
+                <div>
+                  <small class="text-muted d-block">Komentar Terpopuler</small>
+                  <strong>12 likes</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Moderasi -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Moderasi</strong>
+              </div>
+              <div class="card-body">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" id="moderasiAuto" checked>
+                  <label class="custom-control-label" for="moderasiAuto">Moderasi Otomatis</label>
+                </div>
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" id="notifikasiKomentar" checked>
+                  <label class="custom-control-label" for="notifikasiKomentar">Notifikasi Komentar Baru</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="komentarAnonim">
+                  <label class="custom-control-label" for="komentarAnonim">Izinkan Komentar Anonim</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Komentar Terbaru -->
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Komentar Terbaru</strong>
+              </div>
+              <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex align-items-center">
+                      <img src="assets/avatars/face-1.jpg" class="rounded-circle mr-2" alt="Avatar" style="width: 32px; height: 32px;">
+                      <div class="flex-grow-1">
+                        <strong class="small">Budi Santoso</strong>
+                        <p class="small text-muted mb-0">Semoga bantuan ini bisa sampai...</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex align-items-center">
+                      <img src="assets/avatars/face-2.jpg" class="rounded-circle mr-2" alt="Avatar" style="width: 32px; height: 32px;">
+                      <div class="flex-grow-1">
+                        <strong class="small">Siti Nurhaliza</strong>
+                        <p class="small text-muted mb-0">Bagaimana cara memastikan...</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0 py-2 border-0">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mr-2" style="width: 32px; height: 32px;">
+                        <span class="fe fe-user fe-12 text-white"></span>
+                      </div>
+                      <div class="flex-grow-1">
+                        <strong class="small">Anonim</strong>
+                        <p class="small text-muted mb-0">Semoga bantuan ini bisa membantu...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+  // Filter function
+  function filterDiskusiUrunan(urunanId) {
+    // Get urunan name from option
+    var select = document.getElementById('selectUrunanDiskusi');
+    var selectedOption = select.options[select.selectedIndex];
+    var urunanName = selectedOption.text.split(' - ')[0];
+    
+    document.getElementById('urunan-diskusi-title').textContent = urunanName + ' - ID: #' + urunanId;
+    
+    console.log('Filtering diskusi for:', urunanId);
+  }
+
+  // Make function global
+  window.filterDiskusiUrunan = filterDiskusiUrunan;
+
+  // Initialize Select2
+  (function() {
+    function initSelect2() {
+      if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('#selectUrunanDiskusi').select2({
+          theme: 'bootstrap4',
+          width: '100%'
+        });
+      } else {
+        setTimeout(initSelect2, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initSelect2, 300);
+      });
+    } else {
+      setTimeout(initSelect2, 300);
+    }
+  })();
+</script>
+

@@ -1,0 +1,561 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h2 class="h5 page-title mb-0">Banner & Slider</h2>
+            <small class="text-muted">Kelola banner dan slider untuk halaman utama website</small>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTambahBanner">
+              <span class="fe fe-plus fe-12 mr-1"></span>Tambah Banner
+            </button>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Banner</small>
+                <h3 class="mb-0">8</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 5 aktif</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Banner Aktif</small>
+                <h3 class="mb-0 text-success">5</h3>
+                <small class="text-muted">62.5%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Slider Utama</small>
+                <h3 class="mb-0">3</h3>
+                <small class="text-info">Ditampilkan di homepage</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Banner Sekunder</small>
+                <h3 class="mb-0">2</h3>
+                <small class="text-muted">Banner pendukung</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Banner -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Daftar Banner & Slider</strong>
+                  </div>
+                  <div class="col-auto">
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-outline-secondary">
+                        <span class="fe fe-filter fe-12"></span> Filter
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary">
+                        <span class="fe fe-download fe-12"></span> Export
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table datatables table-hover" id="dataTable-banner">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Preview</th>
+                        <th>Judul Banner</th>
+                        <th>Posisi</th>
+                        <th>Urutan</th>
+                        <th>Link Tujuan</th>
+                        <th>Status</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p1.jpg" alt="Banner 1" class="img-thumbnail" style="width: 80px; height: 50px; object-fit: cover; cursor: pointer;" onclick="previewBanner(this.src)">
+                        </td>
+                        <td>
+                          <strong>Bantuan Korban Bencana</strong>
+                          <small class="d-block text-muted">Slider utama homepage</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Slider Utama</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">1</span>
+                        </td>
+                        <td>
+                          <a href="/urunan/detail/1" target="_blank" class="text-primary">
+                            /urunan/detail/1
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>15 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="previewBanner('assets/products/p1.jpg')"><i class="fe fe-eye fe-12 mr-2"></i>Preview</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditBanner"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-up fe-12 mr-2"></i>Naikkan Urutan</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-down fe-12 mr-2"></i>Turunkan Urutan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p2.jpg" alt="Banner 2" class="img-thumbnail" style="width: 80px; height: 50px; object-fit: cover; cursor: pointer;" onclick="previewBanner(this.src)">
+                        </td>
+                        <td>
+                          <strong>Pendidikan untuk Semua</strong>
+                          <small class="d-block text-muted">Slider utama homepage</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Slider Utama</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">2</span>
+                        </td>
+                        <td>
+                          <a href="/urunan/detail/2" target="_blank" class="text-primary">
+                            /urunan/detail/2
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>16 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="previewBanner('assets/products/p2.jpg')"><i class="fe fe-eye fe-12 mr-2"></i>Preview</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditBanner"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-up fe-12 mr-2"></i>Naikkan Urutan</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-down fe-12 mr-2"></i>Turunkan Urutan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p3.jpg" alt="Banner 3" class="img-thumbnail" style="width: 80px; height: 50px; object-fit: cover; cursor: pointer;" onclick="previewBanner(this.src)">
+                        </td>
+                        <td>
+                          <strong>Kesehatan untuk Semua</strong>
+                          <small class="d-block text-muted">Slider utama homepage</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Slider Utama</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">3</span>
+                        </td>
+                        <td>
+                          <a href="/urunan/detail/3" target="_blank" class="text-primary">
+                            /urunan/detail/3
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>17 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="previewBanner('assets/products/p3.jpg')"><i class="fe fe-eye fe-12 mr-2"></i>Preview</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditBanner"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-up fe-12 mr-2"></i>Naikkan Urutan</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-down fe-12 mr-2"></i>Turunkan Urutan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p4.jpg" alt="Banner 4" class="img-thumbnail" style="width: 80px; height: 50px; object-fit: cover; cursor: pointer;" onclick="previewBanner(this.src)">
+                        </td>
+                        <td>
+                          <strong>Banner Promosi</strong>
+                          <small class="d-block text-muted">Banner sekunder sidebar</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary">Banner Sekunder</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">1</span>
+                        </td>
+                        <td>
+                          <a href="/tentang-kami" target="_blank" class="text-primary">
+                            /tentang-kami
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>18 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="previewBanner('assets/products/p4.jpg')"><i class="fe fe-eye fe-12 mr-2"></i>Preview</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditBanner"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-up fe-12 mr-2"></i>Naikkan Urutan</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-arrow-down fe-12 mr-2"></i>Turunkan Urutan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p1.jpg" alt="Banner 5" class="img-thumbnail" style="width: 80px; height: 50px; object-fit: cover; cursor: pointer;" onclick="previewBanner(this.src)">
+                        </td>
+                        <td>
+                          <strong>Event Khusus</strong>
+                          <small class="d-block text-muted">Banner event terbatas</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary">Banner Sekunder</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">2</span>
+                        </td>
+                        <td>
+                          <a href="/event" target="_blank" class="text-primary">
+                            /event
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Nonaktif</span>
+                        </td>
+                        <td>19 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="previewBanner('assets/products/p1.jpg')"><i class="fe fe-eye fe-12 mr-2"></i>Preview</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditBanner"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check-circle fe-12 mr-2"></i>Aktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Tambah Banner -->
+<div class="modal fade" id="modalTambahBanner" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Banner Baru</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahBanner">
+          <div class="form-group">
+            <label>Judul Banner <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Contoh: Bantuan Korban Bencana" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Posisi <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="">Pilih Posisi</option>
+                <option value="slider-utama">Slider Utama</option>
+                <option value="banner-sekunder">Banner Sekunder</option>
+                <option value="banner-sidebar">Banner Sidebar</option>
+                <option value="banner-footer">Banner Footer</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Urutan</label>
+              <input type="number" class="form-control" placeholder="1" min="1" value="1">
+              <small class="form-text text-muted">Urutan tampilan banner</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Upload Gambar <span class="text-danger">*</span></label>
+            <div class="dropzone bg-light rounded-lg" id="dropzone-banner">
+              <div class="dz-message needsclick">
+                <div class="circle circle-lg bg-primary">
+                  <i class="fe fe-upload fe-24 text-white"></i>
+                </div>
+                <h5 class="text-muted mt-4">Drop gambar di sini atau klik untuk upload</h5>
+                <span class="text-muted">Max: 10MB, Format: JPG/PNG</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Link Tujuan</label>
+            <input type="text" class="form-control" placeholder="/urunan/detail/1 atau URL lengkap">
+            <small class="form-text text-muted">URL yang akan dibuka saat banner diklik</small>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control">
+              <option value="aktif" selected>Aktif</option>
+              <option value="nonaktif">Nonaktif</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi (Opsional)</label>
+            <textarea class="form-control" rows="3" placeholder="Deskripsi atau keterangan banner"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="simpanBanner()">Simpan Banner</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Banner -->
+<div class="modal fade" id="modalEditBanner" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Banner</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditBanner">
+          <div class="form-group">
+            <label>Judul Banner <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="Bantuan Korban Bencana" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Posisi <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="slider-utama" selected>Slider Utama</option>
+                <option value="banner-sekunder">Banner Sekunder</option>
+                <option value="banner-sidebar">Banner Sidebar</option>
+                <option value="banner-footer">Banner Footer</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Urutan</label>
+              <input type="number" class="form-control" value="1" min="1">
+              <small class="form-text text-muted">Urutan tampilan banner</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Gambar Saat Ini</label>
+            <div class="mb-2">
+              <img src="assets/products/p1.jpg" alt="Current Banner" class="img-thumbnail" style="max-width: 200px;">
+            </div>
+            <label>Upload Gambar Baru (Opsional)</label>
+            <div class="dropzone bg-light rounded-lg" id="dropzone-banner-edit">
+              <div class="dz-message needsclick">
+                <div class="circle circle-lg bg-secondary">
+                  <i class="fe fe-upload fe-24 text-white"></i>
+                </div>
+                <h5 class="text-muted mt-4">Drop gambar baru di sini atau klik untuk upload</h5>
+                <span class="text-muted">Max: 10MB, Format: JPG/PNG</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Link Tujuan</label>
+            <input type="text" class="form-control" value="/urunan/detail/1">
+            <small class="form-text text-muted">URL yang akan dibuka saat banner diklik</small>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control">
+              <option value="aktif" selected>Aktif</option>
+              <option value="nonaktif">Nonaktif</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi (Opsional)</label>
+            <textarea class="form-control" rows="3" placeholder="Deskripsi atau keterangan banner">Slider utama homepage</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Update Banner</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Preview Banner -->
+<div class="modal fade" id="modalPreviewBanner" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Preview Banner</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img id="previewBannerImage" src="" class="img-fluid" alt="Preview Banner">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-banner').length) {
+        $('#dataTable-banner').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[4, "asc"]], // Sort by urutan ascending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          },
+          "columnDefs": [
+            {
+              "targets": [0], // Checkbox column
+              "orderable": false
+            },
+            {
+              "targets": [1], // Preview column
+              "orderable": false
+            },
+            {
+              "targets": [8], // Action column
+              "orderable": false
+            }
+          ]
+        });
+        console.log('DataTable banner initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+
+  // Preview Banner
+  function previewBanner(imageSrc) {
+    document.getElementById('previewBannerImage').src = imageSrc;
+    $('#modalPreviewBanner').modal('show');
+  }
+
+  // Simpan Banner
+  function simpanBanner() {
+    // TODO: Implement save logic
+    alert('Banner berhasil disimpan! (Simulasi)');
+    $('#modalTambahBanner').modal('hide');
+  }
+
+  // Make functions global
+  window.previewBanner = previewBanner;
+  window.simpanBanner = simpanBanner;
+</script>
+

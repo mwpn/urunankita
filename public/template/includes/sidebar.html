@@ -1,0 +1,237 @@
+      <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+        <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+          <i class="fe fe-x"><span class="sr-only"></span></i>
+        </a>
+        <nav class="vertnav navbar navbar-light">
+          <!-- Logo -->
+          <div class="w-100 mb-4 d-flex">
+            <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="index.php" data-content="includes/dashboard-content.html">
+              <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                <g>
+                  <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
+                  <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
+                  <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
+                </g>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Dashboard - Semua User -->
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin,penggalang_dana">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php" data-content="includes/dashboard-content.html">
+                <i class="fe fe-home fe-16"></i>
+                <span class="ml-3 item-text">Dashboard</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Urunan Kita - Semua User -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin,penggalang_dana">
+            <span>Urunan Kita</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin,penggalang_dana">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-create" data-content="includes/urunan-create-content.html">
+                <i class="fe fe-plus-circle fe-16"></i>
+                <span class="ml-3 item-text">Buat Urunan Baru</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-list" data-content="includes/urunan-list-content.html">
+                <i class="fe fe-list fe-16"></i>
+                <span class="ml-3 item-text">Urunan Saya</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-donasi" data-content="includes/urunan-donasi-content.html">
+                <i class="fe fe-arrow-down-circle fe-16"></i>
+                <span class="ml-3 item-text">Donasi Masuk</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-laporan" data-content="includes/urunan-laporan-content.html">
+                <i class="fe fe-file-text fe-16"></i>
+                <span class="ml-3 item-text">Laporan Penggunaan Dana</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-diskusi" data-content="includes/urunan-diskusi-content.html">
+                <i class="fe fe-message-circle fe-16"></i>
+                <span class="ml-3 item-text">Diskusi & Komentar</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Semua Urunan - Semua User -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin">
+            <span>Semua Urunan</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-all" data-content="includes/urunan-all-content.html">
+                <i class="fe fe-layers fe-16"></i>
+                <span class="ml-3 item-text">Semua Urunan</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-laporan-semua" data-content="includes/urunan-laporan-semua-content.html">
+                <i class="fe fe-bar-chart-2 fe-16"></i>
+                <span class="ml-3 item-text">Laporan Semua Urunan</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-riwayat" data-content="includes/urunan-riwayat-content.html">
+                <i class="fe fe-clock fe-16"></i>
+                <span class="ml-3 item-text">Riwayat & Log</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=urunan-komentar-semua" data-content="includes/urunan-komentar-semua-content.html">
+                <i class="fe fe-message-circle fe-16"></i>
+                <span class="ml-3 item-text">Semua Komentar</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Penggalang Dana - Admin Only -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin">
+            <span>Penggalang Dana</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=admin-penggalang-dana-add" data-content="includes/admin-penggalang-dana-add-content.html">
+                <i class="fe fe-user-plus fe-16"></i>
+                <span class="ml-3 item-text">Tambah Penggalang Baru</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=admin-penggalang-dana-list" data-content="includes/admin-penggalang-dana-list-content.html">
+                <i class="fe fe-users fe-16"></i>
+                <span class="ml-3 item-text">Daftar Penggalang</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=admin-penggalang-applications" data-content="includes/admin-penggalang-applications-content.html">
+                <i class="fe fe-file-text fe-16"></i>
+                <span class="ml-3 item-text">Pengajuan Baru</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=admin-sponsorship-applications" data-content="includes/admin-sponsorship-applications-content.html">
+                <i class="fe fe-award fe-16"></i>
+                <span class="ml-3 item-text">Pengajuan Sponsorship</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Konten Web - Semua User -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin,penggalang_dana">
+            <span>Konten Web</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin,penggalang_dana">
+            <li class="nav-item" data-role="admin">
+              <a class="nav-link" href="index.php?page=content-banner" data-content="includes/content-banner-content.html">
+                <i class="fe fe-image fe-16"></i>
+                <span class="ml-3 item-text">Banner & Slider</span>
+              </a>
+            </li>
+            <li class="nav-item" data-role="admin">
+              <a class="nav-link" href="index.php?page=content-sponsors" data-content="includes/content-sponsors-content.html">
+                <i class="fe fe-award fe-16"></i>
+                <span class="ml-3 item-text">Logo Sponsor</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=content-halaman" data-content="includes/content-halaman-content.html">
+                <i class="fe fe-file-text fe-16"></i>
+                <span class="ml-3 item-text">Halaman</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=content-blog" data-content="includes/content-blog-content.html">
+                <i class="fe fe-book fe-16"></i>
+                <span class="ml-3 item-text">Artikel/Blog</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=content-menu" data-content="includes/content-menu-content.html">
+                <i class="fe fe-menu fe-16"></i>
+                <span class="ml-3 item-text">Pengaturan Menu</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Pengaturan -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin,penggalang_dana">
+            <span>Pengaturan</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=admin-settings-general" data-content="includes/admin-settings-general-content.html">
+                <i class="fe fe-sliders fe-16"></i>
+                <span class="ml-3 item-text">Pengaturan Umum</span>
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin,penggalang_dana">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=settings-payment" data-content="includes/settings-payment-content.html">
+                <i class="fe fe-credit-card fe-16"></i>
+                <span class="ml-3 item-text">Metode Pembayaran</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=settings-rekening" data-content="includes/settings-rekening-content.html">
+                <i class="fe fe-credit-card fe-16"></i>
+                <span class="ml-3 item-text">Daftar Rekening</span>
+              </a>
+            </li>
+            <li class="nav-item" data-role="penggalang_dana">
+              <a class="nav-link" href="index.php?page=settings-template" data-content="includes/settings-template-content.html">
+                <i class="fe fe-message-square fe-16"></i>
+                <span class="ml-3 item-text">Template Pesan WhatsApp</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Profil - Semua User -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin,penggalang_dana">
+            <span>Profil</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin,penggalang_dana">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=profile-overview" data-content="includes/profile-overview-content.html">
+                <i class="fe fe-user fe-16"></i>
+                <span class="ml-3 item-text">Overview</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=profile-security" data-content="includes/profile-security-content.html">
+                <i class="fe fe-shield fe-16"></i>
+                <span class="ml-3 item-text">Security</span>
+              </a>
+            </li>
+            <li class="nav-item" data-role="penggalang_dana">
+              <a class="nav-link" href="index.php?page=profile-settings" data-content="includes/profile-settings-content.html">
+                <i class="fe fe-settings fe-16"></i>
+                <span class="ml-3 item-text">Settings</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Bantuan - Semua User -->
+          <p class="text-muted nav-heading mt-4 mb-1" data-role="admin,penggalang_dana">
+            <span>Bantuan</span>
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2" data-role="admin,penggalang_dana">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=helpdesk-support" data-content="includes/helpdesk-support-content.html">
+                <i class="fe fe-help-circle fe-16"></i>
+                <span class="ml-3 item-text">Support</span>
+              </a>
+            </li>
+          </ul>
+
+        </nav>
+      </aside>

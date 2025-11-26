@@ -1,0 +1,252 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Urunan Saya</h2>
+          </div>
+          <div class="col-auto">
+            <a href="urunan/create.html" class="btn btn-sm btn-primary" data-content="includes/urunan-create-content.html">
+              <span class="fe fe-plus-circle fe-12 mr-1"></span>Buat Urunan Baru
+            </a>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="row my-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-body">
+                <table class="table datatables" id="dataTable-urunan">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Judul Urunan</th>
+                      <th>Kategori</th>
+                      <th>Jenis</th>
+                      <th>Target</th>
+                      <th>Ter terkumpul</th>
+                      <th>Progress</th>
+                      <th>Deadline</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Bantuan Korban Banjir Jakarta</strong>
+                        <small class="d-block text-muted">ID: #URN-001</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary">Bencana Alam</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-info">Targeted</span>
+                      </td>
+                      <td>Rp 50.000.000</td>
+                      <td>Rp 35.000.000</td>
+                      <td>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted">70%</small>
+                      </td>
+                      <td>15 Jan 2024</td>
+                      <td>
+                        <span class="badge badge-success">Aktif</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="index.php?page=urunan-detail" data-content="includes/urunan-detail-content.html"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="index.php?page=urunan-create" data-content="includes/urunan-create-content.html"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Bantuan Pendidikan Anak Yatim</strong>
+                        <small class="d-block text-muted">ID: #URN-002</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-primary">Pendidikan</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-warning">Open</span>
+                      </td>
+                      <td>-</td>
+                      <td>Rp 12.500.000</td>
+                      <td>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted">Terus Menerus</small>
+                      </td>
+                      <td>-</td>
+                      <td>
+                        <span class="badge badge-success">Aktif</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="index.php?page=urunan-detail" data-content="includes/urunan-detail-content.html"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="index.php?page=urunan-create" data-content="includes/urunan-create-content.html"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Operasi Katarak Gratis</strong>
+                        <small class="d-block text-muted">ID: #URN-003</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-danger">Kesehatan</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-info">Targeted</span>
+                      </td>
+                      <td>Rp 25.000.000</td>
+                      <td>Rp 25.000.000</td>
+                      <td>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted">100%</small>
+                      </td>
+                      <td>20 Des 2023</td>
+                      <td>
+                        <span class="badge badge-primary">Selesai</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Laporan</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Bantuan Renovasi Masjid</strong>
+                        <small class="d-block text-muted">ID: #URN-004</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-info">Agama</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-info">Targeted</span>
+                      </td>
+                      <td>Rp 100.000.000</td>
+                      <td>Rp 45.000.000</td>
+                      <td>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted">45%</small>
+                      </td>
+                      <td>30 Jan 2024</td>
+                      <td>
+                        <span class="badge badge-warning">Pending</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="index.php?page=urunan-detail" data-content="includes/urunan-detail-content.html"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="index.php?page=urunan-create" data-content="includes/urunan-create-content.html"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-urunan').length) {
+        $('#dataTable-urunan').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[7, "desc"]], // Sort by deadline (column 7)
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          }
+        });
+        console.log('DataTable initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        // Retry after a delay
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    // Wait for DOM and scripts to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+</script>
+

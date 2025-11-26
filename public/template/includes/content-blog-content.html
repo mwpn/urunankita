@@ -1,0 +1,646 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h2 class="h5 page-title mb-0">Artikel/Blog</h2>
+            <small class="text-muted">Kelola artikel dan postingan blog platform</small>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTambahArtikel">
+              <span class="fe fe-plus fe-12 mr-1"></span>Tulis Artikel Baru
+            </button>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Artikel</small>
+                <h3 class="mb-0">45</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 38 diterbitkan</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Artikel Diterbitkan</small>
+                <h3 class="mb-0 text-success">38</h3>
+                <small class="text-muted">84.4%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Draft</small>
+                <h3 class="mb-0 text-warning">7</h3>
+                <small class="text-muted">Belum diterbitkan</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total View</small>
+                <h3 class="mb-0">12.450</h3>
+                <small class="text-info">Semua artikel</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Artikel -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Daftar Artikel</strong>
+                  </div>
+                  <div class="col-auto">
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-outline-secondary">
+                        <span class="fe fe-filter fe-12"></span> Filter
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary">
+                        <span class="fe fe-download fe-12"></span> Export
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table datatables table-hover" id="dataTable-artikel">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Gambar</th>
+                        <th>Judul Artikel</th>
+                        <th>Kategori</th>
+                        <th>Penulis</th>
+                        <th>Status</th>
+                        <th>View</th>
+                        <th>Tanggal Terbit</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p1.jpg" alt="Artikel 1" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>
+                          <strong>Tips Sukses Menggalang Dana untuk Bencana Alam</strong>
+                          <small class="d-block text-muted">Panduan lengkap untuk penggalang dana pemula</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Tips & Trik</span>
+                        </td>
+                        <td>Admin Platform</td>
+                        <td>
+                          <span class="badge badge-success">Diterbitkan</span>
+                        </td>
+                        <td>
+                          <strong>1,245</strong>
+                        </td>
+                        <td>20 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Artikel</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditArtikel"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Ubah ke Draft</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p2.jpg" alt="Artikel 2" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>
+                          <strong>Kisah Inspiratif: Sukses Bantuan Korban Banjir Jakarta</strong>
+                          <small class="d-block text-muted">Cerita perjalanan penggalangan dana yang berhasil</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Kisah Inspiratif</span>
+                        </td>
+                        <td>Admin Platform</td>
+                        <td>
+                          <span class="badge badge-success">Diterbitkan</span>
+                        </td>
+                        <td>
+                          <strong>892</strong>
+                        </td>
+                        <td>18 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Artikel</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditArtikel"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Ubah ke Draft</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p3.jpg" alt="Artikel 3" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>
+                          <strong>Transparansi dalam Penggalangan Dana</strong>
+                          <small class="d-block text-muted">Pentingnya laporan yang transparan untuk kepercayaan donatur</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">Edukasi</span>
+                        </td>
+                        <td>Admin Platform</td>
+                        <td>
+                          <span class="badge badge-success">Diterbitkan</span>
+                        </td>
+                        <td>
+                          <strong>654</strong>
+                        </td>
+                        <td>15 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Artikel</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditArtikel"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Ubah ke Draft</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p4.jpg" alt="Artikel 4" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>
+                          <strong>Update Program Bantuan Pendidikan</strong>
+                          <small class="d-block text-muted">Progress terbaru dari program bantuan pendidikan</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Update Program</span>
+                        </td>
+                        <td>Admin Platform</td>
+                        <td>
+                          <span class="badge badge-warning">Draft</span>
+                        </td>
+                        <td>
+                          <strong>0</strong>
+                        </td>
+                        <td>-</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditArtikel"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check-circle fe-12 mr-2"></i>Terbitkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <img src="assets/products/p1.jpg" alt="Artikel 5" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>
+                          <strong>Cara Membuat Urunan yang Menarik</strong>
+                          <small class="d-block text-muted">Tips membuat urunan yang menarik perhatian donatur</small>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Tips & Trik</span>
+                        </td>
+                        <td>Admin Platform</td>
+                        <td>
+                          <span class="badge badge-success">Diterbitkan</span>
+                        </td>
+                        <td>
+                          <strong>1,089</strong>
+                        </td>
+                        <td>12 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Artikel</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditArtikel"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-file-text fe-12 mr-2"></i>Ubah ke Draft</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Tambah Artikel -->
+<div class="modal fade" id="modalTambahArtikel" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tulis Artikel Baru</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahArtikel">
+          <div class="form-group">
+            <label>Judul Artikel <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="judulArtikel" placeholder="Contoh: Tips Sukses Menggalang Dana" required oninput="generateSlugArtikel()">
+            <small class="form-text text-muted">Judul yang menarik akan meningkatkan engagement pembaca</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Slug/URL <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">/blog/</span>
+                </div>
+                <input type="text" class="form-control" id="slugArtikel" placeholder="tips-sukses-menggalang-dana" required pattern="[a-z0-9-]+">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" onclick="generateSlugArtikel()">
+                    <span class="fe fe-refresh-cw fe-12"></span> Generate
+                  </button>
+                </div>
+              </div>
+              <small class="form-text text-muted">URL-friendly identifier</small>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Kategori <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="">Pilih Kategori</option>
+                <option value="tips-trik">Tips & Trik</option>
+                <option value="kisah-inspiratif">Kisah Inspiratif</option>
+                <option value="edukasi">Edukasi</option>
+                <option value="update-program">Update Program</option>
+                <option value="berita">Berita</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Status</label>
+              <select class="form-control">
+                <option value="draft" selected>Draft</option>
+                <option value="published">Diterbitkan</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Gambar Utama</label>
+            <div class="dropzone bg-light rounded-lg" id="dropzone-artikel">
+              <div class="dz-message needsclick">
+                <div class="circle circle-lg bg-primary">
+                  <i class="fe fe-upload fe-24 text-white"></i>
+                </div>
+                <h5 class="text-muted mt-4">Drop gambar di sini atau klik untuk upload</h5>
+                <span class="text-muted">Max: 5MB, Format: JPG/PNG</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Isi Artikel <span class="text-danger">*</span></label>
+            <div id="artikelEditor" style="min-height: 400px;"></div>
+            <small class="form-text text-muted">Konten artikel menggunakan rich text editor</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Penulis</label>
+              <input type="text" class="form-control" value="Admin Platform" readonly>
+              <small class="form-text text-muted">Penulis artikel</small>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tanggal Terbit</label>
+              <input type="datetime-local" class="form-control">
+              <small class="form-text text-muted">Kosongkan untuk menggunakan waktu sekarang</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Excerpt/Kutipan (Opsional)</label>
+            <textarea class="form-control" rows="3" placeholder="Ringkasan singkat artikel yang akan ditampilkan di daftar artikel (max 200 karakter)"></textarea>
+            <small class="form-text text-muted">Digunakan untuk preview di halaman daftar artikel</small>
+          </div>
+          <div class="form-group">
+            <label>Meta Description (Opsional)</label>
+            <textarea class="form-control" rows="2" placeholder="Deskripsi singkat untuk SEO (max 160 karakter)"></textarea>
+            <small class="form-text text-muted">Digunakan untuk SEO dan preview di search engine</small>
+          </div>
+          <div class="form-group">
+            <label>Meta Keywords (Opsional)</label>
+            <input type="text" class="form-control" placeholder="keyword1, keyword2, keyword3">
+            <small class="form-text text-muted">Kata kunci untuk SEO (pisahkan dengan koma)</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="simpanDraft()">Simpan Draft</button>
+        <button type="button" class="btn btn-primary" onclick="terbitkanArtikel()">Terbitkan Artikel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Artikel -->
+<div class="modal fade" id="modalEditArtikel" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Artikel</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditArtikel">
+          <div class="form-group">
+            <label>Judul Artikel <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="Tips Sukses Menggalang Dana untuk Bencana Alam" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Slug/URL <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">/blog/</span>
+                </div>
+                <input type="text" class="form-control" value="tips-sukses-menggalang-dana" required pattern="[a-z0-9-]+">
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Kategori <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="tips-trik" selected>Tips & Trik</option>
+                <option value="kisah-inspiratif">Kisah Inspiratif</option>
+                <option value="edukasi">Edukasi</option>
+                <option value="update-program">Update Program</option>
+                <option value="berita">Berita</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Status</label>
+              <select class="form-control">
+                <option value="published" selected>Diterbitkan</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Gambar Utama Saat Ini</label>
+            <div class="mb-2">
+              <img src="assets/products/p1.jpg" alt="Current Image" class="img-thumbnail" style="max-width: 200px;">
+            </div>
+            <label>Upload Gambar Baru (Opsional)</label>
+            <div class="dropzone bg-light rounded-lg" id="dropzone-artikel-edit">
+              <div class="dz-message needsclick">
+                <div class="circle circle-lg bg-secondary">
+                  <i class="fe fe-upload fe-24 text-white"></i>
+                </div>
+                <h5 class="text-muted mt-4">Drop gambar baru di sini atau klik untuk upload</h5>
+                <span class="text-muted">Max: 5MB, Format: JPG/PNG</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Isi Artikel <span class="text-danger">*</span></label>
+            <div id="artikelEditorEdit" style="min-height: 400px;"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Penulis</label>
+              <input type="text" class="form-control" value="Admin Platform" readonly>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tanggal Terbit</label>
+              <input type="datetime-local" class="form-control" value="2024-01-20T10:00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Excerpt/Kutipan (Opsional)</label>
+            <textarea class="form-control" rows="3">Panduan lengkap untuk penggalang dana pemula</textarea>
+          </div>
+          <div class="form-group">
+            <label>Meta Description (Opsional)</label>
+            <textarea class="form-control" rows="2">Tips dan panduan lengkap untuk sukses menggalang dana</textarea>
+          </div>
+          <div class="form-group">
+            <label>Meta Keywords (Opsional)</label>
+            <input type="text" class="form-control" value="tips, menggalang dana, crowdfunding">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-outline-secondary">Simpan Draft</button>
+        <button type="button" class="btn btn-primary">Update Artikel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-artikel').length) {
+        $('#dataTable-artikel').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[7, "desc"]], // Sort by tanggal terbit descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          },
+          "columnDefs": [
+            {
+              "targets": [0], // Checkbox column
+              "orderable": false
+            },
+            {
+              "targets": [1], // Image column
+              "orderable": false
+            },
+            {
+              "targets": [8], // Action column
+              "orderable": false
+            }
+          ]
+        });
+        console.log('DataTable artikel initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+
+  // Generate Slug from Title
+  function generateSlugArtikel() {
+    var judul = document.getElementById('judulArtikel').value;
+    if (judul) {
+      var slug = judul.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      document.getElementById('slugArtikel').value = slug;
+      console.log('Slug generated:', slug);
+    }
+  }
+
+  // Initialize Quill Editor (if available)
+  (function() {
+    function initQuill() {
+      if (typeof Quill !== 'undefined') {
+        // Initialize editor for add modal
+        if (document.getElementById('artikelEditor')) {
+          var quillAdd = new Quill('#artikelEditor', {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video'],
+                ['blockquote', 'code-block'],
+                ['clean']
+              ]
+            }
+          });
+        }
+
+        // Initialize editor for edit modal
+        if (document.getElementById('artikelEditorEdit')) {
+          var quillEdit = new Quill('#artikelEditorEdit', {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video'],
+                ['blockquote', 'code-block'],
+                ['clean']
+              ]
+            }
+          });
+        }
+
+        console.log('Quill editor initialized');
+      } else {
+        console.warn('Quill library not loaded');
+        setTimeout(initQuill, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initQuill, 300);
+      });
+    } else {
+      setTimeout(initQuill, 300);
+    }
+  })();
+
+  // Simpan Draft
+  function simpanDraft() {
+    // TODO: Implement save draft logic
+    alert('Artikel disimpan sebagai draft! (Simulasi)');
+    $('#modalTambahArtikel').modal('hide');
+  }
+
+  // Terbitkan Artikel
+  function terbitkanArtikel() {
+    // TODO: Implement publish logic
+    alert('Artikel berhasil diterbitkan! (Simulasi)');
+    $('#modalTambahArtikel').modal('hide');
+  }
+
+  // Make functions global
+  window.generateSlugArtikel = generateSlugArtikel;
+  window.simpanDraft = simpanDraft;
+  window.terbitkanArtikel = terbitkanArtikel;
+</script>
+

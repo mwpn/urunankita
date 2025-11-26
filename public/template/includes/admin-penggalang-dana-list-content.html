@@ -1,0 +1,393 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h2 class="h5 page-title mb-0">Daftar Penggalang Dana</h2>
+            <small class="text-muted">Kelola semua penggalang dana yang terdaftar di platform</small>
+          </div>
+          <div class="col-auto">
+            <a href="index.php?page=admin-penggalang-dana-add" class="btn btn-sm btn-primary" data-content="includes/admin-penggalang-dana-add-content.html">
+              <span class="fe fe-user-plus fe-12 mr-1"></span>Tambah Penggalang Baru
+            </a>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Penggalang</small>
+                <h3 class="mb-0">24</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 3 bulan ini</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Penggalang Aktif</small>
+                <h3 class="mb-0 text-success">20</h3>
+                <small class="text-muted">83.3%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Urunan</small>
+                <h3 class="mb-0">156</h3>
+                <small class="text-info">Dari semua penggalang</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Donasi</small>
+                <h3 class="mb-0">Rp 1.245.000.000</h3>
+                <small class="text-muted">Semua penggalang</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Daftar Penggalang -->
+        <div class="row my-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Daftar Penggalang Dana</strong>
+                  </div>
+                  <div class="col-auto">
+                    <div class="input-group input-group-sm" style="max-width: 300px;">
+                      <input type="text" class="form-control" placeholder="Cari penggalang..." id="searchPenggalang">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">
+                          <span class="fe fe-search fe-12"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <table class="table datatables" id="dataTable-penggalang">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Nama Penggalang</th>
+                      <th>Email</th>
+                      <th>Subdomain</th>
+                      <th>Jumlah Urunan</th>
+                      <th>Total Donasi</th>
+                      <th>Status</th>
+                      <th>Terdaftar</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Admin Platform</strong>
+                        <small class="d-block text-muted">Admin Utama</small>
+                      </td>
+                      <td>admin@urunankita.test</td>
+                      <td>
+                        <a href="http://urunankita.test" target="_blank" class="text-primary">
+                          urunankita.test
+                        </a>
+                      </td>
+                      <td>
+                        <strong>45</strong>
+                        <small class="d-block text-muted">12 aktif</small>
+                      </td>
+                      <td><strong class="text-success">Rp 450.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-success">Aktif</span>
+                      </td>
+                      <td>15 Jan 2023</td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-lock fe-12 mr-2"></i>Nonaktifkan</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Yayasan Peduli</strong>
+                        <small class="d-block text-muted">Organisasi</small>
+                      </td>
+                      <td>yayasan@peduli.org</td>
+                      <td>
+                        <a href="http://yayasan.urunankita.test" target="_blank" class="text-primary">
+                          yayasan.urunankita.test
+                        </a>
+                      </td>
+                      <td>
+                        <strong>38</strong>
+                        <small class="d-block text-muted">25 aktif</small>
+                      </td>
+                      <td><strong class="text-success">Rp 320.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-success">Aktif</span>
+                      </td>
+                      <td>20 Feb 2023</td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-lock fe-12 mr-2"></i>Nonaktifkan</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>DKM Masjid Al-Ikhlas</strong>
+                        <small class="d-block text-muted">Lembaga Keagamaan</small>
+                      </td>
+                      <td>dkm@masjid-alikhlas.org</td>
+                      <td>
+                        <a href="http://dkm.urunankita.test" target="_blank" class="text-primary">
+                          dkm.urunankita.test
+                        </a>
+                      </td>
+                      <td>
+                        <strong>25</strong>
+                        <small class="d-block text-muted">15 aktif</small>
+                      </td>
+                      <td><strong class="text-success">Rp 145.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-success">Aktif</span>
+                      </td>
+                      <td>10 Mar 2023</td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-lock fe-12 mr-2"></i>Nonaktifkan</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Relawan Peduli</strong>
+                        <small class="d-block text-muted">Komunitas</small>
+                      </td>
+                      <td>relawan@peduli.org</td>
+                      <td>
+                        <a href="http://relawan.urunankita.test" target="_blank" class="text-primary">
+                          relawan.urunankita.test
+                        </a>
+                      </td>
+                      <td>
+                        <strong>32</strong>
+                        <small class="d-block text-muted">20 aktif</small>
+                      </td>
+                      <td><strong class="text-success">Rp 280.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-success">Aktif</span>
+                      </td>
+                      <td>5 Apr 2023</td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-lock fe-12 mr-2"></i>Nonaktifkan</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Panti Asuhan Harapan</strong>
+                        <small class="d-block text-muted">Yayasan Sosial</small>
+                      </td>
+                      <td>panti@harapan.org</td>
+                      <td>
+                        <a href="http://panti.urunankita.test" target="_blank" class="text-primary">
+                          panti.urunankita.test
+                        </a>
+                      </td>
+                      <td>
+                        <strong>16</strong>
+                        <small class="d-block text-muted">10 aktif</small>
+                      </td>
+                      <td><strong class="text-success">Rp 50.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-warning">Pending</span>
+                      </td>
+                      <td>15 Mei 2023</td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-check fe-12 mr-2"></i>Verifikasi</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <strong>Jerry Foundation</strong>
+                        <small class="d-block text-muted">Individu</small>
+                      </td>
+                      <td>jerry@foundation.org</td>
+                      <td>
+                        <a href="http://jerry.urunankita.test" target="_blank" class="text-primary">
+                          jerry.urunankita.test
+                        </a>
+                      </td>
+                      <td>
+                        <strong>0</strong>
+                        <small class="d-block text-muted">Belum ada</small>
+                      </td>
+                      <td><strong class="text-muted">Rp 0</strong></td>
+                      <td>
+                        <span class="badge badge-secondary">Nonaktif</span>
+                      </td>
+                      <td>1 Jun 2023</td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Detail</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-unlock fe-12 mr-2"></i>Aktifkan</a>
+                          <a class="dropdown-item" href="#"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-penggalang').length) {
+        $('#dataTable-penggalang').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[7, "desc"]], // Sort by terdaftar descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          },
+          "columnDefs": [
+            {
+              "targets": [0], // Checkbox column
+              "orderable": false
+            },
+            {
+              "targets": [8], // Action column
+              "orderable": false
+            }
+          ]
+        });
+        console.log('DataTable penggalang dana initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    // Wait for DOM and scripts to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+</script>
+

@@ -1,0 +1,18 @@
+{
+  "name": "urunankita",
+  "version": "1.0.0",
+  "description": "UrunanKita - Platform Urunan Online",
+  "scripts": {
+    "dev": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --watch",
+    "build": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --minify",
+    "copy-preline": "xcopy /E /I /Y node_modules\\preline\\dist public\\js\\preline 2>nul || cp -r node_modules/preline/dist public/js/preline"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "@tailwindcss/forms": "^0.5.7"
+  },
+  "dependencies": {
+    "preline": "^2.4.0"
+  }
+}
+

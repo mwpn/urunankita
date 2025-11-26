@@ -1,0 +1,450 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h2 class="h5 page-title mb-0">Donasi Masuk</h2>
+            <div class="d-flex justify-content-between align-items-end mt-2">
+              <div>
+                <small class="text-muted" id="urunan-donasi-title">Semua Urunan</small>
+              </div>
+              <div style="min-width: 300px;" class="text-right">
+                <label for="selectUrunanDonasi" class="small text-muted mb-1 d-block">Filter Urunan:</label>
+                <select id="selectUrunanDonasi" class="form-control form-control-sm select2" onchange="filterDonasiUrunan(this.value)">
+                  <option value="all" selected>Semua Urunan</option>
+                  <option value="URN-001">Bantuan Korban Banjir Jakarta - #URN-001</option>
+                  <option value="URN-002">Bantuan Pendidikan Anak Yatim - #URN-002</option>
+                  <option value="URN-003">Operasi Katarak Gratis - #URN-003</option>
+                  <option value="URN-004">Bantuan Renovasi Masjid - #URN-004</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Donasi</small>
+                <h3 class="mb-0" id="stat-total">Rp 125.450.000</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 12.5%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Jumlah Donatur</small>
+                <h3 class="mb-0" id="stat-donatur">1,248</h3>
+                <small class="text-info"><span class="fe fe-users fe-12"></span> Aktif</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Donasi Hari Ini</small>
+                <h3 class="mb-0 text-success" id="stat-hari-ini">Rp 5.250.000</h3>
+                <small class="text-muted">15 donasi</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Rata-rata Donasi</small>
+                <h3 class="mb-0" id="stat-rata">Rp 100.520</h3>
+                <small class="text-muted">Per donatur</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Donasi -->
+        <div class="row my-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Daftar Donasi</strong>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                      <span class="fe fe-download fe-12 mr-1"></span>Export Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <table class="table datatables" id="dataTable-donasi">
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Donatur</th>
+                      <th>Urunan</th>
+                      <th>Jumlah</th>
+                      <th>Metode</th>
+                      <th>Status</th>
+                      <th>Keterangan</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>15 Jan 2024<br><small class="text-muted">14:30 WIB</small></td>
+                      <td>
+                        <strong>Budi Santoso</strong>
+                        <small class="d-block text-muted">budisantoso@email.com</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary">Bantuan Korban Banjir Jakarta</span>
+                        <small class="d-block text-muted">#URN-001</small>
+                      </td>
+                      <td><strong class="text-success">Rp 500.000</strong></td>
+                      <td>
+                        <span class="badge badge-info">Transfer Bank</span>
+                      </td>
+                      <td><span class="badge badge-success">Berhasil</span></td>
+                      <td>
+                        <small class="text-muted">Semoga bermanfaat</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>15 Jan 2024<br><small class="text-muted">12:15 WIB</small></td>
+                      <td>
+                        <strong>Siti Nurhaliza</strong>
+                        <small class="d-block text-muted">sitinurhaliza@email.com</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary">Bantuan Korban Banjir Jakarta</span>
+                        <small class="d-block text-muted">#URN-001</small>
+                      </td>
+                      <td><strong class="text-success">Rp 1.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-primary">E-Wallet</span>
+                      </td>
+                      <td><span class="badge badge-success">Berhasil</span></td>
+                      <td>
+                        <small class="text-muted">Semoga lekas pulih</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>15 Jan 2024<br><small class="text-muted">10:45 WIB</small></td>
+                      <td>
+                        <strong>Anonim</strong>
+                        <small class="d-block text-muted">-</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-primary">Bantuan Pendidikan Anak Yatim</span>
+                        <small class="d-block text-muted">#URN-002</small>
+                      </td>
+                      <td><strong class="text-success">Rp 250.000</strong></td>
+                      <td>
+                        <span class="badge badge-info">Transfer Bank</span>
+                      </td>
+                      <td><span class="badge badge-success">Berhasil</span></td>
+                      <td>
+                        <small class="text-muted">-</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>14 Jan 2024<br><small class="text-muted">18:20 WIB</small></td>
+                      <td>
+                        <strong>Ahmad Wijaya</strong>
+                        <small class="d-block text-muted">ahmadwijaya@email.com</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary">Bantuan Korban Banjir Jakarta</span>
+                        <small class="d-block text-muted">#URN-001</small>
+                      </td>
+                      <td><strong class="text-success">Rp 2.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-info">Transfer Bank</span>
+                      </td>
+                      <td><span class="badge badge-success">Berhasil</span></td>
+                      <td>
+                        <small class="text-muted">Bantuan untuk korban banjir</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>14 Jan 2024<br><small class="text-muted">16:10 WIB</small></td>
+                      <td>
+                        <strong>Maya Sari</strong>
+                        <small class="d-block text-muted">mayasari@email.com</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-primary">Bantuan Pendidikan Anak Yatim</span>
+                        <small class="d-block text-muted">#URN-002</small>
+                      </td>
+                      <td><strong class="text-success">Rp 750.000</strong></td>
+                      <td>
+                        <span class="badge badge-warning">Credit Card</span>
+                      </td>
+                      <td><span class="badge badge-warning">Pending</span></td>
+                      <td>
+                        <small class="text-muted">Dukungan untuk pendidikan</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>14 Jan 2024<br><small class="text-muted">14:30 WIB</small></td>
+                      <td>
+                        <strong>Dedi Kurniawan</strong>
+                        <small class="d-block text-muted">dedikurniawan@email.com</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-danger">Operasi Katarak Gratis</span>
+                        <small class="d-block text-muted">#URN-003</small>
+                      </td>
+                      <td><strong class="text-success">Rp 5.000.000</strong></td>
+                      <td>
+                        <span class="badge badge-info">Transfer Bank</span>
+                      </td>
+                      <td><span class="badge badge-success">Berhasil</span></td>
+                      <td>
+                        <small class="text-muted">Semoga bermanfaat untuk operasi</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>13 Jan 2024<br><small class="text-muted">20:00 WIB</small></td>
+                      <td>
+                        <strong>Rina Wati</strong>
+                        <small class="d-block text-muted">rinawati@email.com</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-info">Bantuan Renovasi Masjid</span>
+                        <small class="d-block text-muted">#URN-004</small>
+                      </td>
+                      <td><strong class="text-success">Rp 1.500.000</strong></td>
+                      <td>
+                        <span class="badge badge-primary">E-Wallet</span>
+                      </td>
+                      <td><span class="badge badge-success">Berhasil</span></td>
+                      <td>
+                        <small class="text-muted">Semoga masjid cepat selesai</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>13 Jan 2024<br><small class="text-muted">11:25 WIB</small></td>
+                      <td>
+                        <strong>Anonim</strong>
+                        <small class="d-block text-muted">-</small>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary">Bantuan Korban Banjir Jakarta</span>
+                        <small class="d-block text-muted">#URN-001</small>
+                      </td>
+                      <td><strong class="text-success">Rp 100.000</strong></td>
+                      <td>
+                        <span class="badge badge-info">Transfer Bank</span>
+                      </td>
+                      <td><span class="badge badge-danger">Gagal</span></td>
+                      <td>
+                        <small class="text-muted">-</small>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalDetailDonasi">
+                          <span class="fe fe-eye fe-12"></span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Detail Donasi -->
+<div class="modal fade" id="modalDetailDonasi" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Donasi</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <small class="text-muted d-block">Donatur</small>
+              <strong>Budi Santoso</strong>
+              <small class="d-block text-muted">budisantoso@email.com</small>
+            </div>
+            <div class="mb-3">
+              <small class="text-muted d-block">Urunan</small>
+              <strong>Bantuan Korban Banjir Jakarta</strong>
+              <small class="d-block text-muted">#URN-001</small>
+            </div>
+            <div class="mb-3">
+              <small class="text-muted d-block">Jumlah Donasi</small>
+              <strong class="h5 text-success">Rp 500.000</strong>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <small class="text-muted d-block">Tanggal & Waktu</small>
+              <strong>15 Januari 2024</strong>
+              <small class="d-block text-muted">14:30 WIB</small>
+            </div>
+            <div class="mb-3">
+              <small class="text-muted d-block">Metode Pembayaran</small>
+              <span class="badge badge-info">Transfer Bank</span>
+            </div>
+            <div class="mb-3">
+              <small class="text-muted d-block">Status</small>
+              <span class="badge badge-success">Berhasil</span>
+            </div>
+            <div class="mb-3">
+              <small class="text-muted d-block">No. Referensi</small>
+              <strong>TRF-20240115-001234</strong>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <small class="text-muted d-block">Keterangan</small>
+              <p class="mb-0">Semoga bermanfaat</p>
+            </div>
+            <div class="mb-3">
+              <small class="text-muted d-block">Bukti Pembayaran</small>
+              <a href="assets/products/p1.jpg" target="_blank" class="btn btn-sm btn-outline-secondary">
+                <span class="fe fe-file fe-12 mr-1"></span>Lihat Bukti
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary">Cetak Invoice</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-donasi').length) {
+        $('#dataTable-donasi').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[0, "desc"]], // Sort by tanggal descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          }
+        });
+        console.log('DataTable donasi initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    // Filter function
+    function filterDonasiUrunan(urunanId) {
+      var table = $('#dataTable-donasi').DataTable();
+      
+      if (urunanId === 'all') {
+        table.column(2).search('').draw();
+        document.getElementById('urunan-donasi-title').textContent = 'Semua Urunan';
+      } else {
+        // Get urunan name from option
+        var select = document.getElementById('selectUrunanDonasi');
+        var selectedOption = select.options[select.selectedIndex];
+        var urunanName = selectedOption.text.split(' - ')[0];
+        
+        table.column(2).search(urunanName).draw();
+        document.getElementById('urunan-donasi-title').textContent = urunanName;
+      }
+    }
+
+    // Make filter function global
+    window.filterDonasiUrunan = filterDonasiUrunan;
+
+    // Initialize Select2
+    function initSelect2() {
+      if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('#selectUrunanDonasi').select2({
+          theme: 'bootstrap4',
+          width: '100%'
+        });
+      } else {
+        setTimeout(initSelect2, 500);
+      }
+    }
+
+    // Wait for DOM and scripts to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+        setTimeout(initSelect2, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+      setTimeout(initSelect2, 300);
+    }
+  })();
+</script>
+

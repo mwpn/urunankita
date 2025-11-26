@@ -1,0 +1,297 @@
+      <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+        <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+          <i class="fe fe-x"><span class="sr-only"></span></i>
+        </a>
+        <nav class="vertnav navbar navbar-light">
+          <!-- Logo -->
+          <div class="w-100 mb-4 d-flex">
+            <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./index.html">
+              <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                <g>
+                  <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
+                  <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
+                  <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
+                </g>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Main Menu -->
+          <ul class="navbar-nav flex-fill w-100 mb-2">
+            <!-- Dashboard -->
+            <li class="nav-item">
+              <a class="nav-link" href="./dashboard.html">
+                <i class="fe fe-home fe-16"></i>
+                <span class="ml-3 item-text">Dashboard</span>
+              </a>
+            </li>
+
+            <!-- USER MANAGEMENT -->
+            <li class="nav-item dropdown">
+              <a href="#user-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-users fe-16"></i>
+                <span class="ml-3 item-text">User Management</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="user-management">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./users/all.html"><span class="ml-1 item-text">Semua Pengguna</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./users/verified-fundraisers.html"><span class="ml-1 item-text">Penggalang Terverifikasi</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./users/pending-fundraisers.html"><span class="ml-1 item-text">Penggalang Pending</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./users/active-donors.html"><span class="ml-1 item-text">Donatur Aktif</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./users/blocked.html"><span class="ml-1 item-text">User Diblokir</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./users/login-activity.html"><span class="ml-1 item-text">Aktivitas Login</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- CAMPAIGN MANAGEMENT -->
+            <li class="nav-item dropdown">
+              <a href="#campaign-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-activity fe-16"></i>
+                <span class="ml-3 item-text">Campaign Management</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="campaign-management">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/all.html"><span class="ml-1 item-text">Semua Campaign</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/official.html"><span class="ml-1 item-text">Campaign Official Platform</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/pending.html"><span class="ml-1 item-text">Campaign Pending Review</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/active.html"><span class="ml-1 item-text">Campaign Aktif</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/completed.html"><span class="ml-1 item-text">Campaign Selesai</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/rejected.html"><span class="ml-1 item-text">Campaign Ditolak</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./campaigns/flagged.html"><span class="ml-1 item-text">Campaign Bermasalah</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- OFFICIAL CAMPAIGNS -->
+            <li class="nav-item dropdown">
+              <a href="#official-campaigns" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-target fe-16"></i>
+                <span class="ml-3 item-text">Official Campaigns</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="official-campaigns">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./official/create.html"><span class="ml-1 item-text">Buat Campaign Baru</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./official/active.html"><span class="ml-1 item-text">Campaign Aktif Platform</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./official/donations.html"><span class="ml-1 item-text">Donasi Masuk</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./official/manage.html"><span class="ml-1 item-text">Kelola Campaign Official</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./official/financial-report.html"><span class="ml-1 item-text">Laporan Keuangan</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- OFFICIAL DONASI -->
+            <li class="nav-item dropdown">
+              <a href="#official-donasi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-dollar-sign fe-16"></i>
+                <span class="ml-3 item-text">Official Donasi</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="official-donasi">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./donations/all.html"><span class="ml-1 item-text">Semua Donasi</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./donations/incoming.html"><span class="ml-1 item-text">Donasi Masuk</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./donations/transfer-history.html"><span class="ml-1 item-text">Riwayat Transfer</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./donations/disbursement.html"><span class="ml-1 item-text">Pencairan Dana</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./donations/financial-report.html"><span class="ml-1 item-text">Laporan Keuangan</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- REKENING SAYA -->
+            <li class="nav-item dropdown">
+              <a href="#rekening-saya" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-credit-card fe-16"></i>
+                <span class="ml-3 item-text">Rekening Saya</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="rekening-saya">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening/add.html"><span class="ml-1 item-text">Tambah Rekening</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening/primary.html"><span class="ml-1 item-text">Rekening Utama</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening/verify.html"><span class="ml-1 item-text">Verifikasi Rekening</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening/alternatives.html"><span class="ml-1 item-text">Rekening Alternatif</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- REKENING VERIFIED -->
+            <li class="nav-item dropdown">
+              <a href="#rekening-verified" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-check-circle fe-16"></i>
+                <span class="ml-3 item-text">Rekening Verified</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="rekening-verified">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening-verified/all.html"><span class="ml-1 item-text">Semua Rekening</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening-verified/new.html"><span class="ml-1 item-text">Verifikasi Baru</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening-verified/verified.html"><span class="ml-1 item-text">Rekening Terverifikasi</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening-verified/rejected.html"><span class="ml-1 item-text">Rekening Ditolak</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./rekening-verified/platform.html"><span class="ml-1 item-text">Rekening Platform (Untuk Campaign Official)</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- CONTENT MANAGEMENT -->
+            <li class="nav-item dropdown">
+              <a href="#content-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-file-text fe-16"></i>
+                <span class="ml-3 item-text">Content Management</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="content-management">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./content/banner.html"><span class="ml-1 item-text">Banner & Slider</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./content/articles.html"><span class="ml-1 item-text">Artikel/Blog</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./content/faq.html"><span class="ml-1 item-text">FAQ Management</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./content/testimonials.html"><span class="ml-1 item-text">Testimoni</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./content/newsletter.html"><span class="ml-1 item-text">Newsletter</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- REPORTS & MODERATION -->
+            <li class="nav-item dropdown">
+              <a href="#reports-moderation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-alert-triangle fe-16"></i>
+                <span class="ml-3 item-text">Reports & Moderation</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="reports-moderation">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./reports/user-reports.html"><span class="ml-1 item-text">Laporan User</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./reports/campaign-complaints.html"><span class="ml-1 item-text">Komplain Campaign</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./reports/dispute-mediation.html"><span class="ml-1 item-text">Mediasi Sengketa</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./reports/system-logs.html"><span class="ml-1 item-text">Log Sistem</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- HELPDESK -->
+            <li class="nav-item dropdown">
+              <a href="#helpdesk" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-help-circle fe-16"></i>
+                <span class="ml-3 item-text">Helpdesk</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="helpdesk">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./helpdesk/documentation.html"><span class="ml-1 item-text">Dokumentasi Platform</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./helpdesk/support.html"><span class="ml-1 item-text">Support</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- PROFIL -->
+            <li class="nav-item dropdown">
+              <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-user fe-16"></i>
+                <span class="ml-3 item-text">Profil</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./profile/overview.html"><span class="ml-1 item-text">Overview</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./profile/settings.html"><span class="ml-1 item-text">Settings</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./profile/security.html"><span class="ml-1 item-text">Security</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- SYSTEM SETTINGS -->
+            <li class="nav-item dropdown">
+              <a href="#system-settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-settings fe-16"></i>
+                <span class="ml-3 item-text">System Settings</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="system-settings">
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./settings/general.html"><span class="ml-1 item-text">Pengaturan Umum</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./settings/domain.html"><span class="ml-1 item-text">Domain & Subdomain</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./settings/email.html"><span class="ml-1 item-text">Email & Notifikasi</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./settings/payment.html"><span class="ml-1 item-text">Payment Gateway</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./settings/terms.html"><span class="ml-1 item-text">Terms & Privacy</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link pl-3" href="./settings/backup.html"><span class="ml-1 item-text">Backup & Restore</span></a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+

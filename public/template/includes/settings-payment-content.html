@@ -1,0 +1,564 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Metode Pembayaran</h2>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTambahPayment">
+              <span class="fe fe-plus fe-12 mr-1"></span>Tambah Metode Pembayaran
+            </button>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Metode</small>
+                <h3 class="mb-0">6</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 5 aktif</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Metode Aktif</small>
+                <h3 class="mb-0 text-success">5</h3>
+                <small class="text-muted">83.3%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Transaksi</small>
+                <h3 class="mb-0">1.245</h3>
+                <small class="text-info">Bulan ini</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Nominal</small>
+                <h3 class="mb-0">Rp 1.245.000.000</h3>
+                <small class="text-muted">Bulan ini</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Metode Pembayaran -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Daftar Metode Pembayaran</strong>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table datatables table-hover" id="dataTable-payment">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Metode Pembayaran</th>
+                        <th>Tipe</th>
+                        <th>Status</th>
+                        <th>Total Transaksi</th>
+                        <th>Total Nominal</th>
+                        <th>Biaya Admin</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                              <span class="fe fe-credit-card fe-24 text-primary"></span>
+                            </div>
+                            <div>
+                              <strong>Transfer Bank</strong>
+                              <small class="d-block text-muted">BCA, Mandiri, BNI, BRI</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Bank Transfer</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>
+                          <strong>450</strong>
+                        </td>
+                        <td>
+                          <strong class="text-success">Rp 450.000.000</strong>
+                        </td>
+                        <td>
+                          <span class="text-muted">Gratis</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditPayment"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                              <span class="fe fe-smartphone fe-24 text-success"></span>
+                            </div>
+                            <div>
+                              <strong>E-Wallet</strong>
+                              <small class="d-block text-muted">OVO, GoPay, DANA, LinkAja</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">E-Wallet</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>
+                          <strong>320</strong>
+                        </td>
+                        <td>
+                          <strong class="text-success">Rp 320.000.000</strong>
+                        </td>
+                        <td>
+                          <span class="text-muted">0.5%</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditPayment"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                              <span class="fe fe-credit-card fe-24 text-info"></span>
+                            </div>
+                            <div>
+                              <strong>Kartu Kredit/Debit</strong>
+                              <small class="d-block text-muted">Visa, Mastercard</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">Kartu</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>
+                          <strong>280</strong>
+                        </td>
+                        <td>
+                          <strong class="text-success">Rp 280.000.000</strong>
+                        </td>
+                        <td>
+                          <span class="text-muted">2.5%</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditPayment"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                              <span class="fe fe-shield fe-24 text-warning"></span>
+                            </div>
+                            <div>
+                              <strong>QRIS</strong>
+                              <small class="d-block text-muted">QR Code Indonesia Standard</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">QR Code</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>
+                          <strong>145</strong>
+                        </td>
+                        <td>
+                          <strong class="text-success">Rp 145.000.000</strong>
+                        </td>
+                        <td>
+                          <span class="text-muted">0.7%</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditPayment"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                              <span class="fe fe-dollar-sign fe-24 text-danger"></span>
+                            </div>
+                            <div>
+                              <strong>Virtual Account</strong>
+                              <small class="d-block text-muted">VA BCA, Mandiri, BNI</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-danger">Virtual Account</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>
+                          <strong>50</strong>
+                        </td>
+                        <td>
+                          <strong class="text-success">Rp 50.000.000</strong>
+                        </td>
+                        <td>
+                          <span class="text-muted">Gratis</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditPayment"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="mr-3">
+                              <span class="fe fe-credit-card fe-24 text-secondary"></span>
+                            </div>
+                            <div>
+                              <strong>PayPal</strong>
+                              <small class="d-block text-muted">PayPal International</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary">Payment Gateway</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Nonaktif</span>
+                        </td>
+                        <td>
+                          <strong>0</strong>
+                        </td>
+                        <td>
+                          <strong class="text-muted">Rp 0</strong>
+                        </td>
+                        <td>
+                          <span class="text-muted">3%</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditPayment"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check-circle fe-12 mr-2"></i>Aktifkan</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Tambah Metode Pembayaran -->
+<div class="modal fade" id="modalTambahPayment" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Metode Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahPayment">
+          <div class="form-group">
+            <label>Nama Metode Pembayaran <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Contoh: Transfer Bank" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Tipe <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="">Pilih Tipe</option>
+                <option value="bank-transfer">Bank Transfer</option>
+                <option value="e-wallet">E-Wallet</option>
+                <option value="kartu">Kartu Kredit/Debit</option>
+                <option value="qris">QRIS</option>
+                <option value="virtual-account">Virtual Account</option>
+                <option value="payment-gateway">Payment Gateway</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Status</label>
+              <select class="form-control">
+                <option value="aktif" selected>Aktif</option>
+                <option value="nonaktif">Nonaktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Provider/Channel</label>
+            <input type="text" class="form-control" placeholder="Contoh: BCA, Mandiri, BNI, BRI">
+            <small class="form-text text-muted">Daftar provider atau channel yang didukung (pisahkan dengan koma)</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Biaya Admin (%)</label>
+              <input type="number" class="form-control" placeholder="0" min="0" max="100" step="0.1">
+              <small class="form-text text-muted">Persentase biaya admin yang dibebankan (kosongkan untuk gratis)</small>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Biaya Admin Tetap (Rp)</label>
+              <input type="number" class="form-control" placeholder="0" min="0">
+              <small class="form-text text-muted">Biaya admin tetap dalam rupiah (opsional)</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Keterangan</label>
+            <textarea class="form-control" rows="3" placeholder="Keterangan atau instruksi untuk metode pembayaran ini"></textarea>
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="requireVerification">
+              <label class="custom-control-label" for="requireVerification">
+                Perlu Verifikasi Manual
+              </label>
+              <small class="d-block text-muted">Aktifkan jika pembayaran perlu diverifikasi secara manual</small>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Simpan Metode</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Metode Pembayaran -->
+<div class="modal fade" id="modalEditPayment" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Metode Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditPayment">
+          <div class="form-group">
+            <label>Nama Metode Pembayaran <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="Transfer Bank" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Tipe <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="bank-transfer" selected>Bank Transfer</option>
+                <option value="e-wallet">E-Wallet</option>
+                <option value="kartu">Kartu Kredit/Debit</option>
+                <option value="qris">QRIS</option>
+                <option value="virtual-account">Virtual Account</option>
+                <option value="payment-gateway">Payment Gateway</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Status</label>
+              <select class="form-control">
+                <option value="aktif" selected>Aktif</option>
+                <option value="nonaktif">Nonaktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Provider/Channel</label>
+            <input type="text" class="form-control" value="BCA, Mandiri, BNI, BRI">
+            <small class="form-text text-muted">Daftar provider atau channel yang didukung</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Biaya Admin (%)</label>
+              <input type="number" class="form-control" value="0" min="0" max="100" step="0.1">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Biaya Admin Tetap (Rp)</label>
+              <input type="number" class="form-control" value="0" min="0">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Keterangan</label>
+            <textarea class="form-control" rows="3">Transfer bank melalui BCA, Mandiri, BNI, atau BRI</textarea>
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="requireVerificationEdit">
+              <label class="custom-control-label" for="requireVerificationEdit">
+                Perlu Verifikasi Manual
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Update Metode</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-payment').length) {
+        $('#dataTable-payment').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[4, "desc"]], // Sort by total transaksi descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          },
+          "columnDefs": [
+            {
+              "targets": [0], // Checkbox column
+              "orderable": false
+            },
+            {
+              "targets": [7], // Action column
+              "orderable": false
+            }
+          ]
+        });
+        console.log('DataTable payment methods initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+</script>
+

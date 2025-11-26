@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Test Role - Urunankita</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .btn-admin {
+      background: #dc3545;
+      color: white;
+    }
+    .btn-admin:hover {
+      background: #c82333;
+    }
+    .btn-penggalang {
+      background: #28a745;
+      color: white;
+    }
+    .btn-penggalang:hover {
+      background: #218838;
+    }
+    .info {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .current-role {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2196F3;
+      margin: 10px 0;
+    }
+    .link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #2196F3;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .link:hover {
+      background: #1976D2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Test Role Menu</h1>
+    
+    <div class="info">
+      <p><strong>Pilih role untuk melihat menu yang berbeda:</strong></p>
+      <div class="current-role" id="current-role">
+        Current Role: <span id="role-display">-</span>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-admin" onclick="setRole('admin')">
+        👤 Set sebagai Admin
+      </button>
+      <button class="btn-penggalang" onclick="setRole('penggalang_dana')">
+        💰 Set sebagai Penggalang Dana
+      </button>
+    </div>
+
+    <div class="info">
+      <p><strong>Setelah memilih role, klik link di bawah untuk melihat dashboard dengan menu sesuai role:</strong></p>
+      <a href="index.html" class="link" target="_blank">📊 Buka Dashboard</a>
+    </div>
+
+    <div class="info" style="background: #fff3cd; border-color: #ffc107;">
+      <p><strong>💡 Tips:</strong></p>
+      <ul>
+        <li>Pilih role di atas</li>
+        <li>Klik "Buka Dashboard" untuk melihat sidebar dengan menu sesuai role</li>
+        <li>Role akan tersimpan di localStorage</li>
+        <li>Untuk reset, hapus localStorage atau pilih role lain</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Load current role
+    const currentRole = localStorage.getItem('userRole') || 'admin';
+    document.getElementById('role-display').textContent = currentRole;
+    window.userRole = currentRole;
+
+    function setRole(role) {
+      window.userRole = role;
+      localStorage.setItem('userRole', role);
+      document.getElementById('role-display').textContent = role;
+      
+      // Show confirmation
+      alert(`Role berhasil diubah menjadi: ${role === 'admin' ? 'Admin' : 'Penggalang Dana'}\n\nSilakan refresh halaman dashboard untuk melihat perubahan menu.`);
+    }
+  </script>
+</body>
+</html>
+

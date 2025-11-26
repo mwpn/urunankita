@@ -1,0 +1,358 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Tambah Penggalang Dana Baru</h2>
+          </div>
+          <div class="col-auto">
+            <a href="index.php?page=admin-penggalang-dana-list" class="btn btn-sm btn-outline-secondary" data-content="includes/admin-penggalang-dana-list-content.html">
+              <span class="fe fe-arrow-left fe-12 mr-1"></span>Kembali
+            </a>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form id="formTambahPenggalang" class="needs-validation" novalidate>
+          <!-- Informasi Dasar -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Informasi Dasar</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="namaLengkap">Nama Lengkap <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="namaLengkap" placeholder="Nama lengkap penggalang dana" required>
+                  <div class="invalid-feedback">Nama lengkap wajib diisi</div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="email">Email <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" id="email" placeholder="email@example.com" required>
+                  <div class="invalid-feedback">Email wajib diisi dan harus valid</div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="telepon">Nomor Telepon <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="telepon" placeholder="081234567890" required>
+                  <div class="invalid-feedback">Nomor telepon wajib diisi</div>
+                  <small class="form-text text-muted">Format: 081234567890</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="organisasi">Nama Organisasi/Lembaga</label>
+                  <input type="text" class="form-control" id="organisasi" placeholder="Nama organisasi atau lembaga (opsional)">
+                  <small class="form-text text-muted">Kosongkan jika penggalang individu</small>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="alamat">Alamat Lengkap</label>
+                  <textarea class="form-control" id="alamat" rows="3" placeholder="Alamat lengkap penggalang dana"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Akses Sistem -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Akses Sistem</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="username">Username <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="username" placeholder="username" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" onclick="generateUsername()">
+                        <span class="fe fe-refresh-cw fe-12"></span> Generate
+                      </button>
+                    </div>
+                  </div>
+                  <div class="invalid-feedback">Username wajib diisi</div>
+                  <small class="form-text text-muted">Username untuk login ke sistem</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="password">Password <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" onclick="generatePassword()">
+                        <span class="fe fe-refresh-cw fe-12"></span> Generate
+                      </button>
+                    </div>
+                  </div>
+                  <div class="invalid-feedback">Password wajib diisi (minimal 8 karakter)</div>
+                  <small class="form-text text-muted">Minimal 8 karakter, kombinasi huruf dan angka</small>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="konfirmasiPassword">Konfirmasi Password <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="konfirmasiPassword" placeholder="Ulangi password" required>
+                  <div class="invalid-feedback">Konfirmasi password harus sama dengan password</div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="statusAktif">Status Akun</label>
+                  <select class="form-control" id="statusAktif">
+                    <option value="aktif" selected>Aktif</option>
+                    <option value="nonaktif">Nonaktif</option>
+                    <option value="pending">Pending Verifikasi</option>
+                  </select>
+                  <small class="form-text text-muted">Status akun penggalang dana</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subdomain -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Subdomain</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="subdomain">Subdomain <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="subdomain" placeholder="nama-subdomain" required pattern="[a-z0-9-]+" oninput="validateSubdomain()">
+                    <div class="input-group-append">
+                      <span class="input-group-text">.urunankita.test</span>
+                    </div>
+                  </div>
+                  <div class="invalid-feedback">Subdomain wajib diisi (huruf kecil, angka, dan tanda hubung saja)</div>
+                  <small class="form-text text-muted">Subdomain untuk akses dashboard penggalang dana (contoh: jerry.urunankita.test)</small>
+                  <div id="subdomainStatus" class="mt-2"></div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="autoGenerateSubdomain" class="d-block">&nbsp;</label>
+                  <div class="custom-control custom-checkbox mt-2">
+                    <input type="checkbox" class="custom-control-input" id="autoGenerateSubdomain" onchange="toggleAutoGenerate()">
+                    <label class="custom-control-label" for="autoGenerateSubdomain">
+                      Generate otomatis dari username
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pengaturan Tambahan -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Pengaturan Tambahan</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="verifikasiOtomatis" checked>
+                    <label class="custom-control-label" for="verifikasiOtomatis">
+                      Verifikasi otomatis (akun langsung aktif tanpa review)
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group col-md-12">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="kirimEmailNotifikasi" checked>
+                    <label class="custom-control-label" for="kirimEmailNotifikasi">
+                      Kirim email notifikasi dengan kredensial login
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="keterangan">Keterangan/Katatan</label>
+                  <textarea class="form-control" id="keterangan" rows="3" placeholder="Catatan tambahan tentang penggalang dana ini (opsional)"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">
+                      <span class="fe fe-refresh-cw fe-12 mr-1"></span>Reset Form
+                    </button>
+                    <div>
+                      <a href="index.php?page=admin-penggalang-dana-list" class="btn btn-outline-secondary mr-2" data-content="includes/admin-penggalang-dana-list-content.html">
+                        <span class="fe fe-x fe-12 mr-1"></span>Batal
+                      </a>
+                      <button type="submit" class="btn btn-primary">
+                        <span class="fe fe-check fe-12 mr-1"></span>Simpan & Daftarkan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+  // Generate Username
+  function generateUsername() {
+    var namaLengkap = document.getElementById('namaLengkap').value;
+    if (namaLengkap) {
+      var username = namaLengkap.toLowerCase()
+        .replace(/\s+/g, '')
+        .replace(/[^a-z0-9]/g, '')
+        .substring(0, 15);
+      document.getElementById('username').value = username;
+      console.log('Username generated:', username);
+    } else {
+      alert('Silakan isi nama lengkap terlebih dahulu');
+    }
+  }
+
+  // Generate Password
+  function generatePassword() {
+    var length = 12;
+    var charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+    var password = '';
+    for (var i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    document.getElementById('password').value = password;
+    document.getElementById('konfirmasiPassword').value = password;
+    console.log('Password generated');
+  }
+
+  // Validate Subdomain
+  function validateSubdomain() {
+    var subdomain = document.getElementById('subdomain').value;
+    var statusDiv = document.getElementById('subdomainStatus');
+    
+    if (subdomain) {
+      var pattern = /^[a-z0-9-]+$/;
+      if (pattern.test(subdomain)) {
+        statusDiv.innerHTML = '<small class="text-success"><span class="fe fe-check fe-12"></span> Format subdomain valid</small>';
+        
+        // Check availability (simulated)
+        setTimeout(function() {
+          statusDiv.innerHTML = '<small class="text-success"><span class="fe fe-check-circle fe-12"></span> Subdomain tersedia: ' + subdomain + '.urunankita.test</small>';
+        }, 500);
+      } else {
+        statusDiv.innerHTML = '<small class="text-danger"><span class="fe fe-alert-circle fe-12"></span> Format tidak valid. Gunakan huruf kecil, angka, dan tanda hubung saja</small>';
+      }
+    } else {
+      statusDiv.innerHTML = '';
+    }
+  }
+
+  // Toggle Auto Generate Subdomain
+  function toggleAutoGenerate() {
+    var autoGenerate = document.getElementById('autoGenerateSubdomain').checked;
+    var subdomainInput = document.getElementById('subdomain');
+    var usernameInput = document.getElementById('username');
+    
+    if (autoGenerate) {
+      subdomainInput.disabled = true;
+      subdomainInput.classList.add('bg-light');
+      
+      // Sync with username
+      usernameInput.addEventListener('input', function() {
+        if (autoGenerate) {
+          subdomainInput.value = usernameInput.value;
+          validateSubdomain();
+        }
+      });
+      
+      // Initial sync
+      if (usernameInput.value) {
+        subdomainInput.value = usernameInput.value;
+        validateSubdomain();
+      }
+    } else {
+      subdomainInput.disabled = false;
+      subdomainInput.classList.remove('bg-light');
+    }
+  }
+
+  // Form Validation
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var form = document.getElementById('formTambahPenggalang');
+      
+      // Password confirmation validation
+      var password = document.getElementById('password');
+      var konfirmasiPassword = document.getElementById('konfirmasiPassword');
+      
+      function validatePasswordMatch() {
+        if (konfirmasiPassword.value !== password.value) {
+          konfirmasiPassword.setCustomValidity('Password tidak cocok');
+        } else {
+          konfirmasiPassword.setCustomValidity('');
+        }
+      }
+      
+      password.addEventListener('input', validatePasswordMatch);
+      konfirmasiPassword.addEventListener('input', validatePasswordMatch);
+      
+      // Form submission
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        } else {
+          // Validate password match
+          validatePasswordMatch();
+          if (konfirmasiPassword.value !== password.value) {
+            event.preventDefault();
+            event.stopPropagation();
+            konfirmasiPassword.focus();
+          } else {
+            // Simulate form submission
+            event.preventDefault();
+            alert('Penggalang dana berhasil didaftarkan! (Simulasi - akan diintegrasikan dengan backend)');
+            console.log('Form submitted:', {
+              namaLengkap: document.getElementById('namaLengkap').value,
+              email: document.getElementById('email').value,
+              username: document.getElementById('username').value,
+              subdomain: document.getElementById('subdomain').value
+            });
+          }
+        }
+        form.classList.add('was-validated');
+      }, false);
+    }, false);
+  })();
+
+  // Reset Form
+  function resetForm() {
+    if (confirm('Apakah Anda yakin ingin mereset form? Semua data yang telah diisi akan hilang.')) {
+      document.getElementById('formTambahPenggalang').reset();
+      document.getElementById('formTambahPenggalang').classList.remove('was-validated');
+      document.getElementById('subdomainStatus').innerHTML = '';
+      document.getElementById('subdomain').disabled = false;
+      document.getElementById('subdomain').classList.remove('bg-light');
+      console.log('Form reset');
+    }
+  }
+
+  // Make functions global
+  window.generateUsername = generateUsername;
+  window.generatePassword = generatePassword;
+  window.validateSubdomain = validateSubdomain;
+  window.toggleAutoGenerate = toggleAutoGenerate;
+  window.resetForm = resetForm;
+</script>
+

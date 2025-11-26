@@ -1,0 +1,309 @@
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <!-- Page Header -->
+              <div class="row align-items-center mb-2">
+                <div class="col">
+                  <h2 class="h5 page-title">Dashboard</h2>
+                </div>
+                <div class="col-auto">
+                  <form class="form-inline">
+                    <div class="form-group d-none d-lg-inline">
+                      <label for="reportrange" class="sr-only">Date Ranges</label>
+                      <div id="reportrange" class="px-2 py-2 text-muted">
+                        <span class="small"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
+                      <button type="button" class="btn btn-sm mr-2"><span class="fe fe-filter fe-16 text-muted"></span></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Statistik Cards -->
+              <div class="row mb-4">
+                <div class="col-12 col-lg-3 col-md-6 mb-4 mb-lg-0">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <small class="text-muted mb-1">Total Donasi</small>
+                          <h3 class="mb-0">Rp 125.450.000</h3>
+                          <span class="small text-success"><span class="fe fe-arrow-up fe-12"></span> 12.5%</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="card-icon bg-primary bg-opacity-25 text-primary">
+                            <span class="fe fe-dollar-sign fe-24"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6 mb-4 mb-lg-0">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <small class="text-muted mb-1">Total Urunan</small>
+                          <h3 class="mb-0">24</h3>
+                          <span class="small text-success"><span class="fe fe-arrow-up fe-12"></span> 8.2%</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="card-icon bg-success bg-opacity-25 text-success">
+                            <span class="fe fe-layers fe-24"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6 mb-4 mb-lg-0">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <small class="text-muted mb-1">Urunan Aktif</small>
+                          <h3 class="mb-0">18</h3>
+                          <span class="small text-info"><span class="fe fe-arrow-up fe-12"></span> 5 aktif</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="card-icon bg-info bg-opacity-25 text-info">
+                            <span class="fe fe-play-circle fe-24"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <small class="text-muted mb-1">Penggalang</small>
+                          <h3 class="mb-0">12</h3>
+                          <span class="small text-muted">Total penggalang</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="card-icon bg-warning bg-opacity-25 text-warning">
+                            <span class="fe fe-users fe-24"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chart & Recent Activity -->
+              <div class="row mb-4">
+                <div class="col-12 col-lg-8 mb-4 mb-lg-0">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title">Grafik Donasi</strong>
+                    </div>
+                    <div class="card-body">
+                      <div class="chartbox">
+                        <div id="donasiChart" style="height: 300px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title">Urunan Terbaru</strong>
+                      <a class="float-right small text-muted" href="./urunan/list.html">Lihat semua</a>
+                    </div>
+                    <div class="card-body">
+                      <div class="list-group list-group-flush my-n3">
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="fe fe-heart text-danger fe-16"></span>
+                            </div>
+                            <div class="col">
+                              <small><strong>Bantuan Korban Banjir</strong></small>
+                              <div class="my-0 small text-muted">Rp 15.200.000 terkumpul</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="badge badge-light">Aktif</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="fe fe-heart text-danger fe-16"></span>
+                            </div>
+                            <div class="col">
+                              <small><strong>Renovasi Masjid</strong></small>
+                              <div class="my-0 small text-muted">Rp 8.500.000 terkumpul</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="badge badge-light">Aktif</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="fe fe-heart text-success fe-16"></span>
+                            </div>
+                            <div class="col">
+                              <small><strong>Bantuan Pendidikan</strong></small>
+                              <div class="my-0 small text-muted">Rp 25.000.000 terkumpul</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="badge badge-success">Selesai</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="fe fe-heart text-danger fe-16"></span>
+                            </div>
+                            <div class="col">
+                              <small><strong>Operasi Kesehatan</strong></small>
+                              <div class="my-0 small text-muted">Rp 12.300.000 terkumpul</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="badge badge-light">Aktif</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Donasi & Activity -->
+              <div class="row">
+                <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title">Donasi Terbaru</strong>
+                      <a class="float-right small text-muted" href="./urunan/donasi.html">Lihat semua</a>
+                    </div>
+                    <div class="card-body">
+                      <div class="list-group list-group-flush my-n3">
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <div class="avatar avatar-sm">
+                                <span class="avatar-title bg-primary rounded-circle">AK</span>
+                              </div>
+                            </div>
+                            <div class="col ml-n2">
+                              <small><strong>Ahmad Kurniawan</strong></small>
+                              <div class="my-0 small text-muted">Bantuan Korban Banjir</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="text-success"><strong>Rp 500.000</strong></small>
+                              <div class="small text-muted">2 jam lalu</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <div class="avatar avatar-sm">
+                                <span class="avatar-title bg-success rounded-circle">SM</span>
+                              </div>
+                            </div>
+                            <div class="col ml-n2">
+                              <small><strong>Siti Mariam</strong></small>
+                              <div class="my-0 small text-muted">Renovasi Masjid</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="text-success"><strong>Rp 1.000.000</strong></small>
+                              <div class="small text-muted">5 jam lalu</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <div class="avatar avatar-sm">
+                                <span class="avatar-title bg-info rounded-circle">BJ</span>
+                              </div>
+                            </div>
+                            <div class="col ml-n2">
+                              <small><strong>Budi Jaya</strong></small>
+                              <div class="my-0 small text-muted">Operasi Kesehatan</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="text-success"><strong>Rp 250.000</strong></small>
+                              <div class="small text-muted">1 hari lalu</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <div class="avatar avatar-sm">
+                                <span class="avatar-title bg-warning rounded-circle">DW</span>
+                              </div>
+                            </div>
+                            <div class="col ml-n2">
+                              <small><strong>Dewi Sari</strong></small>
+                              <div class="my-0 small text-muted">Bantuan Pendidikan</div>
+                            </div>
+                            <div class="col-auto">
+                              <small class="text-success"><strong>Rp 2.000.000</strong></small>
+                              <div class="small text-muted">2 hari lalu</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title">Aktivitas Terbaru</strong>
+                    </div>
+                    <div class="card-body">
+                      <div class="timeline">
+                        <div class="pb-3 timeline-item item-primary">
+                          <div class="pl-5">
+                            <div class="mb-3"><strong>Urunan baru dibuat</strong> - "Bantuan Korban Banjir"</div>
+                            <p class="small text-muted">2 jam lalu</p>
+                          </div>
+                        </div>
+                        <div class="pb-3 timeline-item item-success">
+                          <div class="pl-5">
+                            <div class="mb-3"><strong>Donasi diterima</strong> - Rp 500.000 dari Ahmad Kurniawan</div>
+                            <p class="small text-muted">2 jam lalu</p>
+                          </div>
+                        </div>
+                        <div class="pb-3 timeline-item item-info">
+                          <div class="pl-5">
+                            <div class="mb-3"><strong>Penggalang baru terdaftar</strong> - jerry.urunankita.test</div>
+                            <p class="small text-muted">5 jam lalu</p>
+                          </div>
+                        </div>
+                        <div class="pb-3 timeline-item item-warning">
+                          <div class="pl-5">
+                            <div class="mb-3"><strong>Laporan penggunaan dana</strong> - "Renovasi Masjid"</div>
+                            <p class="small text-muted">1 hari lalu</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </main>
+

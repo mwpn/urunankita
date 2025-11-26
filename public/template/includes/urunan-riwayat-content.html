@@ -1,0 +1,792 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h2 class="h5 page-title mb-0">Riwayat & Log</h2>
+            <small class="text-muted">Riwayat aktivitas dan log sistem dari semua urunan</small>
+          </div>
+          <div class="col-auto">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                <span class="fe fe-download fe-12 mr-1"></span>Export Excel
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                <span class="fe fe-filter fe-12 mr-1"></span>Filter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="filterTipeLog" class="small text-muted mb-1">Tipe Log</label>
+                    <select id="filterTipeLog" class="form-control form-control-sm select2">
+                      <option value="all">Semua Tipe</option>
+                      <option value="donasi">Donasi Masuk</option>
+                      <option value="penggunaan">Penggunaan Dana</option>
+                      <option value="status">Perubahan Status</option>
+                      <option value="edit">Edit Urunan</option>
+                      <option value="verifikasi">Verifikasi</option>
+                      <option value="system">System Log</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="filterUrunan" class="small text-muted mb-1">Urunan</label>
+                    <select id="filterUrunan" class="form-control form-control-sm select2">
+                      <option value="all">Semua Urunan</option>
+                      <option value="URN-001">Bantuan Korban Banjir Jakarta - #URN-001</option>
+                      <option value="URN-002">Bantuan Pendidikan Anak Yatim - #URN-002</option>
+                      <option value="URN-003">Operasi Katarak Gratis - #URN-003</option>
+                      <option value="URN-004">Bantuan Renovasi Masjid - #URN-004</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="filterPeriode" class="small text-muted mb-1">Periode</label>
+                    <select id="filterPeriode" class="form-control form-control-sm select2">
+                      <option value="all">Semua Periode</option>
+                      <option value="today">Hari Ini</option>
+                      <option value="week">Minggu Ini</option>
+                      <option value="month" selected>Bulan Ini</option>
+                      <option value="quarter">Triwulan Ini</option>
+                      <option value="year">Tahun Ini</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="filterUser" class="small text-muted mb-1">User</label>
+                    <select id="filterUser" class="form-control form-control-sm select2">
+                      <option value="all">Semua User</option>
+                      <option value="admin">Admin Platform</option>
+                      <option value="penggalang">Penggalang Dana</option>
+                      <option value="donatur">Donatur</option>
+                      <option value="system">System</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-right">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="applyFilters()">
+                      <span class="fe fe-filter fe-12 mr-1"></span>Terapkan Filter
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="resetFilters()">
+                      <span class="fe fe-refresh-cw fe-12 mr-1"></span>Reset
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Log Hari Ini</small>
+                <h3 class="mb-0">247</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> +15 dari kemarin</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Donasi Masuk</small>
+                <h3 class="mb-0 text-success">32</h3>
+                <small class="text-muted">Transaksi hari ini</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Penggunaan Dana</small>
+                <h3 class="mb-0 text-info">18</h3>
+                <small class="text-muted">Pencatatan hari ini</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Perubahan Status</small>
+                <h3 class="mb-0 text-warning">5</h3>
+                <small class="text-muted">Urunan hari ini</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Riwayat -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Riwayat Aktivitas</strong>
+                  </div>
+                  <div class="col-auto">
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-outline-secondary active" onclick="toggleView('timeline')">
+                        <span class="fe fe-list fe-12"></span> Timeline
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary" onclick="toggleView('table')">
+                        <span class="fe fe-table fe-12"></span> Tabel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <!-- Timeline View -->
+                <div id="timeline-view">
+                  <div class="timeline">
+                    <!-- Log Item 1 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-success"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-dollar-sign fe-12 text-success mr-2"></span>
+                              Donasi Masuk
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>Budi Santoso</strong> melakukan donasi sebesar <strong class="text-success">Rp 500.000</strong> untuk <strong>Bantuan Korban Banjir Jakarta (#URN-001)</strong>
+                            </p>
+                          </div>
+                          <small class="text-muted">5 menit yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-success">Donasi</span>
+                          <span class="badge badge-secondary">#URN-001</span>
+                          <span class="badge badge-info">Transfer Bank</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 2 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-info"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-edit fe-12 text-info mr-2"></span>
+                              Penggunaan Dana
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>Admin Platform</strong> mencatat penggunaan dana sebesar <strong class="text-info">Rp 15.000.000</strong> untuk <strong>Paket Sembako</strong> pada urunan <strong>Bantuan Korban Banjir Jakarta (#URN-001)</strong>
+                            </p>
+                          </div>
+                          <small class="text-muted">12 menit yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-info">Penggunaan</span>
+                          <span class="badge badge-secondary">#URN-001</span>
+                          <span class="badge badge-primary">Paket Sembako</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 3 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-warning"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-refresh-cw fe-12 text-warning mr-2"></span>
+                              Perubahan Status
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              Status urunan <strong>Bantuan Renovasi Masjid (#URN-004)</strong> diubah dari <span class="badge badge-secondary">Pending</span> menjadi <span class="badge badge-success">Aktif</span> oleh <strong>Admin Platform</strong>
+                            </p>
+                          </div>
+                          <small class="text-muted">25 menit yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-warning">Status</span>
+                          <span class="badge badge-secondary">#URN-004</span>
+                          <span class="badge badge-success">Aktif</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 4 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-primary"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-edit-2 fe-12 text-primary mr-2"></span>
+                              Edit Urunan
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>Yayasan Peduli</strong> mengedit urunan <strong>Bantuan Pendidikan Anak Yatim (#URN-002)</strong> - perubahan pada deskripsi dan target
+                            </p>
+                          </div>
+                          <small class="text-muted">1 jam yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-primary">Edit</span>
+                          <span class="badge badge-secondary">#URN-002</span>
+                          <span class="badge badge-info">Yayasan Peduli</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 5 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-success"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-dollar-sign fe-12 text-success mr-2"></span>
+                              Donasi Masuk
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>Siti Nurhaliza</strong> melakukan donasi sebesar <strong class="text-success">Rp 1.000.000</strong> untuk <strong>Operasi Katarak Gratis (#URN-003)</strong>
+                            </p>
+                          </div>
+                          <small class="text-muted">2 jam yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-success">Donasi</span>
+                          <span class="badge badge-secondary">#URN-003</span>
+                          <span class="badge badge-info">E-Wallet</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 6 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-secondary"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-shield fe-12 text-secondary mr-2"></span>
+                              Verifikasi
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>Admin Platform</strong> melakukan verifikasi dokumen untuk <strong>Bantuan Renovasi Masjid (#URN-004)</strong> - Status: <span class="badge badge-success">Terverifikasi</span>
+                            </p>
+                          </div>
+                          <small class="text-muted">3 jam yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-secondary">Verifikasi</span>
+                          <span class="badge badge-secondary">#URN-004</span>
+                          <span class="badge badge-success">Terverifikasi</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 7 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-info"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-edit fe-12 text-info mr-2"></span>
+                              Penggunaan Dana
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>DKM Masjid Al-Ikhlas</strong> mencatat penggunaan dana sebesar <strong class="text-info">Rp 5.000.000</strong> untuk <strong>Material Bangunan</strong> pada urunan <strong>Bantuan Renovasi Masjid (#URN-004)</strong>
+                            </p>
+                          </div>
+                          <small class="text-muted">4 jam yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-info">Penggunaan</span>
+                          <span class="badge badge-secondary">#URN-004</span>
+                          <span class="badge badge-primary">Material Bangunan</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Log Item 8 -->
+                    <div class="timeline-item">
+                      <div class="timeline-marker bg-danger"></div>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="fe fe-alert-circle fe-12 text-danger mr-2"></span>
+                              System Log
+                            </h6>
+                            <p class="text-muted small mb-0">
+                              <strong>System</strong> mendeteksi aktivitas mencurigakan pada urunan <strong>Bantuan Korban Banjir Jakarta (#URN-001)</strong> - Log ID: #LOG-20240115-001
+                            </p>
+                          </div>
+                          <small class="text-muted">5 jam yang lalu</small>
+                        </div>
+                        <div class="mt-2">
+                          <span class="badge badge-danger">System</span>
+                          <span class="badge badge-secondary">#URN-001</span>
+                          <span class="badge badge-warning">Perlu Review</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Table View (Hidden by default) -->
+                <div id="table-view" class="d-none">
+                  <div class="table-responsive">
+                    <table class="table datatables table-hover" id="dataTable-riwayat">
+                      <thead>
+                        <tr>
+                          <th>Waktu</th>
+                          <th>Tipe</th>
+                          <th>Urunan</th>
+                          <th>User/Actor</th>
+                          <th>Deskripsi</th>
+                          <th>Detail</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">14:25 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-success">Donasi</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Korban Banjir Jakarta</strong>
+                            <small class="d-block text-muted">#URN-001</small>
+                          </td>
+                          <td>Budi Santoso</td>
+                          <td>Donasi masuk sebesar Rp 500.000</td>
+                          <td>
+                            <span class="badge badge-info">Transfer Bank</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-001')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">14:18 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-info">Penggunaan</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Korban Banjir Jakarta</strong>
+                            <small class="d-block text-muted">#URN-001</small>
+                          </td>
+                          <td>Admin Platform</td>
+                          <td>Penggunaan dana Rp 15.000.000 untuk Paket Sembako</td>
+                          <td>
+                            <span class="badge badge-primary">Paket Sembako</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-002')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">14:05 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-warning">Status</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Renovasi Masjid</strong>
+                            <small class="d-block text-muted">#URN-004</small>
+                          </td>
+                          <td>Admin Platform</td>
+                          <td>Status diubah dari Pending menjadi Aktif</td>
+                          <td>
+                            <span class="badge badge-secondary">Pending</span> → <span class="badge badge-success">Aktif</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-003')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">13:30 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-primary">Edit</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Pendidikan Anak Yatim</strong>
+                            <small class="d-block text-muted">#URN-002</small>
+                          </td>
+                          <td>Yayasan Peduli</td>
+                          <td>Edit urunan - perubahan deskripsi dan target</td>
+                          <td>
+                            <span class="badge badge-info">Multiple Fields</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-004')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">12:45 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-success">Donasi</span>
+                          </td>
+                          <td>
+                            <strong>Operasi Katarak Gratis</strong>
+                            <small class="d-block text-muted">#URN-003</small>
+                          </td>
+                          <td>Siti Nurhaliza</td>
+                          <td>Donasi masuk sebesar Rp 1.000.000</td>
+                          <td>
+                            <span class="badge badge-info">E-Wallet</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-005')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">11:20 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-secondary">Verifikasi</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Renovasi Masjid</strong>
+                            <small class="d-block text-muted">#URN-004</small>
+                          </td>
+                          <td>Admin Platform</td>
+                          <td>Verifikasi dokumen - Status: Terverifikasi</td>
+                          <td>
+                            <span class="badge badge-success">Terverifikasi</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-006')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">10:15 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-info">Penggunaan</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Renovasi Masjid</strong>
+                            <small class="d-block text-muted">#URN-004</small>
+                          </td>
+                          <td>DKM Masjid Al-Ikhlas</td>
+                          <td>Penggunaan dana Rp 5.000.000 untuk Material Bangunan</td>
+                          <td>
+                            <span class="badge badge-primary">Material Bangunan</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewDetail('LOG-007')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small class="text-muted d-block">15 Jan 2024</small>
+                            <small class="text-muted">09:30 WIB</small>
+                          </td>
+                          <td>
+                            <span class="badge badge-danger">System</span>
+                          </td>
+                          <td>
+                            <strong>Bantuan Korban Banjir Jakarta</strong>
+                            <small class="d-block text-muted">#URN-001</small>
+                          </td>
+                          <td>System</td>
+                          <td>Aktivitas mencurigakan terdeteksi - Log ID: #LOG-20240115-001</td>
+                          <td>
+                            <span class="badge badge-warning">Perlu Review</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-danger" onclick="viewDetail('LOG-008')">
+                              <span class="fe fe-eye fe-12"></span>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Detail Log -->
+<div class="modal fade" id="modalDetailLog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Log</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalDetailLogBody">
+        <!-- Content will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 30px;
+    padding-left: 30px;
+  }
+
+  .timeline-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 20px;
+    bottom: -10px;
+    width: 2px;
+    background: #e9ecef;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px currentColor;
+  }
+
+  .timeline-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #e9ecef;
+  }
+</style>
+
+<script>
+  // Initialize Select2
+  (function() {
+    function initSelect2() {
+      if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('#filterTipeLog, #filterUrunan, #filterPeriode, #filterUser').select2({
+          theme: 'bootstrap4',
+          width: '100%'
+        });
+        console.log('Select2 initialized for filters');
+      } else {
+        setTimeout(initSelect2, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initSelect2, 300);
+      });
+    } else {
+      setTimeout(initSelect2, 300);
+    }
+  })();
+
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-riwayat').length) {
+        $('#dataTable-riwayat').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[0, "desc"]], // Sort by waktu descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          }
+        });
+        console.log('DataTable riwayat initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+
+  // Toggle View (Timeline/Table)
+  function toggleView(view) {
+    var timelineView = document.getElementById('timeline-view');
+    var tableView = document.getElementById('table-view');
+    var buttons = document.querySelectorAll('.btn-group-sm button');
+
+    if (view === 'timeline') {
+      timelineView.classList.remove('d-none');
+      tableView.classList.add('d-none');
+      buttons[0].classList.add('active');
+      buttons[1].classList.remove('active');
+    } else {
+      timelineView.classList.add('d-none');
+      tableView.classList.remove('d-none');
+      buttons[0].classList.remove('active');
+      buttons[1].classList.add('active');
+      
+      // Reinitialize DataTable if needed
+      if ($.fn.DataTable && $('#dataTable-riwayat').length) {
+        $('#dataTable-riwayat').DataTable().draw();
+      }
+    }
+  }
+
+  // View Detail Log
+  function viewDetail(logId) {
+    var modalBody = document.getElementById('modalDetailLogBody');
+    modalBody.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
+    
+    $('#modalDetailLog').modal('show');
+    
+    // Simulate loading detail
+    setTimeout(function() {
+      modalBody.innerHTML = `
+        <div class="mb-3">
+          <h6 class="mb-2">Log ID: ${logId}</h6>
+          <p class="text-muted small mb-0">Detail lengkap dari log aktivitas ini akan ditampilkan di sini.</p>
+        </div>
+        <div class="mb-3">
+          <strong>Waktu:</strong> 15 Januari 2024, 14:25 WIB
+        </div>
+        <div class="mb-3">
+          <strong>Tipe:</strong> <span class="badge badge-success">Donasi</span>
+        </div>
+        <div class="mb-3">
+          <strong>Urunan:</strong> Bantuan Korban Banjir Jakarta (#URN-001)
+        </div>
+        <div class="mb-3">
+          <strong>User/Actor:</strong> Budi Santoso
+        </div>
+        <div class="mb-3">
+          <strong>Deskripsi:</strong> Donasi masuk sebesar Rp 500.000 via Transfer Bank
+        </div>
+        <div class="mb-3">
+          <strong>Metode Pembayaran:</strong> Transfer Bank - BCA
+        </div>
+        <div class="mb-3">
+          <strong>Status:</strong> <span class="badge badge-success">Berhasil</span>
+        </div>
+        <div>
+          <strong>Data Tambahan:</strong>
+          <pre class="bg-light p-3 rounded mt-2 small">{
+  "transaction_id": "TXN-20240115-001",
+  "amount": 500000,
+  "payment_method": "bank_transfer",
+  "bank": "BCA",
+  "account_number": "***1234"
+}</pre>
+        </div>
+      `;
+    }, 500);
+  }
+
+  // Filter functions
+  function applyFilters() {
+    var tipeLog = $('#filterTipeLog').val();
+    var urunan = $('#filterUrunan').val();
+    var periode = $('#filterPeriode').val();
+    var user = $('#filterUser').val();
+    
+    console.log('Applying filters:', {
+      tipeLog: tipeLog,
+      urunan: urunan,
+      periode: periode,
+      user: user
+    });
+    
+    // TODO: Implement filter logic
+    alert('Filter diterapkan! (Fitur akan diimplementasikan)');
+  }
+
+  function resetFilters() {
+    $('#filterTipeLog').val('all').trigger('change');
+    $('#filterUrunan').val('all').trigger('change');
+    $('#filterPeriode').val('month').trigger('change');
+    $('#filterUser').val('all').trigger('change');
+    
+    console.log('Filters reset');
+  }
+
+  // Make functions global
+  window.toggleView = toggleView;
+  window.viewDetail = viewDetail;
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+</script>
+

@@ -1,0 +1,655 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <a href="index.php?page=urunan-detail" class="btn btn-sm btn-outline-secondary mb-2" data-content="includes/urunan-detail-content.html">
+              <span class="fe fe-arrow-left fe-12 mr-1"></span>Kembali ke Detail Urunan
+            </a>
+            <div class="d-flex justify-content-between align-items-end">
+              <div>
+                <h2 class="h5 page-title mb-0">Laporan Penggunaan Dana</h2>
+                <small class="text-muted" id="urunan-title">Bantuan Korban Banjir Jakarta - ID: #URN-001</small>
+              </div>
+              <div style="min-width: 300px;" class="text-right">
+                <label for="selectUrunan" class="small text-muted mb-1 d-block">Pilih Urunan:</label>
+                <select id="selectUrunan" class="form-control form-control-sm select2" onchange="loadLaporanUrunan(this.value)">
+                  <option value="URN-001" selected>Bantuan Korban Banjir Jakarta - #URN-001</option>
+                  <option value="URN-002">Bantuan Pendidikan Anak Yatim - #URN-002</option>
+                  <option value="URN-003">Operasi Katarak Gratis - #URN-003</option>
+                  <option value="URN-004">Bantuan Renovasi Masjid - #URN-004</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Terkumpul</small>
+                <h3 class="mb-0">Rp 35.000.000</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Digunakan</small>
+                <h3 class="mb-0 text-success">Rp 28.500.000</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Sisa Dana</small>
+                <h3 class="mb-0 text-info">Rp 6.500.000</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Persentase</small>
+                <h3 class="mb-0">81.4%</h3>
+                <small class="text-success">Digunakan</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Penggunaan Dana -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Grafik Penggunaan Dana</strong>
+              </div>
+              <div class="card-body">
+                <div id="chartPenggunaan" style="height: 300px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Penggunaan Dana -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Detail Penggunaan Dana</strong>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTambahPenggunaan">
+                      <span class="fe fe-plus fe-12 mr-1"></span>Tambah Penggunaan
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Tanggal</th>
+                        <th>Kategori</th>
+                        <th>Keterangan</th>
+                        <th>Jumlah</th>
+                        <th>Bukti</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>5 Jan 2024</td>
+                        <td><span class="badge badge-primary">Paket Sembako</span></td>
+                        <td>Pembelian paket sembako untuk 500 keluarga korban banjir</td>
+                        <td><strong>Rp 15.000.000</strong></td>
+                        <td>
+                          <a href="assets/products/p1.jpg" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <span class="fe fe-file fe-12"></span>
+                          </a>
+                        </td>
+                        <td><span class="badge badge-success">Terverifikasi</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalEditPenggunaan">
+                            <span class="fe fe-edit fe-12"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>8 Jan 2024</td>
+                        <td><span class="badge badge-info">Pakaian & Selimut</span></td>
+                        <td>Pembelian selimut dan pakaian untuk 300 keluarga</td>
+                        <td><strong>Rp 8.500.000</strong></td>
+                        <td>
+                          <a href="assets/products/p2.jpg" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <span class="fe fe-file fe-12"></span>
+                          </a>
+                        </td>
+                        <td><span class="badge badge-success">Terverifikasi</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalEditPenggunaan">
+                            <span class="fe fe-edit fe-12"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>10 Jan 2024</td>
+                        <td><span class="badge badge-warning">Dapur Umum</span></td>
+                        <td>Operasional dapur umum selama 7 hari</td>
+                        <td><strong>Rp 3.500.000</strong></td>
+                        <td>
+                          <a href="assets/products/p3.jpg" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <span class="fe fe-file fe-12"></span>
+                          </a>
+                        </td>
+                        <td><span class="badge badge-success">Terverifikasi</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalEditPenggunaan">
+                            <span class="fe fe-edit fe-12"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>12 Jan 2024</td>
+                        <td><span class="badge badge-danger">Perbaikan Rumah</span></td>
+                        <td>Bantuan perbaikan rumah ringan untuk 50 keluarga</td>
+                        <td><strong>Rp 1.500.000</strong></td>
+                        <td>
+                          <a href="assets/products/p4.jpg" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <span class="fe fe-file fe-12"></span>
+                          </a>
+                        </td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalEditPenggunaan">
+                            <span class="fe fe-edit fe-12"></span>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr class="table-active">
+                        <th colspan="3" class="text-right">Total Penggunaan:</th>
+                        <th><strong>Rp 28.500.000</strong></th>
+                        <th colspan="3"></th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ringkasan Kategori -->
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Penggunaan per Kategori</strong>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>Paket Sembako</span>
+                    <strong>Rp 15.000.000 (52.6%)</strong>
+                  </div>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 52.6%"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>Pakaian & Selimut</span>
+                    <strong>Rp 8.500.000 (29.8%)</strong>
+                  </div>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 29.8%"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>Dapur Umum</span>
+                    <strong>Rp 3.500.000 (12.3%)</strong>
+                  </div>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 12.3%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>Perbaikan Rumah</span>
+                    <strong>Rp 1.500.000 (5.3%)</strong>
+                  </div>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 5.3%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Catatan & Dokumentasi</strong>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <h6 class="mb-2">Distribusi Bantuan</h6>
+                  <p class="text-muted small mb-0">Semua bantuan telah didistribusikan langsung kepada korban banjir dengan didampingi oleh relawan dan tim verifikasi. Dokumentasi lengkap tersedia.</p>
+                </div>
+                <div class="mb-3">
+                  <h6 class="mb-2">Transparansi</h6>
+                  <p class="text-muted small mb-0">Setiap pengeluaran dilengkapi dengan bukti berupa foto, nota, dan laporan. Semua dokumen dapat diakses oleh donatur.</p>
+                </div>
+                <div>
+                  <h6 class="mb-2">Update Terakhir</h6>
+                  <p class="text-muted small mb-0">12 Januari 2024 - 14:30 WIB</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Tambah Penggunaan -->
+<div class="modal fade" id="modalTambahPenggunaan" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Penggunaan Dana</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Tanggal <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Kategori <span class="text-danger">*</span></label>
+            <select class="form-control" required>
+              <option value="">Pilih Kategori</option>
+              <option value="sembako">Paket Sembako</option>
+              <option value="pakaian">Pakaian & Selimut</option>
+              <option value="dapur">Dapur Umum</option>
+              <option value="perbaikan">Perbaikan Rumah</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Keterangan <span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Jumlah <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Rp</span>
+              </div>
+              <input type="text" class="form-control input-money" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Upload Bukti</label>
+            <input type="file" class="form-control-file">
+            <small class="text-muted">Format: JPG/PNG/PDF, Max: 5MB</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Penggunaan -->
+<div class="modal fade" id="modalEditPenggunaan" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Penggunaan Dana</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Tanggal <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" value="2024-01-05" required>
+          </div>
+          <div class="form-group">
+            <label>Kategori <span class="text-danger">*</span></label>
+            <select class="form-control" required>
+              <option value="sembako" selected>Paket Sembako</option>
+              <option value="pakaian">Pakaian & Selimut</option>
+              <option value="dapur">Dapur Umum</option>
+              <option value="perbaikan">Perbaikan Rumah</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Keterangan <span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="3" required>Pembelian paket sembako untuk 500 keluarga korban banjir</textarea>
+          </div>
+          <div class="form-group">
+            <label>Jumlah <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Rp</span>
+              </div>
+              <input type="text" class="form-control input-money" value="15.000.000" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Upload Bukti Baru (Opsional)</label>
+            <input type="file" class="form-control-file">
+            <small class="text-muted">Format: JPG/PNG/PDF, Max: 5MB</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Data laporan per urunan
+  var laporanData = {
+    'URN-001': {
+      title: 'Bantuan Korban Banjir Jakarta',
+      totalTerkumpul: 35000000,
+      totalDigunakan: 28500000,
+      sisaDana: 6500000,
+      persentase: 81.4,
+      chartData: [15000000, 23500000, 28500000],
+      chartDates: ['5 Jan', '8 Jan', '12 Jan'],
+      transaksi: [
+        { tanggal: '5 Jan 2024', kategori: 'Paket Sembako', keterangan: 'Pembelian paket sembako untuk 500 keluarga korban banjir', jumlah: 15000000, bukti: 'p1.jpg', status: 'Terverifikasi' },
+        { tanggal: '8 Jan 2024', kategori: 'Pakaian & Selimut', keterangan: 'Pembelian selimut dan pakaian untuk 300 keluarga', jumlah: 8500000, bukti: 'p2.jpg', status: 'Terverifikasi' },
+        { tanggal: '10 Jan 2024', kategori: 'Dapur Umum', keterangan: 'Operasional dapur umum selama 7 hari', jumlah: 3500000, bukti: 'p3.jpg', status: 'Terverifikasi' },
+        { tanggal: '12 Jan 2024', kategori: 'Perbaikan Rumah', keterangan: 'Bantuan perbaikan rumah ringan untuk 50 keluarga', jumlah: 1500000, bukti: 'p4.jpg', status: 'Pending' }
+      ],
+      kategori: [
+        { nama: 'Paket Sembako', jumlah: 15000000, persen: 52.6, color: 'primary' },
+        { nama: 'Pakaian & Selimut', jumlah: 8500000, persen: 29.8, color: 'info' },
+        { nama: 'Dapur Umum', jumlah: 3500000, persen: 12.3, color: 'warning' },
+        { nama: 'Perbaikan Rumah', jumlah: 1500000, persen: 5.3, color: 'danger' }
+      ]
+    },
+    'URN-002': {
+      title: 'Bantuan Pendidikan Anak Yatim',
+      totalTerkumpul: 12500000,
+      totalDigunakan: 8500000,
+      sisaDana: 4000000,
+      persentase: 68.0,
+      chartData: [3000000, 6000000, 8500000],
+      chartDates: ['2 Jan', '5 Jan', '10 Jan'],
+      transaksi: [
+        { tanggal: '2 Jan 2024', kategori: 'Buku & Alat Tulis', keterangan: 'Pembelian buku dan alat tulis untuk 200 anak', jumlah: 3000000, bukti: 'p1.jpg', status: 'Terverifikasi' },
+        { tanggal: '5 Jan 2024', kategori: 'Seragam Sekolah', keterangan: 'Pembelian seragam sekolah untuk 150 anak', jumlah: 3000000, bukti: 'p2.jpg', status: 'Terverifikasi' },
+        { tanggal: '10 Jan 2024', kategori: 'Beasiswa', keterangan: 'Beasiswa bulanan untuk 50 anak', jumlah: 2500000, bukti: 'p3.jpg', status: 'Terverifikasi' }
+      ],
+      kategori: [
+        { nama: 'Buku & Alat Tulis', jumlah: 3000000, persen: 35.3, color: 'primary' },
+        { nama: 'Seragam Sekolah', jumlah: 3000000, persen: 35.3, color: 'info' },
+        { nama: 'Beasiswa', jumlah: 2500000, persen: 29.4, color: 'success' }
+      ]
+    },
+    'URN-003': {
+      title: 'Operasi Katarak Gratis',
+      totalTerkumpul: 25000000,
+      totalDigunakan: 25000000,
+      sisaDana: 0,
+      persentase: 100.0,
+      chartData: [10000000, 20000000, 25000000],
+      chartDates: ['1 Des', '10 Des', '20 Des'],
+      transaksi: [
+        { tanggal: '1 Des 2023', kategori: 'Biaya Operasi', keterangan: 'Operasi katarak untuk 50 pasien', jumlah: 10000000, bukti: 'p1.jpg', status: 'Terverifikasi' },
+        { tanggal: '10 Des 2023', kategori: 'Biaya Operasi', keterangan: 'Operasi katarak untuk 50 pasien', jumlah: 10000000, bukti: 'p2.jpg', status: 'Terverifikasi' },
+        { tanggal: '20 Des 2023', kategori: 'Obat & Perawatan', keterangan: 'Obat dan perawatan pasca operasi', jumlah: 5000000, bukti: 'p3.jpg', status: 'Terverifikasi' }
+      ],
+      kategori: [
+        { nama: 'Biaya Operasi', jumlah: 20000000, persen: 80.0, color: 'primary' },
+        { nama: 'Obat & Perawatan', jumlah: 5000000, persen: 20.0, color: 'success' }
+      ]
+    },
+    'URN-004': {
+      title: 'Bantuan Renovasi Masjid',
+      totalTerkumpul: 100000000,
+      totalDigunakan: 45000000,
+      sisaDana: 55000000,
+      persentase: 45.0,
+      chartData: [20000000, 35000000, 45000000],
+      chartDates: ['1 Jan', '5 Jan', '10 Jan'],
+      transaksi: [
+        { tanggal: '1 Jan 2024', kategori: 'Material Bangunan', keterangan: 'Pembelian material bangunan (semen, bata, dll)', jumlah: 20000000, bukti: 'p1.jpg', status: 'Terverifikasi' },
+        { tanggal: '5 Jan 2024', kategori: 'Upah Tukang', keterangan: 'Upah tukang dan pekerja', jumlah: 15000000, bukti: 'p2.jpg', status: 'Terverifikasi' },
+        { tanggal: '10 Jan 2024', kategori: 'Material Bangunan', keterangan: 'Pembelian material tambahan', jumlah: 10000000, bukti: 'p3.jpg', status: 'Pending' }
+      ],
+      kategori: [
+        { nama: 'Material Bangunan', jumlah: 30000000, persen: 66.7, color: 'warning' },
+        { nama: 'Upah Tukang', jumlah: 15000000, persen: 33.3, color: 'info' }
+      ]
+    }
+  };
+
+  var currentChart = null;
+
+  // Function to load laporan berdasarkan urunan
+  function loadLaporanUrunan(urunanId) {
+    var data = laporanData[urunanId];
+    if (!data) return;
+
+    // Update header title
+    var titleElement = document.getElementById('urunan-title');
+    if (titleElement) {
+      titleElement.textContent = data.title + ' - ID: #' + urunanId;
+    }
+
+    // Update statistik cards
+    var cards = document.querySelectorAll('.card.shadow .h3');
+    if (cards.length >= 4) {
+      cards[0].textContent = 'Rp ' + data.totalTerkumpul.toLocaleString('id-ID');
+      cards[1].textContent = 'Rp ' + data.totalDigunakan.toLocaleString('id-ID');
+      cards[2].textContent = 'Rp ' + data.sisaDana.toLocaleString('id-ID');
+      cards[3].textContent = data.persentase.toFixed(1) + '%';
+      if (cards[3].nextElementSibling) {
+        cards[3].nextElementSibling.textContent = data.persentase === 100 ? 'Selesai' : 'Digunakan';
+        cards[3].nextElementSibling.className = data.persentase === 100 ? 'small text-success' : 'small text-success';
+      }
+    }
+
+    // Update chart
+    updateChart(data.chartData, data.chartDates);
+
+    // Update table
+    updateTable(data.transaksi, data.totalDigunakan);
+
+    // Update kategori
+    updateKategori(data.kategori);
+  }
+
+
+  function updateChart(data, dates) {
+    if (currentChart) {
+      currentChart.destroy();
+    }
+    
+    if (typeof ApexCharts !== 'undefined' && document.getElementById('chartPenggunaan')) {
+      var options = {
+        series: [{
+          name: 'Penggunaan Dana',
+          data: data
+        }],
+        chart: {
+          type: 'area',
+          height: 300,
+          toolbar: { show: false }
+        },
+        dataLabels: { enabled: false },
+        stroke: { curve: 'smooth', width: 2 },
+        xaxis: { categories: dates },
+        yaxis: {
+          labels: {
+            formatter: function(val) {
+              return 'Rp ' + (val / 1000000).toFixed(0) + 'Jt';
+            }
+          }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.3,
+            stops: [0, 90, 100]
+          }
+        },
+        colors: ['#007bff'],
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return 'Rp ' + val.toLocaleString('id-ID');
+            }
+          }
+        }
+      };
+
+      currentChart = new ApexCharts(document.querySelector("#chartPenggunaan"), options);
+      currentChart.render();
+    }
+  }
+
+  function updateTable(transaksi, total) {
+    var tbody = document.querySelector('table tbody');
+    tbody.innerHTML = '';
+    
+    transaksi.forEach(function(item) {
+      var row = document.createElement('tr');
+      var kategoriBadge = {
+        'Paket Sembako': 'badge-primary',
+        'Pakaian & Selimut': 'badge-info',
+        'Dapur Umum': 'badge-warning',
+        'Perbaikan Rumah': 'badge-danger',
+        'Buku & Alat Tulis': 'badge-primary',
+        'Seragam Sekolah': 'badge-info',
+        'Beasiswa': 'badge-success',
+        'Biaya Operasi': 'badge-primary',
+        'Obat & Perawatan': 'badge-success',
+        'Material Bangunan': 'badge-warning',
+        'Upah Tukang': 'badge-info'
+      };
+      
+      var statusBadge = item.status === 'Terverifikasi' ? 'badge-success' : 'badge-warning';
+      
+      row.innerHTML = `
+        <td>${item.tanggal}</td>
+        <td><span class="badge ${kategoriBadge[item.kategori] || 'badge-secondary'}">${item.kategori}</span></td>
+        <td>${item.keterangan}</td>
+        <td><strong>Rp ${item.jumlah.toLocaleString('id-ID')}</strong></td>
+        <td>
+          <a href="assets/products/${item.bukti}" target="_blank" class="btn btn-sm btn-outline-secondary">
+            <span class="fe fe-file fe-12"></span>
+          </a>
+        </td>
+        <td><span class="badge ${statusBadge}">${item.status}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalEditPenggunaan">
+            <span class="fe fe-edit fe-12"></span>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    // Update total
+    var totalRow = document.querySelector('tfoot tr th strong');
+    if (totalRow) {
+      totalRow.textContent = 'Rp ' + total.toLocaleString('id-ID');
+    }
+  }
+
+  function updateKategori(kategori) {
+    // Find kategori card by looking for card with title "Penggunaan per Kategori"
+    var cards = document.querySelectorAll('.card.shadow');
+    var kategoriContainer = null;
+    
+    for (var i = 0; i < cards.length; i++) {
+      var title = cards[i].querySelector('.card-title');
+      if (title && title.textContent.includes('Penggunaan per Kategori')) {
+        kategoriContainer = cards[i].querySelector('.card-body');
+        break;
+      }
+    }
+    
+    if (!kategoriContainer) return;
+    
+    kategoriContainer.innerHTML = '';
+    
+    kategori.forEach(function(item, index) {
+      var div = document.createElement('div');
+      div.className = index < kategori.length - 1 ? 'mb-3' : '';
+      div.innerHTML = `
+        <div class="d-flex justify-content-between mb-1">
+          <span>${item.nama}</span>
+          <strong>Rp ${item.jumlah.toLocaleString('id-ID')} (${item.persen.toFixed(1)}%)</strong>
+        </div>
+        <div class="progress" style="height: 8px;">
+          <div class="progress-bar bg-${item.color}" role="progressbar" style="width: ${item.persen}%"></div>
+        </div>
+      `;
+      kategoriContainer.appendChild(div);
+    });
+  }
+
+  // Initialize
+  (function() {
+    function init() {
+      // Initialize Select2
+      if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('#selectUrunan').select2({
+          theme: 'bootstrap4',
+          width: '100%'
+        });
+      }
+
+      // Initialize chart with default data
+      setTimeout(function() {
+        if (typeof ApexCharts !== 'undefined' && document.getElementById('chartPenggunaan')) {
+          loadLaporanUrunan('URN-001');
+        } else {
+          setTimeout(arguments.callee, 500);
+        }
+      }, 300);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+

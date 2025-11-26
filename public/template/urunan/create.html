@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+    <title>Buat Urunan Baru - Urunankita</title>
+    <!-- Simple bar CSS -->
+    <link rel="stylesheet" href="../css/simplebar.css">
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="../css/feather.css">
+    <link rel="stylesheet" href="../css/select2.css">
+    <link rel="stylesheet" href="../css/dropzone.css">
+    <link rel="stylesheet" href="../css/quill.snow.css">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" href="../css/daterangepicker.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/app-light.css" id="lightTheme">
+    <link rel="stylesheet" href="../css/app-dark.css" id="darkTheme" disabled>
+  </head>
+  <body class="vertical  light  ">
+    <div class="wrapper">
+      <!-- Header/Navbar -->
+      <div id="header-placeholder"></div>
+      
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+      
+      <!-- Main Content -->
+      <div id="main-content-placeholder"></div>
+    </div> <!-- .wrapper -->
+    
+    <!-- Scripts -->
+    <div id="scripts-placeholder"></div>
+    
+    <!-- Load includes using JavaScript -->
+    <script>
+      // Load header
+      fetch('../includes/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+      
+      // Load sidebar
+      fetch('../includes/sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-placeholder').innerHTML = data;
+          // Load sidebar role filter setelah sidebar di-load
+          const scriptRole = document.createElement('script');
+          scriptRole.src = '../js/sidebar-role.js';
+          scriptRole.onload = function() {
+            // Load normalize sidebar links after role filter is loaded
+            const scriptNormalize = document.createElement('script');
+            scriptNormalize.src = '../js/normalize-sidebar-links.js';
+            scriptNormalize.onload = function() {
+              // Call normalize function after script is loaded
+              if (window.normalizeSidebarLinks) {
+                setTimeout(function() {
+                  window.normalizeSidebarLinks();
+                }, 100);
+              }
+            };
+            document.body.appendChild(scriptNormalize);
+          };
+          document.body.appendChild(scriptRole);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+      
+      // Load main content
+      fetch('../includes/urunan-create-content.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('main-content-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading main content:', error));
+      
+      // Load scripts
+      fetch('../includes/scripts.html')
+        .then(response => response.text())
+        .then(data => {
+          const placeholder = document.getElementById('scripts-placeholder');
+          placeholder.innerHTML = data;
+          // Re-evaluate scripts after loading
+          const scripts = placeholder.querySelectorAll('script');
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) {
+              // Fix path if it doesn't start with http or /
+              if (!oldScript.src.startsWith('http') && !oldScript.src.startsWith('/')) {
+                newScript.src = '../' + oldScript.src.replace('../', '');
+              } else {
+                newScript.src = oldScript.src;
+              }
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+            oldScript.remove();
+          });
+          
+          // Initialize components after scripts loaded
+          setTimeout(function() {
+            // Initialize Select2
+            if (typeof jQuery !== 'undefined' && jQuery.fn.select2) {
+              jQuery('.select2').select2({
+                theme: 'bootstrap4',
+                width: '100%'
+              });
+            }
+            
+            // Initialize Quill Editor
+            if (typeof Quill !== 'undefined') {
+              var toolbarOptions = [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['link', 'image'],
+                ['clean']
+              ];
+              var quill = new Quill('#deskripsi-editor', {
+                modules: { toolbar: toolbarOptions },
+                theme: 'snow'
+              });
+            }
+            
+            // Initialize Dropzone
+            if (typeof Dropzone !== 'undefined') {
+              Dropzone.autoDiscover = false;
+              
+              // Single image
+              var dropzoneSingle = new Dropzone("#dropzone-single", {
+                url: "#",
+                maxFiles: 1,
+                maxFilesize: 5,
+                acceptedFiles: "image/*",
+                addRemoveLinks: true,
+                dictDefaultMessage: "Klik atau drag gambar ke sini",
+                dictRemoveFile: "Hapus",
+                dictCancelUpload: "Batal"
+              });
+              
+              // Multiple images
+              var dropzoneMultiple = new Dropzone("#dropzone-multiple", {
+                url: "#",
+                maxFiles: 5,
+                maxFilesize: 5,
+                acceptedFiles: "image/*",
+                addRemoveLinks: true,
+                dictDefaultMessage: "Klik atau drag gambar ke sini",
+                dictRemoveFile: "Hapus",
+                dictCancelUpload: "Batal"
+              });
+            }
+            
+            // Initialize money mask
+            if (typeof jQuery !== 'undefined' && jQuery.fn.mask) {
+              jQuery('.input-money').mask("#.##0,00", {
+                reverse: true
+              });
+            }
+            
+            // Toggle target field based on jenis
+            var jenisSelect = document.getElementById('jenis');
+            var targetRow = document.getElementById('target-row');
+            if (jenisSelect) {
+              jenisSelect.addEventListener('change', function() {
+                if (this.value === 'targeted') {
+                  targetRow.style.display = 'block';
+                  document.getElementById('target').required = true;
+                } else {
+                  targetRow.style.display = 'none';
+                  document.getElementById('target').required = false;
+                }
+              });
+            }
+            
+            // Form validation
+            (function() {
+              'use strict';
+              window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    } else {
+                      event.preventDefault();
+                      alert('Urunan berhasil dibuat! (Ini hanya demo, belum tersimpan ke database)');
+                    }
+                    form.classList.add('was-validated');
+                  }, false);
+                });
+              }, false);
+            })();
+            
+            // Draft button
+            var btnDraft = document.getElementById('btn-draft');
+            if (btnDraft) {
+              btnDraft.addEventListener('click', function() {
+                alert('Draft berhasil disimpan! (Ini hanya demo)');
+              });
+            }
+            
+            // Submit button
+            var btnSubmit = document.getElementById('btn-submit');
+            if (btnSubmit) {
+              btnSubmit.addEventListener('click', function() {
+                var form = document.querySelector('form');
+                if (form) {
+                  form.submit();
+                }
+              });
+            }
+          }, 500);
+        })
+        .catch(error => console.error('Error loading scripts:', error));
+    </script>
+  </body>
+</html>

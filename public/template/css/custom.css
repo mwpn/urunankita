@@ -1,0 +1,44 @@
+/* Custom styles for UrunanKita Dashboard */
+
+/* Card Icon Styles */
+.card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+/* Timeline Styles */
+.timeline-item {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e9ecef;
+}
+
+.timeline-item.item-primary::before {
+  background: #007bff;
+}
+
+.timeline-item.item-success::before {
+  background: #28a745;
+}
+
+.timeline-item.item-info::before {
+  background: #17a2b8;
+}
+
+.timeline-item.item-warning::before {
+  background: #ffc107;
+}
+

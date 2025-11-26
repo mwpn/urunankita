@@ -1,0 +1,57 @@
+# .cursorcontext
+# ======================================================
+# Cursor Context Configuration
+# Project: urunankita Multi-Tenant SaaS Modular - CodeIgniter 4
+# Author: Wira Xena
+# Purpose: Force Cursor AI to always respect the modular & multi-tenant architecture
+# ======================================================
+
+always_include:
+  # 📘 Arsitektur dan konvensi utama
+  - architecture.md
+  - composer.json
+
+  # 🧱 File inti modular
+  - Modules/Core/Controllers/BaseController.php
+  - Modules/Core/Models/BaseModel.php
+  - Modules/Core/Config/Modules.php
+  - Modules/Core/Config/Services.php
+  - Modules/Core/Helpers/*
+  - Modules/Core/Filters/*
+  - Modules/Core/Services/*
+  - Modules/Core/CLI/*
+
+  # 🔐 Modul utama SaaS
+  - Modules/Auth/*
+  - Modules/Auth/Config/Routes.php
+  - Modules/Tenant/*
+  - Modules/Plan/*
+  - Modules/Subscription/*
+  - Modules/Billing/*
+  - Modules/Dashboard/*
+  - Modules/Dashboard/Config/Routes.php
+  - Modules/ExampleModule/*
+
+ignore:
+  # 🚫 Abaikan struktur konvensional CI4
+  - app/Controllers/
+  - app/Models/
+  - app/Views/
+  - writable/debugbar/
+  - vendor/
+  - node_modules/
+
+preferred_language: php
+preferred_framework: codeigniter4
+
+instructions: |
+  🧠 Gunakan arsitektur modular penuh sesuai isi architecture.md.
+  Semua controller, model, view, helper, dan route wajib berada dalam folder Modules/<NamaModule>.
+  Jangan buat file di folder /app kecuali untuk Config dan bootstrap dasar.
+  Gunakan namespace: Modules\<ModuleName>\Controllers, Modules\<ModuleName>\Models, dst.
+  Seluruh module wajib extend BaseController dari Modules/Core.
+  Gunakan pattern service untuk business logic dan TenantService untuk koneksi database per tenant.
+  Gunakan RoleFilter untuk guard peran (mis. superadmin untuk /admin).
+  Gunakan CLI command modular: make:module, tenant:create, tenant:migrate.
+  Abaikan file atau gaya konvensional CI4. Fokus pada struktur modular multi-tenant.
+  Patuhi PSR-4 dan clean architecture.

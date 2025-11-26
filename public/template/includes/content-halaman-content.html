@@ -1,0 +1,627 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h2 class="h5 page-title mb-0">Halaman</h2>
+            <small class="text-muted">Kelola halaman statis website seperti Tentang Kami, Kebijakan Privasi, dll</small>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTambahHalaman">
+              <span class="fe fe-plus fe-12 mr-1"></span>Tambah Halaman
+            </button>
+          </div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Total Halaman</small>
+                <h3 class="mb-0">12</h3>
+                <small class="text-success"><span class="fe fe-arrow-up fe-12"></span> 10 aktif</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Halaman Aktif</small>
+                <h3 class="mb-0 text-success">10</h3>
+                <small class="text-muted">83.3%</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Halaman Publik</small>
+                <h3 class="mb-0">8</h3>
+                <small class="text-info">Dapat diakses publik</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <small class="text-muted d-block mb-1">Halaman Privat</small>
+                <h3 class="mb-0">4</h3>
+                <small class="text-muted">Hanya untuk admin</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Halaman -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="card-title">Daftar Halaman</strong>
+                  </div>
+                  <div class="col-auto">
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-outline-secondary">
+                        <span class="fe fe-filter fe-12"></span> Filter
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary">
+                        <span class="fe fe-download fe-12"></span> Export
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table datatables table-hover" id="dataTable-halaman">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Judul Halaman</th>
+                        <th>Slug/URL</th>
+                        <th>Tipe</th>
+                        <th>Status</th>
+                        <th>Terakhir Diupdate</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>Tentang Kami</strong>
+                          <small class="d-block text-muted">Informasi tentang platform urunankita</small>
+                        </td>
+                        <td>
+                          <a href="/tentang-kami" target="_blank" class="text-primary">
+                            /tentang-kami
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Publik</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>20 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>Kebijakan Privasi</strong>
+                          <small class="d-block text-muted">Kebijakan privasi dan perlindungan data</small>
+                        </td>
+                        <td>
+                          <a href="/kebijakan-privasi" target="_blank" class="text-primary">
+                            /kebijakan-privasi
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Publik</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>18 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>Syarat & Ketentuan</strong>
+                          <small class="d-block text-muted">Syarat dan ketentuan penggunaan platform</small>
+                        </td>
+                        <td>
+                          <a href="/syarat-ketentuan" target="_blank" class="text-primary">
+                            /syarat-ketentuan
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Publik</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>15 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>Cara Kerja</strong>
+                          <small class="d-block text-muted">Penjelasan cara kerja platform urunankita</small>
+                        </td>
+                        <td>
+                          <a href="/cara-kerja" target="_blank" class="text-primary">
+                            /cara-kerja
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Publik</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>12 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>FAQ</strong>
+                          <small class="d-block text-muted">Pertanyaan yang sering diajukan</small>
+                        </td>
+                        <td>
+                          <a href="/faq" target="_blank" class="text-primary">
+                            /faq
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Publik</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>10 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>Kontak Kami</strong>
+                          <small class="d-block text-muted">Informasi kontak dan lokasi</small>
+                        </td>
+                        <td>
+                          <a href="/kontak" target="_blank" class="text-primary">
+                            /kontak
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary">Publik</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Aktif</span>
+                        </td>
+                        <td>8 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-x-circle fe-12 mr-2"></i>Nonaktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>Panduan Penggalang Dana</strong>
+                          <small class="d-block text-muted">Panduan untuk penggalang dana</small>
+                        </td>
+                        <td>
+                          <a href="/panduan-penggalang" target="_blank" class="text-primary">
+                            /panduan-penggalang
+                          </a>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary">Privat</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning">Nonaktif</span>
+                        </td>
+                        <td>5 Jan 2024</td>
+                        <td>
+                          <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" target="_blank"><i class="fe fe-eye fe-12 mr-2"></i>Lihat Halaman</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEditHalaman"><i class="fe fe-edit fe-12 mr-2"></i>Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fe fe-check-circle fe-12 mr-2"></i>Aktifkan</a>
+                            <a class="dropdown-item text-danger" href="#"><i class="fe fe-trash-2 fe-12 mr-2"></i>Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Modal Tambah Halaman -->
+<div class="modal fade" id="modalTambahHalaman" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Halaman Baru</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahHalaman">
+          <div class="form-group">
+            <label>Judul Halaman <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="judulHalaman" placeholder="Contoh: Tentang Kami" required oninput="generateSlug()">
+            <small class="form-text text-muted">Judul yang akan ditampilkan di halaman</small>
+          </div>
+          <div class="form-group">
+            <label>Slug/URL <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">/</span>
+              </div>
+              <input type="text" class="form-control" id="slugHalaman" placeholder="tentang-kami" required pattern="[a-z0-9-]+">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="generateSlug()">
+                  <span class="fe fe-refresh-cw fe-12"></span> Generate
+                </button>
+              </div>
+            </div>
+            <small class="form-text text-muted">URL-friendly identifier (huruf kecil, angka, dan tanda hubung)</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Tipe <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="">Pilih Tipe</option>
+                <option value="publik" selected>Publik</option>
+                <option value="privat">Privat (Hanya Admin)</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Status</label>
+              <select class="form-control">
+                <option value="aktif" selected>Aktif</option>
+                <option value="nonaktif">Nonaktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Isi Konten <span class="text-danger">*</span></label>
+            <div id="kontenEditor" style="min-height: 300px;"></div>
+            <small class="form-text text-muted">Konten halaman menggunakan rich text editor</small>
+          </div>
+          <div class="form-group">
+            <label>Meta Description (Opsional)</label>
+            <textarea class="form-control" rows="2" placeholder="Deskripsi singkat untuk SEO (max 160 karakter)"></textarea>
+            <small class="form-text text-muted">Digunakan untuk SEO dan preview di search engine</small>
+          </div>
+          <div class="form-group">
+            <label>Meta Keywords (Opsional)</label>
+            <input type="text" class="form-control" placeholder="keyword1, keyword2, keyword3">
+            <small class="form-text text-muted">Kata kunci untuk SEO (pisahkan dengan koma)</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="simpanHalaman()">Simpan Halaman</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Halaman -->
+<div class="modal fade" id="modalEditHalaman" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Halaman</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditHalaman">
+          <div class="form-group">
+            <label>Judul Halaman <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="Tentang Kami" required>
+          </div>
+          <div class="form-group">
+            <label>Slug/URL <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">/</span>
+              </div>
+              <input type="text" class="form-control" value="tentang-kami" required pattern="[a-z0-9-]+">
+            </div>
+            <small class="form-text text-muted">URL-friendly identifier</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Tipe <span class="text-danger">*</span></label>
+              <select class="form-control" required>
+                <option value="publik" selected>Publik</option>
+                <option value="privat">Privat (Hanya Admin)</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Status</label>
+              <select class="form-control">
+                <option value="aktif" selected>Aktif</option>
+                <option value="nonaktif">Nonaktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Isi Konten <span class="text-danger">*</span></label>
+            <div id="kontenEditorEdit" style="min-height: 300px;"></div>
+          </div>
+          <div class="form-group">
+            <label>Meta Description (Opsional)</label>
+            <textarea class="form-control" rows="2" placeholder="Deskripsi singkat untuk SEO">Informasi tentang platform urunankita</textarea>
+          </div>
+          <div class="form-group">
+            <label>Meta Keywords (Opsional)</label>
+            <input type="text" class="form-control" value="urunankita, crowdfunding, platform">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary">Update Halaman</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize DataTable
+  (function() {
+    function initDataTable() {
+      if (typeof $.fn.DataTable !== 'undefined' && $('#dataTable-halaman').length) {
+        $('#dataTable-halaman').DataTable({
+          autoWidth: true,
+          "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+          ],
+          "order": [[5, "desc"]], // Sort by terakhir diupdate descending
+          "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ data per halaman",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+            "infoFiltered": "(difilter dari _MAX_ total data)",
+            "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+            }
+          },
+          "columnDefs": [
+            {
+              "targets": [0], // Checkbox column
+              "orderable": false
+            },
+            {
+              "targets": [6], // Action column
+              "orderable": false
+            }
+          ]
+        });
+        console.log('DataTable halaman initialized');
+      } else {
+        console.warn('DataTable library not loaded or table not found');
+        setTimeout(initDataTable, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDataTable, 300);
+      });
+    } else {
+      setTimeout(initDataTable, 300);
+    }
+  })();
+
+  // Generate Slug from Title
+  function generateSlug() {
+    var judul = document.getElementById('judulHalaman').value;
+    if (judul) {
+      var slug = judul.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      document.getElementById('slugHalaman').value = slug;
+      console.log('Slug generated:', slug);
+    }
+  }
+
+  // Initialize Quill Editor (if available)
+  (function() {
+    function initQuill() {
+      if (typeof Quill !== 'undefined') {
+        // Initialize editor for add modal
+        if (document.getElementById('kontenEditor')) {
+          var quillAdd = new Quill('#kontenEditor', {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+              ]
+            }
+          });
+        }
+
+        // Initialize editor for edit modal
+        if (document.getElementById('kontenEditorEdit')) {
+          var quillEdit = new Quill('#kontenEditorEdit', {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+              ]
+            }
+          });
+        }
+
+        console.log('Quill editor initialized');
+      } else {
+        console.warn('Quill library not loaded');
+        setTimeout(initQuill, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initQuill, 300);
+      });
+    } else {
+      setTimeout(initQuill, 300);
+    }
+  })();
+
+  // Simpan Halaman
+  function simpanHalaman() {
+    // TODO: Implement save logic
+    alert('Halaman berhasil disimpan! (Simulasi)');
+    $('#modalTambahHalaman').modal('hide');
+  }
+
+  // Make functions global
+  window.generateSlug = generateSlug;
+  window.simpanHalaman = simpanHalaman;
+</script>
+

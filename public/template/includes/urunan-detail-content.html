@@ -1,0 +1,300 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <a href="index.php?page=urunan-list" class="btn btn-sm btn-outline-secondary mb-2" data-content="includes/urunan-list-content.html">
+              <span class="fe fe-arrow-left fe-12 mr-1"></span>Kembali ke Daftar Urunan
+            </a>
+            <h2 class="h5 page-title mb-0">Detail Urunan</h2>
+            <small class="text-muted">ID: #URN-001</small>
+          </div>
+          <div class="col-auto">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-primary" data-content="includes/urunan-create-content.html">
+                <span class="fe fe-edit fe-12 mr-1"></span>Edit
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger">
+                <span class="fe fe-trash-2 fe-12 mr-1"></span>Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Main Content -->
+          <div class="col-lg-8">
+            <!-- Informasi Utama -->
+            <div class="card shadow mb-4">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h3 class="mb-2">Bantuan Korban Banjir Jakarta</h3>
+                    <div class="mb-2">
+                      <span class="badge badge-secondary mr-2">Bencana Alam</span>
+                      <span class="badge badge-info mr-2">Targeted</span>
+                      <span class="badge badge-success">Aktif</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <small class="text-muted d-block">Target Donasi</small>
+                    <strong class="h5">Rp 50.000.000</strong>
+                  </div>
+                  <div class="col-md-6">
+                    <small class="text-muted d-block">Terkumpul</small>
+                    <strong class="h5 text-success">Rp 35.000.000</strong>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Progress</small>
+                    <small class="text-muted"><strong>70%</strong></small>
+                  </div>
+                  <div class="progress" style="height: 20px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                      <span class="small">70%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <small class="text-muted d-block">Deadline</small>
+                    <strong>15 Januari 2024</strong>
+                  </div>
+                  <div class="col-md-6">
+                    <small class="text-muted d-block">Sisa Waktu</small>
+                    <strong class="text-danger">15 hari lagi</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deskripsi -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Deskripsi Urunan</strong>
+              </div>
+              <div class="card-body">
+                <p>Banjir besar yang melanda Jakarta pada awal bulan ini telah menyebabkan kerusakan parah di berbagai wilayah. Ribuan warga kehilangan tempat tinggal dan harta benda mereka. Banyak keluarga yang membutuhkan bantuan untuk memenuhi kebutuhan dasar seperti makanan, pakaian, dan tempat tinggal sementara.</p>
+                <p>Dana yang terkumpul akan digunakan untuk:</p>
+                <ul>
+                  <li>Pembelian paket sembako untuk 500 keluarga</li>
+                  <li>Pembelian selimut dan pakaian untuk korban banjir</li>
+                  <li>Pembuatan dapur umum untuk menyediakan makanan gratis</li>
+                  <li>Bantuan perbaikan rumah yang rusak</li>
+                </ul>
+                <p>Kami berkomitmen untuk transparan dalam penggunaan dana. Setiap pengeluaran akan dilaporkan secara berkala dan dapat dilihat oleh semua donatur.</p>
+              </div>
+            </div>
+
+            <!-- Galeri Gambar -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Galeri Gambar</strong>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <img src="assets/products/p1.jpg" class="img-fluid rounded shadow-sm" alt="Gambar Urunan 1" style="cursor: pointer;" onclick="openImageModal(this.src)">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <img src="assets/products/p2.jpg" class="img-fluid rounded shadow-sm" alt="Gambar Urunan 2" style="cursor: pointer;" onclick="openImageModal(this.src)">
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <img src="assets/products/p3.jpg" class="img-fluid rounded shadow-sm" alt="Gambar Urunan 3" style="cursor: pointer;" onclick="openImageModal(this.src)">
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <img src="assets/products/p4.jpg" class="img-fluid rounded shadow-sm" alt="Gambar Urunan 4" style="cursor: pointer;" onclick="openImageModal(this.src)">
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <img src="assets/products/p1.jpg" class="img-fluid rounded shadow-sm" alt="Gambar Urunan 5" style="cursor: pointer;" onclick="openImageModal(this.src)">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Galeri Video YouTube -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Video</strong>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <div class="embed-responsive embed-responsive-16by9 rounded shadow-sm">
+                      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen></iframe>
+                    </div>
+                    <p class="mt-2 mb-0"><small class="text-muted">Video Dokumentasi Banjir Jakarta</small></p>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="embed-responsive embed-responsive-16by9 rounded shadow-sm">
+                      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                    </div>
+                    <p class="mt-2 mb-0"><small class="text-muted">Update Distribusi Bantuan</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lokasi -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Lokasi</strong>
+              </div>
+              <div class="card-body">
+                <p class="mb-2"><strong>Koordinat:</strong></p>
+                <p class="mb-1">Latitude: -6.2088</p>
+                <p class="mb-0">Longitude: 106.8456</p>
+                <div class="mt-3 bg-light rounded p-3 text-center">
+                  <i class="fe fe-map-pin fe-24 text-muted"></i>
+                  <p class="text-muted mb-0 mt-2">Peta lokasi akan ditampilkan di sini</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="col-lg-4">
+            <!-- Statistik -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Statistik</strong>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <small class="text-muted d-block">Total Donasi</small>
+                  <strong class="h5">Rp 35.000.000</strong>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted d-block">Jumlah Donatur</small>
+                  <strong class="h5">248</strong>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted d-block">Donasi Terbesar</small>
+                  <strong class="h5">Rp 5.000.000</strong>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted d-block">Rata-rata Donasi</small>
+                  <strong class="h5">Rp 141.129</strong>
+                </div>
+                <div>
+                  <small class="text-muted d-block">Dibuat</small>
+                  <strong>1 Desember 2023</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Donasi Terbaru -->
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <strong class="card-title">Donasi Terbaru</strong>
+              </div>
+              <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item px-0 py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Budi Santoso</strong>
+                        <small class="d-block text-muted">5 jam yang lalu</small>
+                      </div>
+                      <strong class="text-success">Rp 500.000</strong>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0 py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Siti Nurhaliza</strong>
+                        <small class="d-block text-muted">8 jam yang lalu</small>
+                      </div>
+                      <strong class="text-success">Rp 1.000.000</strong>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0 py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Anonim</strong>
+                        <small class="d-block text-muted">12 jam yang lalu</small>
+                      </div>
+                      <strong class="text-success">Rp 250.000</strong>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0 py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Ahmad Wijaya</strong>
+                        <small class="d-block text-muted">1 hari yang lalu</small>
+                      </div>
+                      <strong class="text-success">Rp 2.000.000</strong>
+                    </div>
+                  </div>
+                  <div class="list-group-item px-0 py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Maya Sari</strong>
+                        <small class="d-block text-muted">2 hari yang lalu</small>
+                      </div>
+                      <strong class="text-success">Rp 750.000</strong>
+                    </div>
+                  </div>
+                </div>
+                <a href="index.php?page=urunan-donasi" class="btn btn-sm btn-outline-primary btn-block mt-3" data-content="includes/urunan-donasi-content.html">
+                  Lihat Semua Donasi
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Quick Actions</strong>
+              </div>
+              <div class="card-body">
+                <a href="index.php?page=urunan-laporan" class="btn btn-sm btn-outline-primary btn-block mb-2" data-content="includes/urunan-laporan-content.html">
+                  <span class="fe fe-file-text fe-12 mr-1"></span>Laporan Penggunaan Dana
+                </a>
+                <a href="index.php?page=urunan-diskusi" class="btn btn-sm btn-outline-secondary btn-block mb-2" data-content="includes/urunan-diskusi-content.html">
+                  <span class="fe fe-message-circle fe-12 mr-1"></span>Diskusi & Komentar
+                </a>
+                <button class="btn btn-sm btn-outline-info btn-block">
+                  <span class="fe fe-share-2 fe-12 mr-1"></span>Bagikan Urunan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Preview Gambar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img id="modalImage" src="" class="img-fluid" alt="Preview">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openImageModal(imageSrc) {
+    document.getElementById('modalImage').src = imageSrc;
+    $('#imageModal').modal('show');
+  }
+</script>
+

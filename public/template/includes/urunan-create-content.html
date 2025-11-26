@@ -1,0 +1,297 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Buat Urunan Baru</h2>
+          </div>
+          <div class="col-auto">
+            <a href="./urunan/list.html" class="btn btn-sm btn-outline-secondary mr-2">
+              <span class="fe fe-arrow-left fe-12 mr-1"></span>Kembali
+            </a>
+            <button type="button" class="btn btn-sm btn-primary" id="btn-submit">
+              <span class="fe fe-check fe-12 mr-1"></span>Publish Urunan
+            </button>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form class="needs-validation" novalidate>
+          <!-- Informasi Dasar -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Informasi Dasar</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="judul">Judul Urunan <span class="text-danger">*</span></label>
+                  <input type="text" id="judul" class="form-control" placeholder="Contoh: Bantuan Korban Banjir Jakarta" required>
+                  <div class="invalid-feedback">Judul urunan wajib diisi</div>
+                  <small class="form-text text-muted">Judul yang menarik akan membuat lebih banyak donatur tertarik</small>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="kategori">Kategori <span class="text-danger">*</span></label>
+                  <select id="kategori" class="form-control select2" required>
+                    <option value="">Pilih Kategori</option>
+                    <option value="kesehatan">Kesehatan</option>
+                    <option value="pendidikan">Pendidikan</option>
+                    <option value="bencana">Bencana Alam</option>
+                    <option value="sosial">Sosial & Kemanusiaan</option>
+                    <option value="agama">Agama & Keagamaan</option>
+                    <option value="lingkungan">Lingkungan</option>
+                    <option value="lainnya">Lainnya</option>
+                  </select>
+                  <div class="invalid-feedback">Pilih kategori</div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="jenis">Jenis Urunan <span class="text-danger">*</span></label>
+                  <select id="jenis" class="form-control" required>
+                    <option value="">Pilih Jenis</option>
+                    <option value="targeted">Targeted (Ada Target Donasi)</option>
+                    <option value="open">Open (Tanpa Target)</option>
+                  </select>
+                  <div class="invalid-feedback">Pilih jenis urunan</div>
+                </div>
+              </div>
+
+               <!-- Target & Deadline -->
+               <div class="d-none" id="target-row">
+                 <div class="form-row">
+                   <div class="form-group col-md-6">
+                     <label for="target">Target Donasi <span class="text-danger">*</span></label>
+                     <div class="input-group">
+                       <div class="input-group-prepend">
+                         <span class="input-group-text">Rp</span>
+                       </div>
+                       <input type="text" class="form-control input-money" id="target" placeholder="0">
+                     </div>
+                     <div class="invalid-feedback">Target donasi wajib diisi untuk urunan targeted</div>
+                     <small class="form-text text-muted">Target donasi yang ingin dicapai</small>
+                   </div>
+
+                   <div class="form-group col-md-6">
+                     <div class="d-flex justify-content-between align-items-center">
+                      <label for="target">Tanggal Deadline <span class="text-danger">*</span></label>
+                       </label>
+                       <div class="custom-control custom-switch">
+                         <input type="checkbox" class="custom-control-input" id="terusMenerus">
+                         <label class="custom-control-label" for="terusMenerus" style="cursor: pointer; font-size: 0.875rem;">
+                           <strong>Tanpa deadline</strong>
+                         </label>
+                       </div>
+                     </div>
+                     <input type="date" class="form-control" id="deadline">
+                     <div class="invalid-feedback">Deadline wajib diisi untuk urunan targeted</div>
+                     <small class="form-text text-muted">Tanggal akhir penggalangan dana</small>
+                   </div>
+                 </div>
+               </div>
+
+               <!-- Deadline untuk Open -->
+               <div class="d-none" id="deadline-row">
+                 <div class="form-row">
+                   <div class="form-group col-md-12">
+                     <div class="d-flex justify-content-between align-items-center">
+                      <label for="target">Tanggal Deadline <span class="text-danger">*</span></label>
+                       <div class="custom-control custom-switch">
+                         <input type="checkbox" class="custom-control-input" id="terusMenerusOpen">
+                         <label class="custom-control-label" for="terusMenerusOpen" style="cursor: pointer; font-size: 0.875rem;">
+                           <strong>Tanpa deadline</strong>
+                         </label>
+                       </div>
+                     </div>
+                     <input type="date" class="form-control" id="deadline-open">
+                     <div class="invalid-feedback">Deadline wajib diisi untuk urunan targeted</div>
+                     <small class="form-text text-muted">Tanggal akhir penggalangan dana</small>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </div>
+
+          <!-- Deskripsi Urunan -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Deskripsi Urunan</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="deskripsi">Ceritakan Detail Urunan <span class="text-danger">*</span></label>
+                <div id="deskripsi-editor" style="min-height: 200px;"></div>
+                <small class="form-text text-muted">Jelaskan detail urunan, tujuan, dan manfaat donasi</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gambar Urunan -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Gambar Urunan</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Upload Gambar Utama <span class="text-danger">*</span></label>
+                <div class="dropzone bg-light rounded-lg" id="dropzone-single">
+                  <div class="dz-message needsclick">
+                    <div class="circle circle-lg bg-primary">
+                      <i class="fe fe-upload fe-24 text-white"></i>
+                    </div>
+                    <h5 class="text-muted mt-4">Drop gambar di sini atau klik untuk upload</h5>
+                    <span class="text-muted">Max: 5MB, Format: JPG/PNG</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Gambar Tambahan (Opsional)</label>
+                <div class="dropzone bg-light rounded-lg" id="dropzone-multiple">
+                  <div class="dz-message needsclick">
+                    <div class="circle circle-lg bg-secondary">
+                      <i class="fe fe-image fe-24 text-white"></i>
+                    </div>
+                    <h5 class="text-muted mt-4">Upload beberapa gambar tambahan</h5>
+                    <span class="text-muted">Max: 5 gambar, masing-masing 5MB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lokasi -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Lokasi</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="latitude">Latitude (Opsional)</label>
+                  <input type="text" class="form-control" id="latitude" placeholder="Contoh: -6.2088">
+                  <small class="form-text text-muted">Koordinat latitude lokasi</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="longitude">Longitude (Opsional)</label>
+                  <input type="text" class="form-control" id="longitude" placeholder="Contoh: 106.8456">
+                  <small class="form-text text-muted">Koordinat longitude lokasi</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="customDraft">
+                      <label class="custom-control-label" for="customDraft">Simpan sebagai draft</label>
+                    </div>
+                    <div>
+                      <button type="button" class="btn btn-outline-secondary mr-2" id="btn-draft">Simpan Draft</button>
+                      <button type="submit" class="btn btn-primary">
+                        <span class="fe fe-check fe-12 mr-1"></span>Publish Urunan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+ (function() {
+   function setupJenisToggle() {
+     const jenis = document.getElementById('jenis');
+     const targetRow = document.getElementById('target-row');
+     const deadlineRow = document.getElementById('deadline-row');
+     const targetInput = document.getElementById('target');
+     const deadlineInput = document.getElementById('deadline');
+     const deadlineOpen = document.getElementById('deadline-open');
+     const terusTarget = document.getElementById('terusMenerus');
+     const terusOpen = document.getElementById('terusMenerusOpen');
+     const deadlineRequired = document.getElementById('deadline-required');
+
+     const show = el => el && el.classList.remove('d-none');
+     const hide = el => el && el.classList.add('d-none');
+
+     function toggleTargeted() {
+       if (terusTarget.checked) {
+         // Disable deadline input (tetap terlihat)
+         deadlineInput.disabled = true;
+         deadlineInput.removeAttribute('required');
+         deadlineInput.value = '';
+         deadlineInput.classList.add('bg-light');
+         deadlineRequired.classList.add('d-none');
+         console.log('Terus Menerus: ON - Deadline disabled');
+       } else {
+         // Enable deadline input
+         deadlineInput.disabled = false;
+         deadlineInput.setAttribute('required', 'required');
+         deadlineInput.classList.remove('bg-light');
+         deadlineRequired.classList.remove('d-none');
+         console.log('Terus Menerus: OFF - Deadline enabled');
+       }
+     }
+
+     function toggleOpen() {
+       if (terusOpen.checked) {
+         // Disable deadline input (tetap terlihat)
+         deadlineOpen.disabled = true;
+         deadlineOpen.removeAttribute('required');
+         deadlineOpen.value = '';
+         deadlineOpen.classList.add('bg-light');
+         console.log('Terus Menerus Open: ON - Deadline disabled');
+       } else {
+         // Enable deadline input
+         deadlineOpen.disabled = false;
+         deadlineOpen.removeAttribute('required');
+         deadlineOpen.classList.remove('bg-light');
+         console.log('Terus Menerus Open: OFF - Deadline enabled');
+       }
+     }
+
+     function toggleJenis() {
+       const value = jenis.value;
+       if (value === 'targeted') {
+         show(targetRow); hide(deadlineRow);
+         targetInput.setAttribute('required', 'required');
+         deadlineInput.setAttribute('required', 'required');
+         deadlineInput.disabled = false;
+         deadlineInput.classList.remove('bg-light');
+         terusTarget.checked = false;
+         toggleTargeted();
+       } else if (value === 'open') {
+         hide(targetRow); show(deadlineRow);
+         targetInput.removeAttribute('required');
+         deadlineOpen.disabled = false;
+         deadlineOpen.classList.remove('bg-light');
+         terusOpen.checked = false;
+         toggleOpen();
+       } else {
+         hide(targetRow); hide(deadlineRow);
+       }
+     }
+
+     jenis.addEventListener('change', toggleJenis);
+     terusTarget.addEventListener('change', toggleTargeted);
+     terusOpen.addEventListener('change', toggleOpen);
+
+     toggleJenis(); // initial
+   }
+
+   document.addEventListener('DOMContentLoaded', setupJenisToggle);
+ })();
+</script>

@@ -1,0 +1,288 @@
+<main role="main" class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Page Header -->
+        <div class="row align-items-center mb-2">
+          <div class="col">
+            <h2 class="h5 page-title">Pengaturan Umum</h2>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-primary" onclick="simpanPengaturan()">
+              <span class="fe fe-save fe-12 mr-1"></span>Simpan Pengaturan
+            </button>
+          </div>
+        </div>
+
+        <!-- Form Pengaturan -->
+        <form id="formPengaturanUmum" class="needs-validation" novalidate>
+          <!-- Informasi Platform -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Informasi Platform</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Nama Platform <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="UrunanKita" required>
+                <small class="form-text text-muted">Nama platform yang akan ditampilkan di website</small>
+              </div>
+              <div class="form-group">
+                <label>Tagline/Slogan</label>
+                <input type="text" class="form-control" value="Platform Crowdfunding Terpercaya">
+                <small class="form-text text-muted">Slogan atau tagline platform</small>
+              </div>
+              <div class="form-group">
+                <label>Deskripsi Platform</label>
+                <textarea class="form-control" rows="3" placeholder="Deskripsi singkat tentang platform">Platform crowdfunding terpercaya untuk membantu berbagai kebutuhan sosial dan kemanusiaan.</textarea>
+                <small class="form-text text-muted">Deskripsi yang akan digunakan untuk SEO</small>
+              </div>
+              <div class="form-group">
+                <label>Logo Platform</label>
+                <div class="mb-2">
+                  <img src="assets/logo.png" alt="Logo" class="img-thumbnail" style="max-width: 200px;">
+                </div>
+                <div class="dropzone bg-light rounded-lg" id="dropzone-logo">
+                  <div class="dz-message needsclick">
+                    <div class="circle circle-lg bg-primary">
+                      <i class="fe fe-upload fe-24 text-white"></i>
+                    </div>
+                    <h5 class="text-muted mt-4">Drop logo di sini atau klik untuk upload</h5>
+                    <span class="text-muted">Max: 2MB, Format: PNG/SVG (disarankan transparan)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Favicon</label>
+                <div class="mb-2">
+                  <img src="assets/favicon.ico" alt="Favicon" class="img-thumbnail" style="max-width: 64px;">
+                </div>
+                <div class="dropzone bg-light rounded-lg" id="dropzone-favicon">
+                  <div class="dz-message needsclick">
+                    <div class="circle circle-lg bg-secondary">
+                      <i class="fe fe-upload fe-24 text-white"></i>
+                    </div>
+                    <h5 class="text-muted mt-4">Drop favicon di sini atau klik untuk upload</h5>
+                    <span class="text-muted">Max: 1MB, Format: ICO/PNG (16x16 atau 32x32)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kontak & Informasi -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Kontak & Informasi</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Email Kontak <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" value="info@urunankita.test" required>
+                  <small class="form-text text-muted">Email untuk kontak umum</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Nomor Telepon</label>
+                  <input type="text" class="form-control" value="+62 812 3456 7890">
+                  <small class="form-text text-muted">Nomor telepon kontak</small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Alamat Lengkap</label>
+                <textarea class="form-control" rows="3">Jl. Raya Contoh No. 123, Jakarta Selatan, DKI Jakarta 12345</textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Facebook</label>
+                  <input type="url" class="form-control" placeholder="https://facebook.com/urunankita" value="https://facebook.com/urunankita">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Instagram</label>
+                  <input type="url" class="form-control" placeholder="https://instagram.com/urunankita" value="https://instagram.com/urunankita">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Twitter</label>
+                  <input type="url" class="form-control" placeholder="https://twitter.com/urunankita" value="https://twitter.com/urunankita">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Domain & Subdomain -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Domain & Subdomain</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Domain Utama <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="urunankita.test" required>
+                <small class="form-text text-muted">Domain utama platform (contoh: urunankita.test)</small>
+              </div>
+              <div class="form-group">
+                <label>Subdomain Format</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" value="{subdomain}" placeholder="{subdomain}" readonly>
+                  <div class="input-group-append">
+                    <span class="input-group-text">.urunankita.test</span>
+                  </div>
+                </div>
+                <small class="form-text text-muted">Format subdomain untuk penggalang dana (gunakan {subdomain} sebagai placeholder)</small>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="allowSubdomain" checked>
+                  <label class="custom-control-label" for="allowSubdomain">
+                    <strong>Izinkan Pembuatan Subdomain Baru</strong>
+                    <small class="d-block text-muted">Aktifkan untuk memungkinkan pembuatan subdomain baru untuk penggalang dana</small>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pengaturan Umum -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">Pengaturan Umum</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Zona Waktu</label>
+                <select class="form-control">
+                  <option value="Asia/Jakarta" selected>Asia/Jakarta (WIB)</option>
+                  <option value="Asia/Makassar">Asia/Makassar (WITA)</option>
+                  <option value="Asia/Jayapura">Asia/Jayapura (WIT)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Bahasa Default</label>
+                <select class="form-control">
+                  <option value="id" selected>Bahasa Indonesia</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="maintenanceMode">
+                  <label class="custom-control-label" for="maintenanceMode">
+                    <strong>Maintenance Mode</strong>
+                    <small class="d-block text-muted">Aktifkan untuk menampilkan halaman maintenance</small>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="allowRegistration" checked>
+                  <label class="custom-control-label" for="allowRegistration">
+                    <strong>Izinkan Pendaftaran Publik</strong>
+                    <small class="d-block text-muted">Aktifkan untuk mengizinkan pendaftaran penggalang dana secara publik</small>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEO & Meta -->
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong class="card-title">SEO & Meta Tags</strong>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Meta Title</label>
+                <input type="text" class="form-control" value="UrunanKita - Platform Crowdfunding Terpercaya" maxlength="60">
+                <small class="form-text text-muted">Judul untuk SEO (disarankan maksimal 60 karakter)</small>
+              </div>
+              <div class="form-group">
+                <label>Meta Description</label>
+                <textarea class="form-control" rows="2" maxlength="160">Platform crowdfunding terpercaya untuk membantu berbagai kebutuhan sosial dan kemanusiaan. Bergabunglah dengan ribuan penggalang dana dan donatur.</textarea>
+                <small class="form-text text-muted">Deskripsi untuk SEO (disarankan maksimal 160 karakter)</small>
+              </div>
+              <div class="form-group">
+                <label>Meta Keywords</label>
+                <input type="text" class="form-control" value="crowdfunding, urunan, donasi, bantuan, sosial, kemanusiaan">
+                <small class="form-text text-muted">Kata kunci untuk SEO (pisahkan dengan koma)</small>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+</main>
+
+<script>
+  // Simpan Pengaturan
+  function simpanPengaturan() {
+    var form = document.getElementById('formPengaturanUmum');
+    if (form.checkValidity()) {
+      // TODO: Implement save logic
+      alert('Pengaturan berhasil disimpan! (Simulasi)');
+      console.log('Settings saved');
+    } else {
+      form.classList.add('was-validated');
+    }
+  }
+
+  // Initialize Dropzone for logo and favicon (if available)
+  (function() {
+    function initDropzone() {
+      if (typeof Dropzone !== 'undefined') {
+        // Logo dropzone
+        if (document.getElementById('dropzone-logo')) {
+          var logoDropzone = new Dropzone('#dropzone-logo', {
+            url: '/upload-logo',
+            maxFiles: 1,
+            maxFilesize: 2,
+            acceptedFiles: 'image/png,image/svg+xml',
+            addRemoveLinks: true,
+            dictDefaultMessage: '',
+            dictRemoveFile: 'Hapus',
+            init: function() {
+              this.on('success', function(file, response) {
+                console.log('Logo uploaded:', response);
+              });
+            }
+          });
+        }
+
+        // Favicon dropzone
+        if (document.getElementById('dropzone-favicon')) {
+          var faviconDropzone = new Dropzone('#dropzone-favicon', {
+            url: '/upload-favicon',
+            maxFiles: 1,
+            maxFilesize: 1,
+            acceptedFiles: 'image/x-icon,image/png',
+            addRemoveLinks: true,
+            dictDefaultMessage: '',
+            dictRemoveFile: 'Hapus',
+            init: function() {
+              this.on('success', function(file, response) {
+                console.log('Favicon uploaded:', response);
+              });
+            }
+          });
+        }
+
+        console.log('Dropzone initialized for logo and favicon');
+      } else {
+        console.warn('Dropzone library not loaded');
+        setTimeout(initDropzone, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initDropzone, 300);
+      });
+    } else {
+      setTimeout(initDropzone, 300);
+    }
+  })();
+
+  // Make functions global
+  window.simpanPengaturan = simpanPengaturan;
+</script>
+
