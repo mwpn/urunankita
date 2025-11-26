@@ -24,10 +24,27 @@ class MessageTemplateService
         $enabledKey = $settingKey . '_enabled';
         
         // Check if template is enabled (default to enabled if not set)
-        $enabled = $settingService->get($enabledKey, '1', 'global', null);
-        log_message('debug', "Template {$templateKey} enabled check: " . var_export($enabled, true) . " (tenantId: {$tenantId})");
+        // Try tenant-specific enabled setting first
+        $enabled = null;
+        if ($tenantId) {
+            $enabled = $settingService->get($enabledKey, null, 'tenant', $tenantId);
+            log_message('debug', "Template {$templateKey} enabled check from tenant {$tenantId}: " . var_export($enabled, true));
+        }
         
-        if ($enabled !== '1' && $enabled !== 1 && $enabled !== true) {
+        // Fallback to global enabled setting
+        if ($enabled === null) {
+            $enabled = $settingService->get($enabledKey, '1', 'global', null);
+            log_message('debug', "Template {$templateKey} enabled check from global: " . var_export($enabled, true));
+        }
+        
+        // Default to enabled if not set
+        if ($enabled === null || $enabled === '') {
+            $enabled = '1';
+            log_message('debug', "Template {$templateKey} enabled check: defaulting to enabled");
+        }
+        
+        // Check if disabled (only disable if explicitly set to 0, false, or '0')
+        if ($enabled === '0' || $enabled === 0 || $enabled === false || $enabled === 'false') {
             // Template is disabled, return null
             log_message('debug', "Template {$templateKey} is disabled, skipping");
             return null;
