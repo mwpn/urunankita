@@ -500,12 +500,26 @@ class SettingController extends BaseController
             $storageService = new StorageService();
             
             // Create platform uploads directory
-            $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform' . DIRECTORY_SEPARATOR;
+            // FCPATH points to public/ directory
+            $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform';
+            
+            // Ensure parent directory exists first
+            $parentPath = FCPATH . 'uploads';
+            if (!is_dir($parentPath)) {
+                if (!mkdir($parentPath, 0755, true)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/ writable.',
+                    ])->setStatusCode(500);
+                }
+            }
+            
+            // Create platform subdirectory
             if (!is_dir($uploadPath)) {
                 if (!mkdir($uploadPath, 0755, true)) {
                     return $this->response->setJSON([
                         'success' => false,
-                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/uploads/ writable.',
+                        'message' => 'Gagal membuat folder uploads/platform. Pastikan folder public/uploads/ writable.',
                     ])->setStatusCode(500);
                 }
             }
@@ -597,12 +611,26 @@ class SettingController extends BaseController
             $storageService = new StorageService();
             
             // Create platform uploads directory
-            $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform' . DIRECTORY_SEPARATOR;
+            // FCPATH points to public/ directory
+            $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform';
+            
+            // Ensure parent directory exists first
+            $parentPath = FCPATH . 'uploads';
+            if (!is_dir($parentPath)) {
+                if (!mkdir($parentPath, 0755, true)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/ writable.',
+                    ])->setStatusCode(500);
+                }
+            }
+            
+            // Create platform subdirectory
             if (!is_dir($uploadPath)) {
                 if (!mkdir($uploadPath, 0755, true)) {
                     return $this->response->setJSON([
                         'success' => false,
-                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/uploads/ writable.',
+                        'message' => 'Gagal membuat folder uploads/platform. Pastikan folder public/uploads/ writable.',
                     ])->setStatusCode(500);
                 }
             }
@@ -735,12 +763,26 @@ class SettingController extends BaseController
 
         try {
             // Create platform uploads directory
-            $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform' . DIRECTORY_SEPARATOR;
+            // FCPATH points to public/ directory
+            $uploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'platform';
+            
+            // Ensure parent directory exists first
+            $parentPath = FCPATH . 'uploads';
+            if (!is_dir($parentPath)) {
+                if (!mkdir($parentPath, 0755, true)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/ writable.',
+                    ])->setStatusCode(500);
+                }
+            }
+            
+            // Create platform subdirectory
             if (!is_dir($uploadPath)) {
                 if (!mkdir($uploadPath, 0755, true)) {
                     return $this->response->setJSON([
                         'success' => false,
-                        'message' => 'Gagal membuat folder uploads. Pastikan folder public/uploads/ writable.',
+                        'message' => 'Gagal membuat folder uploads/platform. Pastikan folder public/uploads/ writable.',
                     ])->setStatusCode(500);
                 }
             }
