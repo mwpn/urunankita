@@ -433,9 +433,9 @@ class DonationService
             log_message('debug', 'Final owner check: ' . ($ownerPhone ? 'yes (Phone: ' . $ownerPhone . ')' : 'no'));
             
             // STEP 4: Final check - ensure we have owner phone
+            // If no owner found, try to get superadmin as fallback (especially for platform tenant)
             if (empty($ownerPhone)) {
                 log_message('warning', 'Owner not found or phone is empty for tenant_id: ' . $tenantId . ' (owner_id: ' . ($tenant['owner_id'] ?? 'null') . ')');
-                log_message('warning', 'Skipping tenant notification - no valid owner phone number found');
                 
                 // Log semua user dengan tenant_id untuk debugging
                 $allUsers = $db->table('users')
@@ -447,7 +447,24 @@ class DonationService
                     log_message('debug', '  - User ID: ' . $u['id'] . ', Name: ' . ($u['name'] ?? 'null') . ', Role: ' . ($u['role'] ?? 'null') . ', Phone: ' . ($u['phone'] ?? 'empty'));
                 }
                 
-                return;
+                // Fallback: Try to get superadmin user (for platform tenant or if no owner found)
+                log_message('debug', 'Trying to find superadmin as fallback...');
+                $superadmin = $db->table('users')
+                    ->whereIn('role', ['superadmin', 'super_admin', 'admin'])
+                    ->where('phone IS NOT NULL')
+                    ->where('phone !=', '')
+                    ->orderBy('id', 'ASC')
+                    ->get()
+                    ->getRowArray();
+                
+                if ($superadmin && !empty($superadmin['phone']) && trim($superadmin['phone']) !== '') {
+                    $owner = $superadmin;
+                    $ownerPhone = trim($superadmin['phone']);
+                    log_message('info', 'Using superadmin as fallback: User ID ' . $superadmin['id'] . ', Phone: ' . $ownerPhone);
+                } else {
+                    log_message('warning', 'Superadmin also not found or has no phone, skipping tenant notification');
+                    return;
+                }
             }
             
             log_message('info', 'Owner found for tenant notification: User ID ' . ($owner['id'] ?? 'unknown') . ', Phone: ' . $ownerPhone);
