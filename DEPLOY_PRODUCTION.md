@@ -4,13 +4,13 @@
 
 ### 1. Pastikan Template Notifikasi Enabled (WAJIB!)
 
-**Cara TERMUDAH - Gunakan command ini:**
+**Cara TERMUDAH - Gunakan PHP script ini:**
 
 ```bash
-php spark ensure:notification-templates
+php app/Database/Scripts/ensure_tenant_notification_template.php
 ```
 
-Command ini akan:
+Script ini akan:
 
 - Memastikan template `whatsapp_template_tenant_donation_new` ada
 - Memastikan setting `whatsapp_template_tenant_donation_new_enabled` = '1' (enabled)
@@ -27,12 +27,9 @@ php spark db:seed SettingSeeder
 ```bash
 # Via MySQL command line
 mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_notification_template.sql
-```
 
-Atau jika ingin insert manual, jalankan SQL script:
-
-```bash
-mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_notification_template.sql
+# Atau via phpMyAdmin / database tool, copy-paste isi file:
+# app/Database/Scripts/ensure_tenant_notification_template.sql
 ```
 
 ### 2. Verifikasi Template Ada di Database
