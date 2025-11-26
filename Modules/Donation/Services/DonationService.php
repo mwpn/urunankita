@@ -91,15 +91,35 @@ class DonationService
 
             // Send notification to donor
             log_message('info', '=== Starting notification process for donation ID: ' . $id . ' ===');
-            $this->sendDonationNotification($id, $donationData);
+            log_message('info', 'Donation data: tenant_id=' . ($donationData['tenant_id'] ?? 'null') . ', campaign_id=' . ($donationData['campaign_id'] ?? 'null'));
+            
+            try {
+                $this->sendDonationNotification($id, $donationData);
+                log_message('info', 'Donor notification process completed');
+            } catch (\Exception $e) {
+                log_message('error', 'Failed to send donor notification: ' . $e->getMessage());
+            }
             
             // Send notification to tenant (owner) for manual approval
             // IMPORTANT: This should always be sent, even if donor and owner have the same phone number
             // because they are different notifications with different purposes
-            $this->sendTenantDonationNotification($id, $donationData);
+            try {
+                log_message('info', 'Starting tenant notification process...');
+                $this->sendTenantDonationNotification($id, $donationData);
+                log_message('info', 'Tenant notification process completed');
+            } catch (\Exception $e) {
+                log_message('error', 'Failed to send tenant notification: ' . $e->getMessage());
+                log_message('error', 'Stack trace: ' . $e->getTraceAsString());
+            }
             
             // Send notification to admin platform (superadmin) if configured
-            $this->sendAdminDonationNotification($id, $donationData);
+            try {
+                log_message('info', 'Starting admin notification process...');
+                $this->sendAdminDonationNotification($id, $donationData);
+                log_message('info', 'Admin notification process completed');
+            } catch (\Exception $e) {
+                log_message('error', 'Failed to send admin notification: ' . $e->getMessage());
+            }
             
             log_message('info', '=== Notification process completed for donation ID: ' . $id . ' ===');
         }
@@ -365,6 +385,17 @@ class DonationService
             if (empty($ownerPhone)) {
                 log_message('warning', 'Owner not found or phone is empty for tenant_id: ' . $donationData['tenant_id'] . ' (owner_id: ' . ($tenant['owner_id'] ?? 'null') . ')');
                 log_message('warning', 'Skipping tenant notification - no valid owner phone number found');
+                
+                // Log semua user dengan tenant_id untuk debugging
+                $allUsers = $db->table('users')
+                    ->where('tenant_id', (int) $donationData['tenant_id'])
+                    ->get()
+                    ->getResultArray();
+                log_message('debug', 'All users with tenant_id ' . $donationData['tenant_id'] . ': ' . count($allUsers));
+                foreach ($allUsers as $u) {
+                    log_message('debug', '  - User ID: ' . $u['id'] . ', Role: ' . ($u['role'] ?? 'null') . ', Phone: ' . ($u['phone'] ?? 'empty'));
+                }
+                
                 return;
             }
             
@@ -392,10 +423,14 @@ class DonationService
             ], $paymentPlaceholders), $defaultTemplate, $donationData['tenant_id'] ?? null);
             
             log_message('debug', 'Template rendered message: ' . ($message ? 'yes (' . strlen($message) . ' chars)' : 'null/empty'));
+            if ($message) {
+                log_message('debug', 'Rendered message preview: ' . substr($message, 0, 150));
+            }
             
             // Skip sending if template is disabled or message is empty
             if (empty($message)) {
                 log_message('warning', 'Template tenant_donation_new is disabled or empty, skipping WhatsApp notification to tenant owner');
+                log_message('warning', 'Check if template whatsapp_template_tenant_donation_new exists in database and is enabled');
                 return;
             }
             
