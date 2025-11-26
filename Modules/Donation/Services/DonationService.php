@@ -302,7 +302,9 @@ class DonationService
     protected function sendTenantDonationNotification(int $donationId, array $donationData): void
     {
         try {
-            log_message('debug', 'sendTenantDonationNotification called for donation ID: ' . $donationId);
+            // SAME LOGGING STYLE AS DONOR NOTIFICATION
+            log_message('info', 'sendTenantDonationNotification called for donation ID: ' . $donationId);
+            log_message('info', 'Donation data: tenant_id=' . ($donationData['tenant_id'] ?? 'null') . ', campaign_id=' . ($donationData['campaign_id'] ?? 'null'));
             
             $notificationService = BaseServices::notification();
             $templateService = \Modules\Notification\Config\Services::messageTemplate();
@@ -310,8 +312,14 @@ class DonationService
             log_message('debug', 'Notification service: ' . ($notificationService ? 'exists' : 'null'));
             log_message('debug', 'Template service: ' . ($templateService ? 'exists' : 'null'));
             
-            if (!$notificationService || !$templateService) {
-                log_message('error', 'Notification or template service is null, cannot send tenant notification');
+            // SAME CHECK AS DONOR NOTIFICATION
+            if (!$notificationService) {
+                log_message('error', 'NotificationService is null');
+                return;
+            }
+            
+            if (!$templateService) {
+                log_message('error', 'MessageTemplateService is null');
                 return;
             }
             
@@ -475,10 +483,10 @@ class DonationService
             }
             
             // Skip sending if template is disabled or message is empty
-            // BUT: Use default template if message is empty (force send)
+            // BUT: Use default template if message is empty (force send) - SAME AS DONOR NOTIFICATION
             if (empty($message)) {
                 log_message('warning', 'Template tenant_donation_new is disabled or empty, using default template');
-                // Force use default template
+                // Force use default template - same approach as donor notification
                 $message = str_replace(
                     ['{amount}', '{donor_name}', '{campaign_title}', '{donation_id}'],
                     [
@@ -492,38 +500,31 @@ class DonationService
                 log_message('debug', 'Using forced default template: ' . substr($message, 0, 150));
             }
             
-            // Final check - if still empty, skip
+            // Final check - if still empty, skip (same as donor notification)
             if (empty($message)) {
                 log_message('error', 'Message is still empty after all attempts, skipping notification');
                 return;
             }
             
-            // Check if donor phone and owner phone are the same
-            $donorPhone = $donationData['donor_phone'] ?? null;
-            $isSameNumber = !empty($donorPhone) && $donorPhone === $ownerPhone;
+            // SAME AS DONOR NOTIFICATION - simple logging and send
+            log_message('debug', 'Rendered message: ' . substr($message, 0, 100) . '...');
+            log_message('debug', 'Sending WhatsApp to tenant owner: ' . $ownerPhone);
             
-            if ($isSameNumber) {
-                log_message('info', 'Donor phone and tenant owner phone are the same (' . $ownerPhone . '), but will still send tenant notification');
-            }
-            
-            log_message('debug', 'Sending WhatsApp notification to tenant owner: ' . $ownerPhone);
-            log_message('debug', 'Donor phone: ' . ($donorPhone ?? 'not set') . ', Owner phone: ' . $ownerPhone);
-            
-            // Send notification to tenant owner (even if same number as donor - different message)
+            // Send notification to tenant owner - SAME PROCESS AS DONOR NOTIFICATION
             $result = $notificationService->sendWhatsApp(
                 $ownerPhone,
                 $message,
                 [
                     'type' => 'tenant_donation_new',
                     'donation_id' => $donationId,
-                    'tenant_id' => $donationData['tenant_id'],
+                    'tenant_id' => $tenantId,
                 ]
             );
             
-            log_message('debug', 'WhatsApp notification result: ' . json_encode($result));
+            log_message('debug', 'WhatsApp send result: ' . json_encode($result));
             
             if (!$result['success']) {
-                log_message('error', 'Failed to send tenant notification: ' . ($result['message'] ?? 'Unknown error'));
+                log_message('error', 'WhatsApp send failed: ' . ($result['message'] ?? 'Unknown error'));
             } else {
                 log_message('info', 'Tenant notification sent successfully to ' . $ownerPhone);
             }
