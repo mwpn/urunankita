@@ -2,12 +2,22 @@
 
 ## ⚠️ PENTING: Setelah Pull di Produksi
 
-### 1. Jalankan Seeder untuk Template Notifikasi
+### 1. Jalankan Seeder untuk Template Notifikasi (WAJIB!)
 
-Template notifikasi tenant mungkin belum ada di database produksi. Jalankan seeder:
+Template notifikasi tenant mungkin belum ada di database produksi. **WAJIB jalankan seeder ini:**
 
 ```bash
 php spark db:seed SettingSeeder
+```
+
+**Atau jika seeder tidak bisa dijalankan, gunakan SQL script:**
+
+```bash
+# Via MySQL command line
+mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_notification_template.sql
+
+# Atau via phpMyAdmin / database tool, copy-paste isi file:
+# app/Database/Scripts/ensure_tenant_notification_template.sql
 ```
 
 Atau jika ingin insert manual, jalankan SQL script:
