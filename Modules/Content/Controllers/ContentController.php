@@ -98,16 +98,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         // Handle image upload
         $imageFile = $this->request->getFile('image');
@@ -165,16 +164,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $bannerModel = new BannerModel();
         $banner = $bannerModel->find($id);
@@ -235,16 +233,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $bannerModel = new BannerModel();
         $banner = $bannerModel->find($id);
@@ -516,16 +513,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $pageModel = new PageModel();
         $page = $pageModel->find($id);
@@ -1057,16 +1053,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $articleModel = new ArticleModel();
         $article = $articleModel->find($id);
@@ -1987,16 +1982,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         // Handle logo upload (only required for new sponsor, not for update)
         $logoFile = $this->request->getFile('logo');
@@ -2075,16 +2069,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $sponsorModel = new SponsorModel();
         $sponsor = $sponsorModel->find($id);
@@ -2110,16 +2103,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $sponsorModel = new SponsorModel();
         $sponsor = $sponsorModel->find($id);
@@ -2180,16 +2172,15 @@ class ContentController extends BaseController
     {
         $db = Database::connect();
         
-        // Get platform tenant ID
+        // Get platform tenant ID with fallback
         $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
         if (!$platform) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Platform tenant tidak ditemukan',
-            ])->setStatusCode(400);
+            // Fallback to tenant ID 1 if platform tenant doesn't exist
+            $platformTenantId = 1;
+            log_message('warning', 'Platform tenant not found, using tenant ID 1 as fallback');
+        } else {
+            $platformTenantId = (int) $platform['id'];
         }
-        
-        $platformTenantId = (int) $platform['id'];
         
         $sponsorModel = new SponsorModel();
         
