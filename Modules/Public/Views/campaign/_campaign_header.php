@@ -24,7 +24,17 @@ if ($img && !preg_match('~^https?://~', $img) && strpos($img, '/uploads/') !== 0
         <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 mb-4">
             <?= esc($campaign['category'] ?? 'Urunan Aktif') ?>
         </span>
-        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"><?= esc($campaign['title']) ?></h1>
+        <div class="flex items-start justify-between gap-4 mb-4">
+            <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 flex-1"><?= esc($campaign['title']) ?></h1>
+            <div class="flex items-center gap-2">
+                <button onclick="shareCampaign()" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors duration-200 text-sm font-semibold">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                    </svg>
+                    Bagikan
+                </button>
+            </div>
+        </div>
 
         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6 pb-6 border-b border-gray-200">
             <?php if (isset($tenant) && $tenant): ?>

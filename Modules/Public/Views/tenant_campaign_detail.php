@@ -1,6 +1,70 @@
 <?= $this->extend('Modules\Public\Views\layout') ?>
 
 <?= $this->section('head') ?>
+<?php
+// Prepare Open Graph meta tags for social sharing
+$campaignTitle = esc($campaign['title'] ?? 'Urunan');
+$campaignDescription = esc(strip_tags($campaign['description'] ?? ''));
+if (mb_strlen($campaignDescription) > 160) {
+    $campaignDescription = mb_substr($campaignDescription, 0, 157) . '...';
+}
+
+// Get campaign image
+$campaignImage = '';
+if (!empty($campaign['featured_image'])) {
+    $imgPath = $campaign['featured_image'];
+    if (preg_match('~^https?://~', $imgPath)) {
+        $campaignImage = $imgPath;
+    } else {
+        $campaignImage = base_url(ltrim($imgPath, '/'));
+    }
+} elseif (!empty($campaign['images']) && is_array($campaign['images']) && !empty($campaign['images'][0])) {
+    $firstImg = is_array($campaign['images'][0]) ? ($campaign['images'][0]['path'] ?? $campaign['images'][0]['url'] ?? '') : (string) $campaign['images'][0];
+    if (!empty($firstImg)) {
+        if (preg_match('~^https?://~', $firstImg)) {
+            $campaignImage = $firstImg;
+        } else {
+            $campaignImage = base_url(ltrim($firstImg, '/'));
+        }
+    }
+}
+
+// Fallback to site logo if no campaign image
+if (empty($campaignImage) && !empty($settings['site_logo'])) {
+    $logoPath = $settings['site_logo'];
+    if (preg_match('~^https?://~', $logoPath)) {
+        $campaignImage = $logoPath;
+    } else {
+        $campaignImage = base_url(ltrim($logoPath, '/'));
+    }
+}
+
+$campaignUrl = current_url();
+$siteName = esc($settings['site_name'] ?? 'UrunanKita');
+?>
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="<?= $campaignUrl ?>">
+<meta property="og:title" content="<?= $campaignTitle ?> - <?= $siteName ?>">
+<meta property="og:description" content="<?= $campaignDescription ?>">
+<?php if (!empty($campaignImage)): ?>
+<meta property="og:image" content="<?= $campaignImage ?>">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<?php endif; ?>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="<?= $campaignUrl ?>">
+<meta name="twitter:title" content="<?= $campaignTitle ?> - <?= $siteName ?>">
+<meta name="twitter:description" content="<?= $campaignDescription ?>">
+<?php if (!empty($campaignImage)): ?>
+<meta name="twitter:image" content="<?= $campaignImage ?>">
+<?php endif; ?>
+
+<!-- Additional Meta -->
+<meta name="description" content="<?= $campaignDescription ?>">
+<link rel="canonical" href="<?= $campaignUrl ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -197,7 +261,17 @@
                     <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 mb-4">
                         <?= esc($campaign['category'] ?? 'Urunan Aktif') ?>
                     </span>
-                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"><?= esc($campaign['title']) ?></h1>
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 flex-1"><?= esc($campaign['title']) ?></h1>
+                        <div class="flex items-center gap-2">
+                            <button onclick="shareCampaign()" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors duration-200 text-sm font-semibold">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                                </svg>
+                                Bagikan
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6 pb-6 border-b border-gray-200">
                         <?php if (isset($tenant) && $tenant): ?>
