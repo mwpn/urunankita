@@ -1504,10 +1504,11 @@ class CampaignController extends BaseController
 
         // Get platform payment methods (bank-transfer only)
         $paymentMethodModel = new \Modules\Setting\Models\PaymentMethodModel();
-        $platformPaymentMethods = $paymentMethodModel->where('tenant_id', $platformTenantId)
-            ->where('type', 'bank-transfer')
-            ->where('enabled', 1)
-            ->findAll();
+        $allPaymentMethods = $paymentMethodModel->getByTenant($platformTenantId);
+        // Filter: only bank-transfer type and enabled
+        $platformPaymentMethods = array_filter($allPaymentMethods, function($method) {
+            return ($method['type'] ?? '') === 'bank-transfer' && ($method['enabled'] ?? 0) == 1;
+        });
 
         $data = [
             'pageTitle' => 'Buat Urunan Baru',

@@ -208,7 +208,6 @@
                 <?php
                 $paymentMethods = $payment_methods ?? [];
                 ?>
-                <?php if (!empty($paymentMethods)): ?>
                 <div class="card shadow mb-4">
                     <div class="card-header">
                         <strong class="card-title">Pengaturan Metode Pembayaran</strong>
@@ -224,6 +223,7 @@
                                     value="1"
                                     <?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? 'checked' : '' ?>
                                     onchange="togglePaymentMethodSelection()"
+                                    <?= empty($paymentMethods) ? 'disabled' : '' ?>
                                 >
                                 <label class="custom-control-label" for="use_tenant_bank_account">
                                     <strong>Gunakan metode pembayaran terpisah untuk urunan ini</strong>
@@ -232,24 +232,30 @@
                             </div>
 
                             <div id="paymentMethodSelection" class="<?= (!empty($campaign['use_tenant_bank_account']) && $campaign['use_tenant_bank_account'] == 1) ? '' : 'd-none' ?>">
-                                <label for="payment_method_id">Pilih Metode Pembayaran <span class="text-danger">*</span></label>
-                                <select id="payment_method_id" name="payment_method_id" class="form-control">
-                                    <option value="">-- Pilih Metode Pembayaran --</option>
-                                    <?php foreach ($paymentMethods as $method): ?>
-                                        <option value="<?= esc($method['id']) ?>" <?= (isset($campaign['payment_method_id']) && $campaign['payment_method_id'] == $method['id']) ? 'selected' : '' ?>>
-                                            <?= esc($method['name']) ?>
-                                            <?php if (!empty($method['provider'])): ?>
-                                                (<?= esc($method['provider']) ?>)
-                                            <?php endif; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <small class="form-text text-muted">Pilih metode pembayaran yang akan digunakan untuk menerima donasi urunan ini. Metode pembayaran dapat dikelola di <a href="<?= base_url('admin/settings/payment-methods') ?>" target="_blank">Pengaturan Metode Pembayaran</a>.</small>
+                                <?php if (!empty($paymentMethods)): ?>
+                                    <label for="payment_method_id">Pilih Metode Pembayaran <span class="text-danger">*</span></label>
+                                    <select id="payment_method_id" name="payment_method_id" class="form-control">
+                                        <option value="">-- Pilih Metode Pembayaran --</option>
+                                        <?php foreach ($paymentMethods as $method): ?>
+                                            <option value="<?= esc($method['id']) ?>" <?= (isset($campaign['payment_method_id']) && $campaign['payment_method_id'] == $method['id']) ? 'selected' : '' ?>>
+                                                <?= esc($method['name']) ?>
+                                                <?php if (!empty($method['provider'])): ?>
+                                                    (<?= esc($method['provider']) ?>)
+                                                <?php endif; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="form-text text-muted">Pilih metode pembayaran yang akan digunakan untuk menerima donasi urunan ini. Metode pembayaran dapat dikelola di <a href="<?= base_url('admin/settings/payment-methods') ?>" target="_blank">Pengaturan Metode Pembayaran</a>.</small>
+                                <?php else: ?>
+                                    <div class="alert alert-warning">
+                                        <strong>Belum ada metode pembayaran!</strong><br>
+                                        Silakan buat metode pembayaran terlebih dahulu di <a href="<?= base_url('admin/settings/payment-methods') ?>" target="_blank"><strong>Pengaturan Metode Pembayaran</strong></a> dengan jenis <strong>Transfer Bank</strong> dan status <strong>Aktif</strong>.
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
 
                 <!-- Action Buttons -->
                 <div class="row mb-4">
