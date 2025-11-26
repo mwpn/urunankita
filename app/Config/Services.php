@@ -56,7 +56,12 @@ class Services extends BaseService
     public static function notification($getShared = true)
     {
         if ($getShared) {
-            return static::getSharedInstance('notification');
+            $instance = static::getSharedInstance('notification');
+            if ($instance === null) {
+                $instance = \Modules\Notification\Config\Services::notification(true);
+                static::setSharedInstance('notification', $instance);
+            }
+            return $instance;
         }
         return \Modules\Notification\Config\Services::notification(false);
     }
@@ -64,7 +69,12 @@ class Services extends BaseService
     public static function whatsapp($getShared = true)
     {
         if ($getShared) {
-            return static::getSharedInstance('whatsapp');
+            $instance = static::getSharedInstance('whatsapp');
+            if ($instance === null) {
+                $instance = \Modules\Notification\Config\Services::whatsapp(true);
+                static::setSharedInstance('whatsapp', $instance);
+            }
+            return $instance;
         }
         return \Modules\Notification\Config\Services::whatsapp(false);
     }
