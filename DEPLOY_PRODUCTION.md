@@ -2,22 +2,30 @@
 
 ## ⚠️ PENTING: Setelah Pull di Produksi
 
-### 1. Jalankan Seeder untuk Template Notifikasi (WAJIB!)
+### 1. Pastikan Template Notifikasi Enabled (WAJIB!)
 
-Template notifikasi tenant mungkin belum ada di database produksi. **WAJIB jalankan seeder ini:**
+**Cara TERMUDAH - Gunakan command ini:**
+
+```bash
+php spark ensure:notification-templates
+```
+
+Command ini akan:
+- Memastikan template `whatsapp_template_tenant_donation_new` ada
+- Memastikan setting `whatsapp_template_tenant_donation_new_enabled` = '1' (enabled)
+- Update value jika berbeda
+
+**Atau jalankan seeder (jika template belum ada):**
 
 ```bash
 php spark db:seed SettingSeeder
 ```
 
-**Atau jika seeder tidak bisa dijalankan, gunakan SQL script:**
+**Atau gunakan SQL script (alternatif):**
 
 ```bash
 # Via MySQL command line
 mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_notification_template.sql
-
-# Atau via phpMyAdmin / database tool, copy-paste isi file:
-# app/Database/Scripts/ensure_tenant_notification_template.sql
 ```
 
 Atau jika ingin insert manual, jalankan SQL script:
