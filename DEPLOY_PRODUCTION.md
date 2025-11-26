@@ -11,6 +11,7 @@ php spark ensure:notification-templates
 ```
 
 Command ini akan:
+
 - Memastikan template `whatsapp_template_tenant_donation_new` ada
 - Memastikan setting `whatsapp_template_tenant_donation_new_enabled` = '1' (enabled)
 - Update value jika berbeda
@@ -29,6 +30,7 @@ mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_noti
 ```
 
 Atau jika ingin insert manual, jalankan SQL script:
+
 ```bash
 mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_notification_template.sql
 ```
@@ -36,10 +38,11 @@ mysql -u [username] -p [database_name] < app/Database/Scripts/ensure_tenant_noti
 ### 2. Verifikasi Template Ada di Database
 
 Cek apakah template sudah ada:
+
 ```sql
-SELECT `key`, `value`, `scope` FROM settings 
+SELECT `key`, `value`, `scope` FROM settings
 WHERE `key` IN (
-    'whatsapp_template_tenant_donation_new', 
+    'whatsapp_template_tenant_donation_new',
     'whatsapp_template_tenant_donation_new_enabled'
 );
 ```
@@ -47,8 +50,8 @@ WHERE `key` IN (
 ### 3. Pastikan Setting Enabled = '1'
 
 ```sql
-UPDATE settings 
-SET `value` = '1' 
+UPDATE settings
+SET `value` = '1'
 WHERE `key` = 'whatsapp_template_tenant_donation_new_enabled';
 ```
 
@@ -61,6 +64,7 @@ php spark cache:clear
 ### 5. Test Notifikasi
 
 Buat donasi baru dan cek log:
+
 ```bash
 tail -f writable/logs/log-$(date +%Y-%m-%d).log | grep -i "tenant.*notification"
 ```
@@ -70,21 +74,24 @@ tail -f writable/logs/log-$(date +%Y-%m-%d).log | grep -i "tenant.*notification"
 ### Jika notifikasi masih tidak terkirim:
 
 1. **Cek log file** untuk melihat error:
+
    ```bash
    tail -100 writable/logs/log-$(date +%Y-%m-%d).log
    ```
 
 2. **Cek apakah owner/superadmin punya phone**:
+
    ```sql
-   SELECT id, name, email, phone, role, tenant_id 
-   FROM users 
-   WHERE role IN ('superadmin', 'super_admin', 'admin') 
+   SELECT id, name, email, phone, role, tenant_id
+   FROM users
+   WHERE role IN ('superadmin', 'super_admin', 'admin')
    AND phone IS NOT NULL AND phone != '';
    ```
 
 3. **Cek konfigurasi WhatsApp**:
+
    ```sql
-   SELECT `key`, `value` FROM settings 
+   SELECT `key`, `value` FROM settings
    WHERE `key` IN ('whatsapp_api_url', 'whatsapp_api_token', 'whatsapp_from_number');
    ```
 
@@ -95,4 +102,3 @@ tail -f writable/logs/log-$(date +%Y-%m-%d).log | grep -i "tenant.*notification"
    LEFT JOIN users u ON t.owner_id = u.id
    WHERE t.id = 4;  -- Ganti dengan tenant_id yang bermasalah
    ```
-
