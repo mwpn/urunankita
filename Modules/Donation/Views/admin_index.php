@@ -190,7 +190,7 @@
             <div class="modal-body" id="modalDetailContent">
                 <!-- Content akan diisi via JavaScript -->
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="modalDetailFooter">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>

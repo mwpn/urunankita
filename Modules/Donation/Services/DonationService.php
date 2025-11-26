@@ -863,5 +863,37 @@ class DonationService
 
         return $result;
     }
+
+    /**
+     * Restore cancelled donation to pending status
+     * (Untuk kasus donatur yang telat transfer)
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function restoreToPending(int $id): bool
+    {
+        $donation = $this->donationModel->find($id);
+        if (!$donation) {
+            return false;
+        }
+
+        if ($donation['payment_status'] !== 'cancelled') {
+            throw new \RuntimeException('Hanya donasi dengan status cancelled yang dapat dikembalikan ke pending');
+        }
+
+        $updateData = [
+            'payment_status' => 'pending',
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->donationModel->update($id, $updateData);
+
+        if ($result) {
+            $this->activityLog->logUpdate('Donation', $id, $donation, $updateData, 'Donasi dikembalikan ke status pending (donatur telat transfer)');
+        }
+
+        return $result;
+    }
 }
 

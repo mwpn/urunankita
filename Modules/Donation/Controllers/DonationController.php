@@ -589,4 +589,106 @@ class DonationController extends BaseController
             ])->setStatusCode(400);
         }
     }
+
+    /**
+     * Restore cancelled donation to pending status
+     * POST /donation/restore/{id}
+     */
+    public function restoreToPending($id)
+    {
+        $isAdmin = $this->isAdmin();
+        
+        // For admin, get platform tenant ID
+        if ($isAdmin) {
+            $db = \Config\Database::connect();
+            $platform = $db->table('tenants')->where('slug', 'platform')->get()->getRowArray();
+            if (!$platform) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Platform tenant not found',
+                ])->setStatusCode(404);
+            }
+            $tenantId = (int) $platform['id'];
+        } else {
+            // For tenant, resolve tenant_id from session or derive from logged-in user
+            $tenantId = session()->get('tenant_id');
+            if (!$tenantId) {
+                $authUser = session()->get('auth_user') ?? [];
+                $userId = $authUser['id'] ?? null;
+                if ($userId) {
+                    $db = \Config\Database::connect();
+                    $userRow = $db->table('users')->where('id', (int) $userId)->get()->getRowArray();
+                    if ($userRow && !empty($userRow['tenant_id'])) {
+                        $tenant = $db->table('tenants')->where('id', (int) $userRow['tenant_id'])->get()->getRowArray();
+                        if ($tenant) {
+                            session()->set('tenant_id', (int) $tenant['id']);
+                            session()->set('tenant_slug', $tenant['slug']);
+                            session()->set('is_subdomain', false);
+                            $tenantId = (int) $tenant['id'];
+                        }
+                    }
+                }
+            }
+            if (!$tenantId) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Tenant not found',
+                ])->setStatusCode(401);
+            }
+        }
+
+        // Verify donation belongs to tenant (or allow admin to restore any donation from platform tenant)
+        $donation = $this->donationService->getDonationById((int) $id);
+        if (!$donation) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Donasi tidak ditemukan',
+            ])->setStatusCode(404);
+        }
+        
+        // For tenant, verify ownership; for admin, only allow platform tenant donations
+        if (!$isAdmin && $donation['tenant_id'] != $tenantId) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Donasi tidak ditemukan atau akses ditolak',
+            ])->setStatusCode(404);
+        }
+        
+        // For admin, only allow restoring donations from platform tenant
+        if ($isAdmin && $donation['tenant_id'] != $tenantId) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Admin hanya dapat mengembalikan donasi dari platform tenant',
+            ])->setStatusCode(403);
+        }
+
+        // Only allow restore for cancelled donations
+        if ($donation['payment_status'] !== 'cancelled') {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Hanya donasi dengan status cancelled yang dapat dikembalikan ke pending',
+            ])->setStatusCode(400);
+        }
+
+        try {
+            $result = $this->donationService->restoreToPending((int) $id);
+
+            if ($result) {
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Donasi telah dikembalikan ke status pending',
+                ]);
+            }
+
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Gagal mengembalikan donasi ke pending',
+            ])->setStatusCode(500);
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ])->setStatusCode(400);
+        }
+    }
 }

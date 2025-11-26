@@ -375,6 +375,7 @@ $routes->post('donation/create', '\Modules\\Donation\\Controllers\\DonationContr
 // Donation actions (requires auth)
 $routes->post('donation/confirm/(:num)', '\Modules\\Donation\\Controllers\\DonationController::confirm/$1', ['filter' => 'auth']);
 $routes->post('donation/cancel/(:num)', '\Modules\\Donation\\Controllers\\DonationController::cancel/$1', ['filter' => 'auth']);
+$routes->post('donation/restore/(:num)', '\Modules\\Donation\\Controllers\\DonationController::restoreToPending/$1', ['filter' => 'auth']);
 
 // Helpdesk ticket actions (for tenant - path without tenant prefix)
 $routes->group('helpdesk', ['filter' => 'auth'], static function (RouteCollection $routes) {
