@@ -24,8 +24,8 @@ class TenantModel extends Model
         
         parent::__construct($db, $validation);
         
-        // Force set DBGroup to empty or 'default' to ensure we use central DB
-        $this->DBGroup = '';
+        // Force set DBGroup to 'default' to ensure we use central DB
+        $this->DBGroup = 'default';
     }
     
     protected $table = 'tenants';
