@@ -466,10 +466,11 @@ class DonationService
             log_message('debug', 'Rendering template tenant_donation_new for tenant_id: ' . $tenantId);
             log_message('debug', 'Template data: amount=' . $donationData['amount'] . ', donor_name=' . ($donationData['donor_name'] ?? 'Anonim') . ', campaign_title=' . $campaignTitle);
             
-            // Default template if not found in settings
+            // Default template if not found in settings - SAME APPROACH AS DONOR NOTIFICATION
             $defaultTemplate = 'Ada donasi baru sebesar Rp {amount} dari {donor_name} untuk urunan \'{campaign_title}\'. Silakan konfirmasi pembayaran di dashboard.';
             
-            // Render template (with tenant context for tenant-specific templates)
+            // Render template (with tenant context for tenant-specific templates) - SAME AS DONOR NOTIFICATION
+            // Use null as default like donation_created, then fallback to defaultTemplate if needed
             $message = $templateService->render('tenant_donation_new', array_merge([
                 'amount' => $donationData['amount'],
                 'donor_name' => $donationData['donor_name'] ?? 'Anonim',
@@ -477,16 +478,11 @@ class DonationService
                 'donation_id' => $donationId,
             ], $paymentPlaceholders), $defaultTemplate, $tenantId);
             
-            log_message('debug', 'Template rendered message: ' . ($message ? 'yes (' . strlen($message) . ' chars)' : 'null/empty'));
-            if ($message) {
-                log_message('debug', 'Rendered message preview: ' . substr($message, 0, 150));
-            }
-            
-            // Skip sending if template is disabled or message is empty
-            // BUT: Use default template if message is empty (force send) - SAME AS DONOR NOTIFICATION
-            if (empty($message)) {
-                log_message('warning', 'Template tenant_donation_new is disabled or empty, using default template');
-                // Force use default template - same approach as donor notification
+            // If template returns null (disabled) but we have defaultTemplate, use it anyway
+            // This ensures notification is always sent if owner phone is found
+            if (empty($message) && !empty($defaultTemplate)) {
+                log_message('info', 'Template returned empty, using default template for tenant notification');
+                // Manually replace placeholders in default template
                 $message = str_replace(
                     ['{amount}', '{donor_name}', '{campaign_title}', '{donation_id}'],
                     [
@@ -497,12 +493,18 @@ class DonationService
                     ],
                     $defaultTemplate
                 );
-                log_message('debug', 'Using forced default template: ' . substr($message, 0, 150));
+                log_message('debug', 'Default template rendered: ' . substr($message, 0, 150));
+            }
+            
+            log_message('debug', 'Template rendered message: ' . ($message ? 'yes (' . strlen($message) . ' chars)' : 'null/empty'));
+            if ($message) {
+                log_message('debug', 'Rendered message preview: ' . substr($message, 0, 150));
             }
             
             // Final check - if still empty, skip (same as donor notification)
             if (empty($message)) {
                 log_message('error', 'Message is still empty after all attempts, skipping notification');
+                log_message('error', 'This should not happen - default template should always be used');
                 return;
             }
             
