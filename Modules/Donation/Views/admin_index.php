@@ -473,10 +473,6 @@
     
     // Restore Donation to Pending
     async function restoreDonationToPending(donationId, donorName, amount) {
-        if (!confirm(`Kembalikan donasi dari ${donorName || '-'} (Rp ${formatRupiah(amount)}) ke status Pending?\n\nIni untuk kasus donatur yang telat transfer.`)) {
-            return;
-        }
-        
         try {
             const formData = new URLSearchParams();
             formData.append(csrfName, csrfValue);
