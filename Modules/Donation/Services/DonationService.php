@@ -449,20 +449,31 @@ class DonationService
                 
                 // Fallback: Try to get superadmin user (for platform tenant or if no owner found)
                 log_message('debug', 'Trying to find superadmin as fallback...');
-                $superadmin = $db->table('users')
+                $allSuperadmins = $db->table('users')
                     ->whereIn('role', ['superadmin', 'super_admin', 'admin'])
-                    ->where('phone IS NOT NULL')
-                    ->where('phone !=', '')
                     ->orderBy('id', 'ASC')
                     ->get()
-                    ->getRowArray();
+                    ->getResultArray();
+                
+                log_message('debug', 'Found ' . count($allSuperadmins) . ' superadmin users');
+                
+                // Find first superadmin with phone
+                $superadmin = null;
+                foreach ($allSuperadmins as $sa) {
+                    log_message('debug', 'Checking superadmin ID: ' . $sa['id'] . ', Name: ' . ($sa['name'] ?? 'null') . ', Phone: ' . ($sa['phone'] ?? 'empty'));
+                    if (!empty($sa['phone']) && trim($sa['phone']) !== '') {
+                        $superadmin = $sa;
+                        break;
+                    }
+                }
                 
                 if ($superadmin && !empty($superadmin['phone']) && trim($superadmin['phone']) !== '') {
                     $owner = $superadmin;
                     $ownerPhone = trim($superadmin['phone']);
-                    log_message('info', 'Using superadmin as fallback: User ID ' . $superadmin['id'] . ', Phone: ' . $ownerPhone);
+                    log_message('info', 'Using superadmin as fallback: User ID ' . $superadmin['id'] . ', Name: ' . ($superadmin['name'] ?? 'unknown') . ', Phone: ' . $ownerPhone);
                 } else {
                     log_message('warning', 'Superadmin also not found or has no phone, skipping tenant notification');
+                    log_message('warning', 'Please create a user with tenant_id=' . $tenantId . ' or ensure superadmin has phone number');
                     return;
                 }
             }
