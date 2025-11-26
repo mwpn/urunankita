@@ -438,7 +438,7 @@
                     </div>
                     <div class="mb-3">
                         <small class="text-muted d-block">Status</small>
-                        <span class="badge badge-${donation.payment_status === 'paid' ? 'success' : (donation.payment_status === 'failed' ? 'danger' : 'warning')}">${donation.payment_status === 'paid' ? 'Berhasil' : (donation.payment_status === 'failed' ? 'Gagal' : 'Pending')}</span>
+                        <span class="badge badge-${donation.payment_status === 'paid' ? 'success' : (donation.payment_status === 'failed' ? 'danger' : (donation.payment_status === 'cancelled' ? 'secondary' : 'warning'))}">${donation.payment_status === 'paid' ? 'Berhasil' : (donation.payment_status === 'failed' ? 'Gagal' : (donation.payment_status === 'cancelled' ? 'Dibatalkan' : 'Pending'))}</span>
                     </div>
                     ${donation.payment_reference ? `<div class="mb-3">
                         <small class="text-muted d-block">No. Referensi</small>
@@ -456,6 +456,52 @@
             </div>
         `;
         document.getElementById('modalDetailContent').innerHTML = content;
+        
+        // Update footer dengan tombol restore jika status cancelled
+        const footer = document.getElementById('modalDetailFooter');
+        if (donation.payment_status === 'cancelled') {
+            footer.innerHTML = `
+                <button type="button" class="btn btn-warning" onclick="restoreDonationToPending(${donation.id}, '${(donation.donor_name || '').replace(/'/g, "\\'")}', ${donation.amount})">
+                    <span class="fe fe-refresh-cw fe-12"></span> Kembalikan ke Pending
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            `;
+        } else {
+            footer.innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>';
+        }
+    }
+    
+    // Restore Donation to Pending
+    async function restoreDonationToPending(donationId, donorName, amount) {
+        if (!confirm(`Kembalikan donasi dari ${donorName || '-'} (Rp ${formatRupiah(amount)}) ke status Pending?\n\nIni untuk kasus donatur yang telat transfer.`)) {
+            return;
+        }
+        
+        try {
+            const formData = new URLSearchParams();
+            formData.append(csrfName, csrfValue);
+            
+            const res = await fetch('/donation/restore/' + donationId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            });
+            
+            const json = await res.json();
+            if (json && json.success) {
+                $('#modalDetailDonasi').modal('hide');
+                openFlashModal('Berhasil', json.message || 'Donasi telah dikembalikan ke status pending');
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                openFlashModal('Gagal', (json && json.message) ? json.message : 'Gagal mengembalikan donasi ke pending');
+            }
+        } catch (e) {
+            openFlashModal('Error', 'Terjadi kesalahan jaringan.');
+        }
     }
 
     // Submit Confirmation
