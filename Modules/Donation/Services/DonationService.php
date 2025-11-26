@@ -97,6 +97,10 @@ class DonationService
             // IMPORTANT: This should always be sent, even if donor and owner have the same phone number
             // because they are different notifications with different purposes
             $this->sendTenantDonationNotification($id, $donationData);
+            
+            // Send notification to admin platform (superadmin) if configured
+            $this->sendAdminDonationNotification($id, $donationData);
+            
             log_message('info', '=== Notification process completed for donation ID: ' . $id . ' ===');
         }
 
@@ -303,6 +307,7 @@ class DonationService
             // Get owner/tenant user phone
             $db = \Config\Database::connect();
             $owner = null;
+            $ownerPhone = null;
             
             // Try to get owner by owner_id first
             if (!empty($tenant['owner_id'])) {
@@ -310,40 +315,56 @@ class DonationService
                     ->where('id', (int) $tenant['owner_id'])
                     ->get()
                     ->getRowArray();
-                log_message('debug', 'Owner found by owner_id: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ')' : 'no'));
+                log_message('debug', 'Owner found by owner_id: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+                
+                if ($owner && !empty($owner['phone'])) {
+                    $ownerPhone = $owner['phone'];
+                }
             }
             
             // If owner_id is empty or owner not found, try to find tenant owner/admin user
-            if (!$owner) {
+            if (empty($ownerPhone)) {
                 log_message('debug', 'Owner_id is empty or owner not found, trying to find tenant owner/admin user');
                 
                 // Try to find user with tenant_owner or tenant_admin role for this tenant
-                // First, check if there's a tenant_users table or similar
                 $owner = $db->table('users')
                     ->where('tenant_id', (int) $donationData['tenant_id'])
                     ->whereIn('role', ['tenant_owner', 'tenant_admin', 'penggalang_dana'])
+                    ->where('phone IS NOT NULL')
+                    ->where('phone !=', '')
                     ->orderBy('id', 'ASC')
                     ->get()
                     ->getRowArray();
                 
-                log_message('debug', 'Owner found by tenant_id and role: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Role: ' . ($owner['role'] ?? 'unknown') . ')' : 'no'));
+                log_message('debug', 'Owner found by tenant_id and role: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Role: ' . ($owner['role'] ?? 'unknown') . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+                
+                if ($owner && !empty($owner['phone'])) {
+                    $ownerPhone = $owner['phone'];
+                }
             }
             
-            // If still not found, try to find any user with tenant_id
-            if (!$owner) {
+            // If still not found, try to find any user with tenant_id that has phone
+            if (empty($ownerPhone)) {
                 $owner = $db->table('users')
                     ->where('tenant_id', (int) $donationData['tenant_id'])
+                    ->where('phone IS NOT NULL')
+                    ->where('phone !=', '')
                     ->orderBy('id', 'ASC')
                     ->get()
                     ->getRowArray();
                 
-                log_message('debug', 'Owner found by tenant_id (any user): ' . ($owner ? 'yes (ID: ' . $owner['id'] . ')' : 'no'));
+                log_message('debug', 'Owner found by tenant_id (any user with phone): ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+                
+                if ($owner && !empty($owner['phone'])) {
+                    $ownerPhone = $owner['phone'];
+                }
             }
             
-            log_message('debug', 'Final owner check: ' . ($owner ? 'yes (ID: ' . $owner['id'] . ', Phone: ' . ($owner['phone'] ?? 'empty') . ')' : 'no'));
+            log_message('debug', 'Final owner check: ' . ($ownerPhone ? 'yes (Phone: ' . $ownerPhone . ')' : 'no'));
             
-            if (!$owner || empty($owner['phone'])) {
+            if (empty($ownerPhone)) {
                 log_message('warning', 'Owner not found or phone is empty for tenant_id: ' . $donationData['tenant_id'] . ' (owner_id: ' . ($tenant['owner_id'] ?? 'null') . ')');
+                log_message('warning', 'Skipping tenant notification - no valid owner phone number found');
                 return;
             }
             
@@ -380,7 +401,6 @@ class DonationService
             
             // Check if donor phone and owner phone are the same
             $donorPhone = $donationData['donor_phone'] ?? null;
-            $ownerPhone = $owner['phone'];
             $isSameNumber = !empty($donorPhone) && $donorPhone === $ownerPhone;
             
             if ($isSameNumber) {
@@ -411,6 +431,87 @@ class DonationService
             
         } catch (\Exception $e) {
             log_message('error', 'Failed to send tenant donation notification: ' . $e->getMessage());
+            log_message('error', 'Stack trace: ' . $e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Send notification to admin platform when new donation is created
+     *
+     * @param int $donationId
+     * @param array $donationData
+     * @return void
+     */
+    protected function sendAdminDonationNotification(int $donationId, array $donationData): void
+    {
+        try {
+            log_message('debug', 'sendAdminDonationNotification called for donation ID: ' . $donationId);
+            
+            $notificationService = BaseServices::notification();
+            $templateService = \Modules\Notification\Config\Services::messageTemplate();
+            
+            if (!$notificationService || !$templateService) {
+                log_message('debug', 'Notification or template service is null, skipping admin notification');
+                return;
+            }
+            
+            // Get admin phone from settings (optional - only send if configured)
+            $settingService = BaseServices::setting();
+            $adminPhone = $settingService->get('admin_notification_phone', null, 'global', null);
+            
+            if (empty($adminPhone)) {
+                log_message('debug', 'Admin notification phone not configured, skipping admin notification');
+                return;
+            }
+            
+            // Get tenant info
+            $tenant = $this->tenantModel->find($donationData['tenant_id']);
+            $tenantName = $tenant['name'] ?? 'Unknown Tenant';
+            
+            // Get campaign title
+            $campaignTitle = '';
+            if (!empty($donationData['campaign_id'])) {
+                $campaign = $this->campaignModel->find($donationData['campaign_id']);
+                $campaignTitle = $campaign['title'] ?? '';
+            }
+            
+            // Default template for admin
+            $defaultTemplate = 'Notifikasi Admin: Ada donasi baru sebesar Rp {amount} dari {donor_name} untuk urunan \'{campaign_title}\' dari tenant {tenant_name}. Donation ID: {donation_id}';
+            
+            // Render template
+            $message = $templateService->render('admin_donation_new', array_merge([
+                'amount' => $donationData['amount'],
+                'donor_name' => $donationData['donor_name'] ?? 'Anonim',
+                'campaign_title' => $campaignTitle,
+                'donation_id' => $donationId,
+                'tenant_name' => $tenantName,
+            ], $this->getPaymentPlaceholderData($donationData)), $defaultTemplate, null);
+            
+            if (empty($message)) {
+                log_message('debug', 'Admin template is disabled or empty, skipping admin notification');
+                return;
+            }
+            
+            log_message('debug', 'Sending WhatsApp notification to admin: ' . $adminPhone);
+            
+            $result = $notificationService->sendWhatsApp(
+                $adminPhone,
+                $message,
+                [
+                    'type' => 'admin_donation_new',
+                    'donation_id' => $donationId,
+                    'tenant_id' => $donationData['tenant_id'],
+                ]
+            );
+            
+            if (!$result['success']) {
+                log_message('error', 'Failed to send admin notification: ' . ($result['message'] ?? 'Unknown error'));
+            } else {
+                log_message('info', 'Admin notification sent successfully to ' . $adminPhone);
+            }
+            
+        } catch (\Exception $e) {
+            log_message('error', 'Failed to send admin donation notification: ' . $e->getMessage());
             log_message('error', 'Stack trace: ' . $e->getTraceAsString());
         }
     }

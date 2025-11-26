@@ -129,6 +129,7 @@ class MessageTemplateService
             'withdrawal_created' => ['amount', 'campaign_title', 'site_name'],
             'withdrawal_approved' => ['amount', 'campaign_title', 'site_name'],
             'tenant_donation_new' => ['amount', 'donor_name', 'campaign_title', 'site_name', 'donation_id', 'bank', 'rekening', 'deskripsi_pembayaran'],
+            'admin_donation_new' => ['amount', 'donor_name', 'campaign_title', 'site_name', 'donation_id', 'tenant_name', 'bank', 'rekening', 'deskripsi_pembayaran'],
         ];
         
         return $placeholders[$templateKey] ?? ['site_name'];
