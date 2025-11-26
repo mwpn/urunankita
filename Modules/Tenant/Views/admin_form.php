@@ -67,7 +67,7 @@
                                     pattern="[a-z0-9-]+"
                                     title="Hanya huruf kecil, angka, dan tanda strip"
                                 >
-                                <small class="form-text text-muted">URL lengkap: <span class="font-mono"><?= esc($tenant['slug'] ?? 'subdomain') ?>.urunankita.test</span></small>
+                                <small class="form-text text-muted">URL lengkap: <span class="font-mono"><?= esc($tenant['slug'] ?? 'subdomain') ?>.<?= env('app.baseDomain', 'urunankita.id') ?></span></small>
                                 <div class="invalid-feedback">Subdomain wajib diisi</div>
                             </div>
                         </div>

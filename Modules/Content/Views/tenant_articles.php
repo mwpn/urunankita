@@ -74,7 +74,7 @@
                                                     // Get base domain from current request or use default
                                                     $currentHost = $_SERVER['HTTP_HOST'] ?? '';
                                                     $hostParts = explode('.', $currentHost);
-                                                    $baseDomain = 'urunankita.test'; // default
+                                                    $baseDomain = env('app.baseDomain', 'urunankita.id'); // default
                                                     
                                                     if (count($hostParts) >= 2) {
                                                         // Extract base domain (last 2 parts: domain.tld)

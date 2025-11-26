@@ -71,7 +71,7 @@ class SettingSeeder extends Seeder
             // Kontak & Informasi
             [
                 'key' => 'site_email',
-                'value' => 'info@urunankita.test',
+                'value' => 'info@urunankita.id',
                 'type' => 'string',
                 'scope' => 'global',
                 'scope_id' => null,
@@ -133,7 +133,7 @@ class SettingSeeder extends Seeder
             // Domain & Subdomain
             [
                 'key' => 'main_domain',
-                'value' => 'urunankita.test',
+                'value' => 'urunankita.id',
                 'type' => 'string',
                 'scope' => 'global',
                 'scope_id' => null,

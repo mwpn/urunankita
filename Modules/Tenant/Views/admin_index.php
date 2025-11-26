@@ -111,8 +111,8 @@
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="https://<?= esc($tenant['slug']) ?>.urunankita.test" target="_blank" class="text-primary">
-                                                        <?= esc($tenant['slug']) ?>.urunankita.test
+                                                    <a href="https://<?= esc($tenant['slug']) ?>.<?= env('app.baseDomain', 'urunankita.id') ?>" target="_blank" class="text-primary">
+                                                        <?= esc($tenant['slug']) ?>.<?= env('app.baseDomain', 'urunankita.id') ?>
                                                     </a>
                                                 </td>
                                                 <td><?= esc($tenant['db_name'] ?? '-') ?></td>
@@ -139,7 +139,7 @@
                                                         <span class="text-muted sr-only">Action</span>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="https://<?= esc($tenant['slug']) ?>.urunankita.test" target="_blank">
+                                                        <a class="dropdown-item" href="https://<?= esc($tenant['slug']) ?>.<?= env('app.baseDomain', 'urunankita.id') ?>" target="_blank">
                                                             <i class="fe fe-eye fe-12 mr-2"></i>Lihat Website
                                                         </a>
                                                         <a class="dropdown-item" href="<?= base_url('admin/tenants/' . $tenant['id'] . '/edit') ?>">

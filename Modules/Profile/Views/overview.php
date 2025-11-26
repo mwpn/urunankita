@@ -210,8 +210,8 @@
                                             <small class="text-muted d-block mb-1">Subdomain</small>
                                             <p class="mb-0">
                                                 <strong>
-                                                    <a href="http://<?= esc($tenant['slug']) ?>.<?= $_SERVER['HTTP_HOST'] ?? 'urunankita.test' ?>" target="_blank" class="text-primary">
-                                                        <?= esc($tenant['slug']) ?>.<?= $_SERVER['HTTP_HOST'] ?? 'urunankita.test' ?>
+                                                    <a href="https://<?= esc($tenant['slug']) ?>.<?= env('app.baseDomain', 'urunankita.id') ?>" target="_blank" class="text-primary">
+                                                        <?= esc($tenant['slug']) ?>.<?= env('app.baseDomain', 'urunankita.id') ?>
                                                     </a>
                                                 </strong>
                                             </p>
