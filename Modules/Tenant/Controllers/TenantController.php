@@ -136,25 +136,45 @@ class TenantController extends BaseController
         $tenantModel = new \Modules\Tenant\Models\TenantModel();
         $tenant = $tenantModel->findWithBankAccounts($id);
 
-        // Get existing owner user (if any)
-        $ownerUser = null;
-        $staffUsers = [];
-        try {
-            $db = Database::connect();
-            $ownerUser = $db->table('users')
-                ->where('tenant_id', (int) $id)
-                ->where('role', 'tenant_owner')
-                ->orderBy('id', 'ASC')
-                ->get()
-                ->getRowArray();
+            // Get existing owner user (if any)
+            $ownerUser = null;
+            $staffUsers = [];
+            try {
+                $db = Database::connect();
+                
+                // Check if tenant_id column exists
+                $columns = $db->getFieldNames('users');
+                $hasTenantId = in_array('tenant_id', $columns);
+                
+                $ownerQuery = $db->table('users')
+                    ->where('role', 'tenant_owner')
+                    ->orderBy('id', 'ASC');
+                
+                if ($hasTenantId) {
+                    $ownerQuery->where('tenant_id', (int) $id);
+                } else {
+                    // If no tenant_id column, try to match by owner_id from tenant table
+                    if (!empty($tenant['owner_id'])) {
+                        $ownerQuery->where('id', (int) $tenant['owner_id']);
+                    }
+                }
+                
+                $ownerUser = $ownerQuery->get()->getRowArray();
             
             // Get staff users (staff, tenant_staff)
-            $staffUsers = $db->table('users')
-                ->where('tenant_id', (int) $id)
+            // Check if tenant_id column exists
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
+            $staffQuery = $db->table('users')
                 ->whereIn('role', ['staff', 'tenant_staff'])
-                ->orderBy('created_at', 'DESC')
-                ->get()
-                ->getResultArray();
+                ->orderBy('created_at', 'DESC');
+            
+            if ($hasTenantId) {
+                $staffQuery->where('tenant_id', (int) $id);
+            }
+            
+            $staffUsers = $staffQuery->get()->getResultArray();
             
             // Get campaign assignments for each staff
             foreach ($staffUsers as &$staff) {
@@ -507,11 +527,16 @@ class TenantController extends BaseController
         try {
             $db = Database::connect();
             
+            // Check if tenant_id column exists in users table
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
             // Check duplicate email
-            $exists = $db->table('users')
-                ->where('tenant_id', (int) $id)
-                ->where('email', $email)
-                ->countAllResults();
+            $emailQuery = $db->table('users')->where('email', $email);
+            if ($hasTenantId) {
+                $emailQuery->where('tenant_id', (int) $id);
+            }
+            $exists = $emailQuery->countAllResults();
             
             if ($exists > 0) {
                 return $this->response->setJSON([
@@ -522,8 +547,7 @@ class TenantController extends BaseController
 
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
             
-            $db->table('users')->insert([
-                'tenant_id' => (int) $id,
+            $userData = [
                 'name' => $name,
                 'email' => $email,
                 'password' => $passwordHash,
@@ -531,7 +555,14 @@ class TenantController extends BaseController
                 'status' => 'active',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-            ]);
+            ];
+            
+            // Only add tenant_id if column exists
+            if ($hasTenantId) {
+                $userData['tenant_id'] = (int) $id;
+            }
+            
+            $db->table('users')->insert($userData);
 
             return $this->response->setJSON([
                 'success' => true,
@@ -578,13 +609,20 @@ class TenantController extends BaseController
         try {
             $db = Database::connect();
             
+            // Check if tenant_id column exists in users table
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
             // Verify user belongs to this tenant and is staff
-            $user = $db->table('users')
+            $userQuery = $db->table('users')
                 ->where('id', $userId)
-                ->where('tenant_id', (int) $id)
-                ->whereIn('role', ['staff', 'tenant_staff'])
-                ->get()
-                ->getRowArray();
+                ->whereIn('role', ['staff', 'tenant_staff']);
+            
+            if ($hasTenantId) {
+                $userQuery->where('tenant_id', (int) $id);
+            }
+            
+            $user = $userQuery->get()->getRowArray();
             
             if (!$user) {
                 return $this->response->setJSON([
@@ -594,11 +632,15 @@ class TenantController extends BaseController
             }
 
             // Check duplicate email (except current user)
-            $emailExists = $db->table('users')
-                ->where('tenant_id', (int) $id)
+            $emailQuery = $db->table('users')
                 ->where('email', $email)
-                ->where('id !=', $userId)
-                ->countAllResults();
+                ->where('id !=', $userId);
+            
+            if ($hasTenantId) {
+                $emailQuery->where('tenant_id', (int) $id);
+            }
+            
+            $emailExists = $emailQuery->countAllResults();
             
             if ($emailExists > 0) {
                 return $this->response->setJSON([
@@ -649,13 +691,20 @@ class TenantController extends BaseController
         try {
             $db = Database::connect();
             
+            // Check if tenant_id column exists in users table
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
             // Verify user belongs to this tenant and is staff
-            $user = $db->table('users')
+            $userQuery = $db->table('users')
                 ->where('id', $userId)
-                ->where('tenant_id', (int) $id)
-                ->whereIn('role', ['staff', 'tenant_staff'])
-                ->get()
-                ->getRowArray();
+                ->whereIn('role', ['staff', 'tenant_staff']);
+            
+            if ($hasTenantId) {
+                $userQuery->where('tenant_id', (int) $id);
+            }
+            
+            $user = $userQuery->get()->getRowArray();
             
             if (!$user) {
                 return redirect()->back()->with('error', 'Staff tidak ditemukan');
