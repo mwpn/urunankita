@@ -567,6 +567,18 @@ class DonationController extends BaseController
             ])->setStatusCode(404);
         }
         
+        // For staff, check campaign assignment
+        if ($this->isTenantStaff() && !$isAdmin) {
+            $authUser = session()->get('auth_user') ?? [];
+            $userId = $authUser['id'] ?? null;
+            if ($userId && !$this->canStaffManageCampaign((int) $donation['campaign_id'], (int) $userId)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk mengelola donasi dari urunan ini',
+                ])->setStatusCode(403);
+            }
+        }
+        
         // For admin, only allow confirming donations from platform tenant
         if ($isAdmin && $donation['tenant_id'] != $tenantId) {
             return $this->response->setJSON([
@@ -761,6 +773,18 @@ class DonationController extends BaseController
                 'success' => false,
                 'message' => 'Donasi tidak ditemukan atau akses ditolak',
             ])->setStatusCode(404);
+        }
+        
+        // For staff, check campaign assignment
+        if ($this->isTenantStaff() && !$isAdmin) {
+            $authUser = session()->get('auth_user') ?? [];
+            $userId = $authUser['id'] ?? null;
+            if ($userId && !$this->canStaffManageCampaign((int) $donation['campaign_id'], (int) $userId)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk mengelola donasi dari urunan ini',
+                ])->setStatusCode(403);
+            }
         }
         
         // For admin, only allow restoring donations from platform tenant
