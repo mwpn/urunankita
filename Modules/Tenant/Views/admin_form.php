@@ -265,6 +265,72 @@
                 </div>
                 <?php endif; ?>
 
+                <?php if ($tenant): ?>
+                <!-- Kelola Staff Users -->
+                <div class="card shadow mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <strong class="card-title">Kelola Staff</strong>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddStaff">
+                            <span class="fe fe-plus fe-12"></span> Tambah Staff
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <small class="text-muted d-block mb-3">Staff dapat mengelola donasi masuk dan laporan untuk penggalang ini.</small>
+                        
+                        <?php if (empty($staff_users)): ?>
+                            <div class="text-center py-4">
+                                <p class="text-muted mb-0">Belum ada staff. Klik "Tambah Staff" untuk menambahkan.</p>
+                            </div>
+                        <?php else: ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Dibuat</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($staff_users as $staff): ?>
+                                            <tr>
+                                                <td><?= esc($staff['name'] ?? '-') ?></td>
+                                                <td><?= esc($staff['email'] ?? '-') ?></td>
+                                                <td>
+                                                    <span class="badge badge-info"><?= esc($staff['role'] ?? 'staff') ?></span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-<?= ($staff['status'] ?? 'active') === 'active' ? 'success' : 'secondary' ?>">
+                                                        <?= esc(ucfirst($staff['status'] ?? 'active')) ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <small class="text-muted">
+                                                        <?= $staff['created_at'] ? date('d M Y', strtotime($staff['created_at'])) : '-' ?>
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <button 
+                                                        type="button" 
+                                                        class="btn btn-sm btn-outline-danger" 
+                                                        onclick="deleteStaff(<?= (int) $staff['id'] ?>, '<?= esc($staff['name'] ?? '', 'js') ?>')"
+                                                    >
+                                                        <span class="fe fe-trash-2 fe-12"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <!-- Actions -->
                 <div class="row">
                     <div class="col-md-12">
@@ -283,5 +349,108 @@
     </div> <!-- .row -->
 </div> <!-- .container-fluid -->
 
+<?php if ($tenant): ?>
+<!-- Modal Add Staff -->
+<div class="modal fade" id="modalAddStaff" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Staff</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form id="formAddStaff" method="POST" action="<?= base_url("admin/tenants/{$tenant['id']}/staff/create") ?>">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="staff_name">Nama Staff <span class="text-danger">*</span></label>
+                        <input type="text" id="staff_name" name="name" class="form-control" required placeholder="Nama lengkap staff">
+                    </div>
+                    <div class="form-group">
+                        <label for="staff_email">Email <span class="text-danger">*</span></label>
+                        <input type="email" id="staff_email" name="email" class="form-control" required placeholder="staff@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="staff_password">Password</label>
+                        <input type="text" id="staff_password" name="password" class="form-control" value="admin123" placeholder="admin123">
+                        <small class="form-text text-muted">Default: admin123</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="staff_role">Role</label>
+                        <select id="staff_role" name="role" class="form-control">
+                            <option value="staff">Staff</option>
+                            <option value="tenant_staff">Tenant Staff</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Tambah Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<?php if ($tenant): ?>
+<script>
+function deleteStaff(userId, userName) {
+    if (!confirm('Hapus staff "' + userName + '"?\n\nStaff ini tidak akan bisa login lagi.')) {
+        return;
+    }
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '<?= base_url("admin/tenants/{$tenant['id']}/staff/") ?>' + userId + '/delete';
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '<?= csrf_token() ?>';
+    csrfInput.value = '<?= csrf_hash() ?>';
+    form.appendChild(csrfInput);
+    
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Handle form add staff
+document.getElementById('formAddStaff')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+        formDataObj[key] = value;
+    });
+    
+    // Add CSRF
+    formDataObj['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
+    
+    fetch(this.action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formDataObj).toString()
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + (data.message || 'Gagal menambahkan staff'));
+        }
+    })
+    .catch(err => {
+        alert('Error: ' + err.message);
+    });
+});
+</script>
+<?php endif; ?>
 <?= $this->endSection() ?>
 

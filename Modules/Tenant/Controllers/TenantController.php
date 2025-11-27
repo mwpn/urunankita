@@ -138,6 +138,7 @@ class TenantController extends BaseController
 
         // Get existing owner user (if any)
         $ownerUser = null;
+        $staffUsers = [];
         try {
             $db = Database::connect();
             $ownerUser = $db->table('users')
@@ -146,6 +147,14 @@ class TenantController extends BaseController
                 ->orderBy('id', 'ASC')
                 ->get()
                 ->getRowArray();
+            
+            // Get staff users (staff, tenant_staff)
+            $staffUsers = $db->table('users')
+                ->where('tenant_id', (int) $id)
+                ->whereIn('role', ['staff', 'tenant_staff'])
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->getResultArray();
         } catch (\Throwable $e) {
             // ignore
         }
@@ -158,6 +167,7 @@ class TenantController extends BaseController
             'user_role' => 'Super Admin',
             'tenant' => $tenant,
             'owner_user' => $ownerUser,
+            'staff_users' => $staffUsers,
         ];
 
         return view('Modules\\Tenant\\Views\\admin_form', $data);
