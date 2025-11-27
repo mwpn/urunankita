@@ -2,6 +2,63 @@
 
 ## ⚠️ PENTING: Setelah Pull di Produksi
 
+### 0. Jalankan Database Migrations (WAJIB!)
+
+**Cara 1: Menggunakan Spark Command (Recommended)**
+
+```bash
+# Jalankan semua migrations (App + Modules)
+php spark migrate
+
+# Atau jalankan module migrations secara spesifik
+php spark migrate:modules
+```
+
+**Cara 2: Jika Migration Error (Duplicate Column, dll)**
+
+Jika ada error seperti "Duplicate column" atau migration tidak terdeteksi, jalankan migration secara manual:
+
+```bash
+# Jalankan migration untuk module Campaign (termasuk campaign_staff)
+php spark migrate -n Modules\Campaign -g default
+```
+
+**Cara 3: Manual SQL (Jika Migration Command Bermasalah)**
+
+Jika migration command tidak berjalan, buat tabel secara manual:
+
+```sql
+-- Buat tabel campaign_staff untuk fitur assign staff ke campaign
+CREATE TABLE IF NOT EXISTS `campaign_staff` (
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `campaign_id` INT(11) UNSIGNED NOT NULL COMMENT 'ID Urunan',
+    `user_id` INT(11) UNSIGNED NOT NULL COMMENT 'ID Staff User',
+    `created_at` DATETIME NULL,
+    `updated_at` DATETIME NULL,
+    PRIMARY KEY (`id`),
+    KEY `campaign_id` (`campaign_id`),
+    KEY `user_id` (`user_id`),
+    UNIQUE KEY `campaign_user_unique` (`campaign_id`, `user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+**Verifikasi Tabel Sudah Dibuat:**
+
+```sql
+-- Cek apakah tabel campaign_staff sudah ada
+SHOW TABLES LIKE 'campaign_staff';
+
+-- Atau cek struktur tabel
+DESCRIBE campaign_staff;
+```
+
+**Catatan Penting:**
+- Backup database sebelum menjalankan migration
+- Jika ada error, cek log di `writable/logs/`
+- Migration akan otomatis skip jika tabel sudah ada (jika menggunakan `CREATE TABLE IF NOT EXISTS`)
+
+---
+
 ### 1. Pastikan Template Notifikasi Enabled (WAJIB!)
 
 **Cara TERMUDAH - Gunakan PHP script ini:**
@@ -58,7 +115,22 @@ WHERE `key` = 'whatsapp_template_tenant_donation_new_enabled';
 php spark cache:clear
 ```
 
-### 5. Test Notifikasi
+### 5. Verifikasi Migration Berhasil
+
+Setelah migration, pastikan tabel `campaign_staff` sudah ada:
+
+```sql
+-- Cek tabel campaign_staff
+SELECT COUNT(*) as total FROM campaign_staff;
+```
+
+Atau via command line:
+
+```bash
+php spark db:table campaign_staff
+```
+
+### 6. Test Notifikasi
 
 Buat donasi baru dan cek log:
 
