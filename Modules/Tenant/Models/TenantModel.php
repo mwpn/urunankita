@@ -62,6 +62,14 @@ class TenantModel extends Model
         'db_name' => 'permit_empty|max_length[150]', // db_name is optional now (can be null)
         'status' => 'in_list[active,inactive,suspended]',
     ];
+    
+    /**
+     * Override validation rules for update to exclude current record
+     */
+    public function setUpdateRules(int $id): void
+    {
+        $this->validationRules['slug'] = "required|max_length[100]|is_unique[tenants.slug,id,{$id}]";
+    }
 
     protected $validationMessages = [];
     protected $skipValidation = false;

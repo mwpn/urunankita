@@ -665,44 +665,65 @@ function openAssignCampaignModal(userId, userName, assignedCampaignIds) {
 }
 
 // Handle form assign campaign
-document.getElementById('formAssignCampaign')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const formDataObj = {};
-    formData.forEach((value, key) => {
-        if (key === 'campaign_ids[]') {
-            if (!formDataObj['campaign_ids']) {
-                formDataObj['campaign_ids'] = [];
+const formAssignCampaign = document.getElementById('formAssignCampaign');
+if (formAssignCampaign) {
+    formAssignCampaign.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get CSRF token from form
+        const csrfInput = this.querySelector('input[name="<?= csrf_token() ?>"]');
+        const csrfToken = csrfInput ? csrfInput.value : '<?= csrf_hash() ?>';
+        
+        // Get selected campaign IDs
+        const selectedCampaigns = [];
+        document.querySelectorAll('.campaign-checkbox:checked').forEach(cb => {
+            selectedCampaigns.push(cb.value);
+        });
+        
+        const formDataObj = {
+            '<?= csrf_token() ?>': csrfToken,
+        };
+        
+        // Add campaign_ids as array
+        selectedCampaigns.forEach((campId, index) => {
+            formDataObj['campaign_ids[' + index + ']'] = campId;
+        });
+        
+        console.log('Assigning campaigns:', this.action, formDataObj);
+        
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: new URLSearchParams(formDataObj).toString()
+        })
+        .then(res => {
+            console.log('Response status:', res.status);
+            if (!res.ok) {
+                return res.text().then(text => {
+                    console.error('Response text:', text);
+                    throw new Error('HTTP error! status: ' + res.status);
+                });
             }
-            formDataObj['campaign_ids'].push(value);
-        } else {
-            formDataObj[key] = value;
-        }
+            return res.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data && data.success) {
+                alert(data.message || 'Assignment berhasil disimpan');
+                location.reload();
+            } else {
+                alert('Error: ' + (data && data.message ? data.message : 'Gagal menyimpan assignment'));
+            }
+        })
+        .catch(err => {
+            console.error('Error assigning campaigns:', err);
+            alert('Error: ' + err.message + '. Cek console untuk detail.');
+        });
     });
-    
-    // Add CSRF
-    formDataObj['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
-    
-    fetch(this.action, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(formDataObj).toString()
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        } else {
-            alert('Error: ' + (data.message || 'Gagal menyimpan assignment'));
-        }
-    })
-    .catch(err => {
-        alert('Error: ' + err.message);
-    });
-});
+}
 </script>
 <?php endif; ?>
 <?= $this->endSection() ?>

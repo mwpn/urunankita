@@ -802,12 +802,25 @@ class TenantController extends BaseController
             }
 
             // Get campaign_ids from POST
-            $campaignIds = $this->request->getPost('campaign_ids') ?? [];
-            if (!is_array($campaignIds)) {
+            // Handle both array format: campaign_ids[] and indexed format: campaign_ids[0], campaign_ids[1], etc.
+            $campaignIds = $this->request->getPost('campaign_ids');
+            
+            if (is_array($campaignIds)) {
+                // If it's already an array (campaign_ids[])
+                $campaignIds = array_map('intval', $campaignIds);
+            } else {
+                // If it's indexed format (campaign_ids[0], campaign_ids[1], etc.)
                 $campaignIds = [];
+                $postData = $this->request->getPost();
+                foreach ($postData as $key => $value) {
+                    if (preg_match('/^campaign_ids\[(\d+)\]$/', $key, $matches)) {
+                        $campaignIds[] = (int) $value;
+                    }
+                }
             }
-            $campaignIds = array_map('intval', $campaignIds);
+            
             $campaignIds = array_filter($campaignIds);
+            $campaignIds = array_values($campaignIds); // Re-index array
 
             // Verify all campaigns belong to this tenant
             if (!empty($campaignIds)) {

@@ -147,6 +147,11 @@ class TenantService
             return true;
         }
         
+        // Set validation rules for update (exclude current record from unique check)
+        if (method_exists($this->tenantModel, 'setUpdateRules')) {
+            $this->tenantModel->setUpdateRules($id);
+        }
+        
         // Skip validation for update if only optional fields are being updated
         $this->tenantModel->skipValidation(false);
         
