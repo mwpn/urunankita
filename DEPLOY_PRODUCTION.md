@@ -53,6 +53,7 @@ DESCRIBE campaign_staff;
 ```
 
 **Catatan Penting:**
+
 - Backup database sebelum menjalankan migration
 - Jika ada error, cek log di `writable/logs/`
 - Migration akan otomatis skip jika tabel sudah ada (jika menggunakan `CREATE TABLE IF NOT EXISTS`)

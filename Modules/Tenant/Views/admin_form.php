@@ -337,8 +337,17 @@
                                                 <td>
                                                     <button 
                                                         type="button" 
+                                                        class="btn btn-sm btn-outline-primary mr-1" 
+                                                        onclick="openEditStaffModal(<?= (int) $staff['id'] ?>, '<?= esc($staff['name'] ?? '', 'js') ?>', '<?= esc($staff['email'] ?? '', 'js') ?>', '<?= esc($staff['role'] ?? 'staff', 'js') ?>')"
+                                                        title="Edit Staff"
+                                                    >
+                                                        <span class="fe fe-edit-2 fe-12"></span>
+                                                    </button>
+                                                    <button 
+                                                        type="button" 
                                                         class="btn btn-sm btn-outline-danger" 
                                                         onclick="deleteStaff(<?= (int) $staff['id'] ?>, '<?= esc($staff['name'] ?? '', 'js') ?>')"
+                                                        title="Hapus Staff"
                                                     >
                                                         <span class="fe fe-trash-2 fe-12"></span>
                                                     </button>
@@ -409,6 +418,49 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-primary">Tambah Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Staff -->
+<div class="modal fade" id="modalEditStaff" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Staff</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form id="formEditStaff" method="POST">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit_staff_name">Nama Staff <span class="text-danger">*</span></label>
+                        <input type="text" id="edit_staff_name" name="name" class="form-control" required placeholder="Nama lengkap staff">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_staff_email">Email <span class="text-danger">*</span></label>
+                        <input type="email" id="edit_staff_email" name="email" class="form-control" required placeholder="staff@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_staff_password">Password (Baru)</label>
+                        <input type="text" id="edit_staff_password" name="password" class="form-control" placeholder="(kosongkan jika tidak mengubah)">
+                        <small class="form-text text-muted">Kosongkan jika tidak mengubah password</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_staff_role">Role</label>
+                        <select id="edit_staff_role" name="role" class="form-control">
+                            <option value="staff">Staff</option>
+                            <option value="tenant_staff">Tenant Staff</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
             </form>
         </div>
@@ -517,6 +569,49 @@ document.getElementById('formAddStaff')?.addEventListener('submit', function(e) 
             location.reload();
         } else {
             alert('Error: ' + (data.message || 'Gagal menambahkan staff'));
+        }
+    })
+    .catch(err => {
+        alert('Error: ' + err.message);
+    });
+});
+
+// Open edit staff modal
+function openEditStaffModal(userId, userName, userEmail, userRole) {
+    document.getElementById('edit_staff_name').value = userName;
+    document.getElementById('edit_staff_email').value = userEmail;
+    document.getElementById('edit_staff_password').value = '';
+    document.getElementById('edit_staff_role').value = userRole;
+    document.getElementById('formEditStaff').action = '<?= base_url("admin/tenants/{$tenant['id']}/staff/") ?>' + userId + '/update';
+    $('#modalEditStaff').modal('show');
+}
+
+// Handle form edit staff
+document.getElementById('formEditStaff')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+        formDataObj[key] = value;
+    });
+    
+    // Add CSRF
+    formDataObj['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
+    
+    fetch(this.action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formDataObj).toString()
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + (data.message || 'Gagal memperbarui staff'));
         }
     })
     .catch(err => {

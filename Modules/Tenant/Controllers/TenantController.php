@@ -546,6 +546,96 @@ class TenantController extends BaseController
     }
 
     /**
+     * Update staff user
+     * POST /admin/tenants/{id}/staff/{userId}/update
+     */
+    public function updateStaff(int $id, int $userId)
+    {
+        $tenant = $this->tenantService->getById($id);
+        if (!$tenant) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Penggalang tidak ditemukan',
+            ])->setStatusCode(404);
+        }
+
+        $name = trim($this->request->getPost('name') ?? '');
+        $email = trim($this->request->getPost('email') ?? '');
+        $password = trim($this->request->getPost('password') ?? '');
+        $role = $this->request->getPost('role') ?? 'staff';
+
+        if (empty($name) || empty($email)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Nama dan email wajib diisi',
+            ])->setStatusCode(400);
+        }
+
+        if (!in_array($role, ['staff', 'tenant_staff'], true)) {
+            $role = 'staff';
+        }
+
+        try {
+            $db = Database::connect();
+            
+            // Verify user belongs to this tenant and is staff
+            $user = $db->table('users')
+                ->where('id', $userId)
+                ->where('tenant_id', (int) $id)
+                ->whereIn('role', ['staff', 'tenant_staff'])
+                ->get()
+                ->getRowArray();
+            
+            if (!$user) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Staff tidak ditemukan',
+                ])->setStatusCode(404);
+            }
+
+            // Check duplicate email (except current user)
+            $emailExists = $db->table('users')
+                ->where('tenant_id', (int) $id)
+                ->where('email', $email)
+                ->where('id !=', $userId)
+                ->countAllResults();
+            
+            if ($emailExists > 0) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Email sudah digunakan oleh staff lain pada penggalang ini',
+                ])->setStatusCode(400);
+            }
+
+            $updateData = [
+                'name' => $name,
+                'email' => $email,
+                'role' => $role,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            // Only update password if provided
+            if (!empty($password)) {
+                $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
+            }
+
+            $db->table('users')
+                ->where('id', $userId)
+                ->update($updateData);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Staff berhasil diperbarui',
+            ]);
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Gagal memperbarui staff: ' . $e->getMessage(),
+            ])->setStatusCode(500);
+        }
+    }
+
+    /**
      * Delete staff user
      * POST /admin/tenants/{id}/staff/{userId}/delete
      */
