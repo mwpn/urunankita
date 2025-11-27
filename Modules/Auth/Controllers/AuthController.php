@@ -113,7 +113,8 @@ class AuthController extends BaseController
                 if ($campaignStaff && !empty($campaignStaff['tenant_id'])) {
                     $tenantId = (int) $campaignStaff['tenant_id'];
                 } else {
-                    // If no campaign assignment, try to find tenant from owner_id
+                    // If no campaign assignment, try alternative methods:
+                    // 1. Check if staff is owner of a tenant
                     $tenant = $db->table('tenants')
                         ->where('owner_id', (int) $user['id'])
                         ->limit(1)
@@ -123,6 +124,8 @@ class AuthController extends BaseController
                     if ($tenant) {
                         $tenantId = (int) $tenant['id'];
                     }
+                    // Note: If staff has no campaign assignment and is not owner,
+                    // they need to be assigned to at least one campaign to login
                 }
             }
             

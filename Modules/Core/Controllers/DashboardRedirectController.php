@@ -29,6 +29,7 @@ class DashboardRedirectController extends BaseController
                     $tenantId = (int) $userRow['tenant_id'];
                 } elseif (in_array($role, ['staff', 'tenant_staff'], true)) {
                     // For staff: resolve tenant from campaign_staff assignments
+                    // Get all campaigns assigned to this staff, then get tenant_id from any of them
                     $campaignStaff = $db->table('campaign_staff')
                         ->where('user_id', (int) $userId)
                         ->join('campaigns', 'campaigns.id = campaign_staff.campaign_id', 'left')
@@ -40,8 +41,8 @@ class DashboardRedirectController extends BaseController
                     if ($campaignStaff && !empty($campaignStaff['tenant_id'])) {
                         $tenantId = (int) $campaignStaff['tenant_id'];
                     } else {
-                        // If no campaign assignment, try to find tenant from owner_id
-                        // (for cases where staff might be associated via tenant owner)
+                        // If no campaign assignment, try alternative methods:
+                        // 1. Check if staff is owner of a tenant
                         $tenant = $db->table('tenants')
                             ->where('owner_id', (int) $userId)
                             ->limit(1)
@@ -50,6 +51,13 @@ class DashboardRedirectController extends BaseController
                         
                         if ($tenant) {
                             $tenantId = (int) $tenant['id'];
+                        } else {
+                            // 2. Try to find tenant by checking which tenant created this staff
+                            // Since we don't have tenant_id in users, we can't do this directly
+                            // But we can check: if staff has role staff/tenant_staff, they must belong to a tenant
+                            // For now, we'll need to rely on campaign assignment
+                            // If staff has no campaign assignment, they can't login
+                            // Admin should assign staff to at least one campaign
                         }
                     }
                 }

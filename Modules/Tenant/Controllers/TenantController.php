@@ -563,6 +563,38 @@ class TenantController extends BaseController
             }
             
             $db->table('users')->insert($userData);
+            $insertedUserId = $db->insertID();
+            
+            // If tenant_id column doesn't exist, create a marker in campaign_staff
+            // to remember which tenant this staff belongs to
+            // We'll use campaign_id = 0 as a marker (will need to handle this in queries)
+            if (!$hasTenantId && $insertedUserId) {
+                // Get first campaign from this tenant as marker (or create a dummy entry)
+                $firstCampaign = $db->table('campaigns')
+                    ->where('tenant_id', (int) $id)
+                    ->orderBy('id', 'ASC')
+                    ->limit(1)
+                    ->get()
+                    ->getRowArray();
+                
+                if ($firstCampaign) {
+                    // Use first campaign as marker (staff can manage all campaigns by default)
+                    // This entry will be used to resolve tenant_id
+                    $db->table('campaign_staff')->insert([
+                        'campaign_id' => (int) $firstCampaign['id'],
+                        'user_id' => $insertedUserId,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                } else {
+                    // No campaigns yet, create a special marker entry
+                    // We'll use a special campaign_id = 0 (but need to handle this)
+                    // Actually, better: create entry with first available campaign_id from tenant
+                    // Or better: just remember tenant_id in a different way
+                    // For now, if no campaigns, staff won't be able to login until assigned
+                    // This is acceptable - admin should assign staff to at least one campaign
+                }
+            }
 
             return $this->response->setJSON([
                 'success' => true,
