@@ -90,7 +90,9 @@ $siteName = $settingService->get('site_name', 'Urunankita', 'global', null);
                 
                 // Replace dashboard link
                 $dashboardUrl = $isAdmin ? base_url('admin/dashboard') : base_url('tenant/dashboard');
-                $menuContent = str_replace('href="index.php" data-content="includes/dashboard-content.html"', 'href="' . $dashboardUrl . '"', $menuContent);
+                // Replace all variations of dashboard link
+                $menuContent = preg_replace('/href="index\.php"[^>]*data-content="includes\/dashboard-content\.html"[^>]*/', 'href="' . $dashboardUrl . '"', $menuContent);
+                $menuContent = preg_replace('/href="index\.php"[^>]*>/', 'href="' . $dashboardUrl . '">', $menuContent);
                 
                 // Replace Urunan Kita menu items
                 $baseUrl = $isAdmin ? base_url('admin') : base_url('tenant');
