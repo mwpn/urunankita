@@ -140,19 +140,71 @@ class DonationController extends BaseController
         $campaignId = $this->request->getGet('campaign_id');
         $page = (int) ($this->request->getGet('page') ?? 1);
 
+        // For staff, filter by assigned campaigns
+        $authUser = session()->get('auth_user') ?? [];
+        $userRole = $authUser['role'] ?? '';
+        $userId = $authUser['id'] ?? null;
+        $allowedCampaignIds = null;
+        
+        if (in_array($userRole, ['staff', 'tenant_staff'], true) && $userId) {
+            $db = \Config\Database::connect();
+            $assignments = $db->table('campaign_staff')
+                ->where('user_id', (int) $userId)
+                ->get()
+                ->getResultArray();
+            
+            // If staff has assignments, filter by those campaigns
+            if (!empty($assignments)) {
+                $allowedCampaignIds = array_column($assignments, 'campaign_id');
+                // If specific campaign_id filter is set, verify it's in allowed campaigns
+                if ($campaignId && !in_array((int) $campaignId, $allowedCampaignIds)) {
+                    return redirect()->to('/tenant/donations')->with('error', 'Anda tidak memiliki akses ke urunan tersebut');
+                }
+            }
+            // If no assignments, staff can see all campaigns (null = no filter)
+        }
+
         $filters = array_filter([
             'tenant_id' => $tenantId,
             'status' => $status,
             'campaign_id' => $campaignId ? (int) $campaignId : null,
             'page' => $page,
             'per_page' => 20,
+            'allowed_campaign_ids' => $allowedCampaignIds, // For staff filtering
         ], fn($v) => $v !== null && $v !== '');
 
         $result = $this->donationService->getAllDonations($filters);
 
         // Get tenant's campaigns for filter dropdown
         $campaignModel = new \Modules\Campaign\Models\CampaignModel();
-        $campaigns = $campaignModel->where('tenant_id', $tenantId)->orderBy('created_at', 'DESC')->findAll();
+        $allCampaigns = $campaignModel->where('tenant_id', $tenantId)->orderBy('created_at', 'DESC')->findAll();
+        
+        // For staff, filter campaigns based on assignment
+        $authUser = session()->get('auth_user') ?? [];
+        $userRole = $authUser['role'] ?? '';
+        $userId = $authUser['id'] ?? null;
+        
+        if (in_array($userRole, ['staff', 'tenant_staff'], true) && $userId) {
+            $db = \Config\Database::connect();
+            $assignments = $db->table('campaign_staff')
+                ->where('user_id', (int) $userId)
+                ->get()
+                ->getResultArray();
+            
+            // If staff has assignments, filter campaigns
+            if (!empty($assignments)) {
+                $assignedCampaignIds = array_column($assignments, 'campaign_id');
+                $campaigns = array_filter($allCampaigns, function($camp) use ($assignedCampaignIds) {
+                    return in_array($camp['id'], $assignedCampaignIds);
+                });
+            } else {
+                // No assignments = can see all campaigns
+                $campaigns = $allCampaigns;
+            }
+        } else {
+            // Owner/admin can see all campaigns
+            $campaigns = $allCampaigns;
+        }
 
         // Calculate statistics
         $donationModel = new \Modules\Donation\Models\DonationModel();
@@ -412,6 +464,43 @@ class DonationController extends BaseController
         $authUser = session()->get('auth_user') ?? [];
         $userRole = $authUser['role'] ?? '';
         return in_array($userRole, ['tenant_owner', 'tenant_admin', 'penggalang_dana', 'staff', 'tenant_staff'], true);
+    }
+
+    /**
+     * Check if staff user can manage specific campaign
+     * Returns true if:
+     * - User is not staff (owner/admin can manage all)
+     * - Staff has no campaign assignments (can manage all)
+     * - Campaign is in staff's assigned campaigns
+     */
+    protected function canStaffManageCampaign(int $campaignId, int $userId): bool
+    {
+        $authUser = session()->get('auth_user') ?? [];
+        $userRole = $authUser['role'] ?? '';
+        
+        // If not staff, can manage
+        if (!in_array($userRole, ['staff', 'tenant_staff'], true)) {
+            return true;
+        }
+        
+        // Check if staff has campaign assignments
+        $db = \Config\Database::connect();
+        $assignments = $db->table('campaign_staff')
+            ->where('user_id', $userId)
+            ->countAllResults();
+        
+        // If no assignments, staff can manage all campaigns
+        if ($assignments === 0) {
+            return true;
+        }
+        
+        // Check if this campaign is assigned to staff
+        $isAssigned = $db->table('campaign_staff')
+            ->where('user_id', $userId)
+            ->where('campaign_id', $campaignId)
+            ->countAllResults() > 0;
+        
+        return $isAssigned;
     }
 
     /**

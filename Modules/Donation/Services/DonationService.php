@@ -769,6 +769,11 @@ class DonationService
             $builder->where('donations.campaign_id', $filters['campaign_id']);
         }
 
+        // For staff: filter by allowed campaign IDs
+        if (isset($filters['allowed_campaign_ids']) && is_array($filters['allowed_campaign_ids']) && !empty($filters['allowed_campaign_ids'])) {
+            $builder->whereIn('donations.campaign_id', $filters['allowed_campaign_ids']);
+        }
+
         // Get total count before pagination
         $total = $builder->countAllResults(false);
 

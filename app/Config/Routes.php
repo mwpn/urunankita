@@ -112,6 +112,7 @@ $routes->group('admin', ['filter' => ['auth', 'role:super_admin']], static funct
     $routes->post('tenants/(:num)/update', '\Modules\Tenant\Controllers\TenantController::updatePage/$1');
     $routes->post('tenants/(:num)/staff/create', '\Modules\Tenant\Controllers\TenantController::createStaff/$1');
     $routes->post('tenants/(:num)/staff/(:num)/delete', '\Modules\Tenant\Controllers\TenantController::deleteStaff/$1/$2');
+    $routes->post('tenants/(:num)/staff/(:num)/assign-campaigns', '\Modules\Tenant\Controllers\TenantController::assignCampaigns/$1/$2');
     $routes->post('tenants/(:num)/delete', '\Modules\Tenant\Controllers\TenantController::delete/$1');
     
     // Campaigns management (all tenants)

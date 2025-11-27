@@ -289,8 +289,8 @@
                                             <th>Nama</th>
                                             <th>Email</th>
                                             <th>Role</th>
+                                            <th>Urunan yang Di-assign</th>
                                             <th>Status</th>
-                                            <th>Dibuat</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -303,14 +303,36 @@
                                                     <span class="badge badge-info"><?= esc($staff['role'] ?? 'staff') ?></span>
                                                 </td>
                                                 <td>
+                                                    <?php 
+                                                    $assignedCampaigns = [];
+                                                    if (!empty($staff['assigned_campaign_ids'])) {
+                                                        foreach ($campaigns as $camp) {
+                                                            if (in_array($camp['id'], $staff['assigned_campaign_ids'])) {
+                                                                $assignedCampaigns[] = $camp['title'];
+                                                            }
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <?php if (empty($assignedCampaigns)): ?>
+                                                        <span class="text-muted">Semua urunan</span>
+                                                    <?php else: ?>
+                                                        <?php foreach ($assignedCampaigns as $campTitle): ?>
+                                                            <span class="badge badge-secondary mr-1"><?= esc($campTitle) ?></span>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                    <button 
+                                                        type="button" 
+                                                        class="btn btn-sm btn-outline-primary ml-2" 
+                                                        onclick="openAssignCampaignModal(<?= (int) $staff['id'] ?>, '<?= esc($staff['name'] ?? '', 'js') ?>', [<?= implode(',', $staff['assigned_campaign_ids'] ?? []) ?>])"
+                                                        title="Assign ke Urunan"
+                                                    >
+                                                        <span class="fe fe-edit-2 fe-12"></span>
+                                                    </button>
+                                                </td>
+                                                <td>
                                                     <span class="badge badge-<?= ($staff['status'] ?? 'active') === 'active' ? 'success' : 'secondary' ?>">
                                                         <?= esc(ucfirst($staff['status'] ?? 'active')) ?>
                                                     </span>
-                                                </td>
-                                                <td>
-                                                    <small class="text-muted">
-                                                        <?= $staff['created_at'] ? date('d M Y', strtotime($staff['created_at'])) : '-' ?>
-                                                    </small>
                                                 </td>
                                                 <td>
                                                     <button 
@@ -392,6 +414,57 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Assign Campaign to Staff -->
+<div class="modal fade" id="modalAssignCampaign" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Urunan ke Staff</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form id="formAssignCampaign" method="POST">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Staff: <strong id="assign-staff-name">-</strong></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Pilih Urunan yang Bisa Dikelola Staff:</label>
+                        <small class="text-muted d-block mb-2">Kosongkan semua = staff bisa kelola semua urunan</small>
+                        <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
+                            <?php if (empty($campaigns)): ?>
+                                <p class="text-muted mb-0">Belum ada urunan aktif</p>
+                            <?php else: ?>
+                                <?php foreach ($campaigns as $camp): ?>
+                                    <div class="custom-control custom-checkbox mb-2">
+                                        <input 
+                                            type="checkbox" 
+                                            class="custom-control-input campaign-checkbox" 
+                                            id="campaign_<?= (int) $camp['id'] ?>" 
+                                            name="campaign_ids[]" 
+                                            value="<?= (int) $camp['id'] ?>"
+                                        >
+                                        <label class="custom-control-label" for="campaign_<?= (int) $camp['id'] ?>">
+                                            <?= esc($camp['title']) ?>
+                                            <small class="text-muted">(#<?= str_pad($camp['id'], 6, '0', STR_PAD_LEFT) ?>)</small>
+                                        </label>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Assignment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?php endif; ?>
 
 <?= $this->endSection() ?>
@@ -444,6 +517,69 @@ document.getElementById('formAddStaff')?.addEventListener('submit', function(e) 
             location.reload();
         } else {
             alert('Error: ' + (data.message || 'Gagal menambahkan staff'));
+        }
+    })
+    .catch(err => {
+        alert('Error: ' + err.message);
+    });
+});
+
+// Open assign campaign modal
+function openAssignCampaignModal(userId, userName, assignedCampaignIds) {
+    document.getElementById('assign-staff-name').textContent = userName;
+    document.getElementById('formAssignCampaign').action = '<?= base_url("admin/tenants/{$tenant['id']}/staff/") ?>' + userId + '/assign-campaigns';
+    
+    // Uncheck all first
+    document.querySelectorAll('.campaign-checkbox').forEach(cb => {
+        cb.checked = false;
+    });
+    
+    // Check assigned campaigns
+    if (assignedCampaignIds && assignedCampaignIds.length > 0) {
+        assignedCampaignIds.forEach(campaignId => {
+            const checkbox = document.getElementById('campaign_' + campaignId);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+    }
+    
+    $('#modalAssignCampaign').modal('show');
+}
+
+// Handle form assign campaign
+document.getElementById('formAssignCampaign')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+        if (key === 'campaign_ids[]') {
+            if (!formDataObj['campaign_ids']) {
+                formDataObj['campaign_ids'] = [];
+            }
+            formDataObj['campaign_ids'].push(value);
+        } else {
+            formDataObj[key] = value;
+        }
+    });
+    
+    // Add CSRF
+    formDataObj['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
+    
+    fetch(this.action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formDataObj).toString()
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + (data.message || 'Gagal menyimpan assignment'));
         }
     })
     .catch(err => {

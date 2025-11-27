@@ -155,8 +155,26 @@ class TenantController extends BaseController
                 ->orderBy('created_at', 'DESC')
                 ->get()
                 ->getResultArray();
+            
+            // Get campaign assignments for each staff
+            foreach ($staffUsers as &$staff) {
+                $campaignIds = $db->table('campaign_staff')
+                    ->where('user_id', (int) $staff['id'])
+                    ->get()
+                    ->getResultArray();
+                $staff['assigned_campaign_ids'] = array_column($campaignIds, 'campaign_id');
+            }
+            
+            // Get all campaigns for this tenant (for assignment dropdown)
+            $campaigns = $db->table('campaigns')
+                ->where('tenant_id', (int) $id)
+                ->where('status', 'active')
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->getResultArray();
         } catch (\Throwable $e) {
             // ignore
+            $campaigns = [];
         }
 
         $data = [
@@ -167,7 +185,8 @@ class TenantController extends BaseController
             'user_role' => 'Super Admin',
             'tenant' => $tenant,
             'owner_user' => $ownerUser,
-            'staff_users' => $staffUsers,
+            'staff_users' => $staffUsers ?? [],
+            'campaigns' => $campaigns ?? [],
         ];
 
         return view('Modules\\Tenant\\Views\\admin_form', $data);
@@ -557,6 +576,92 @@ class TenantController extends BaseController
             return redirect()->to("/admin/tenants/{$id}/edit")->with('success', 'Staff berhasil dihapus');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus staff: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Assign campaigns to staff user
+     * POST /admin/tenants/{id}/staff/{userId}/assign-campaigns
+     */
+    public function assignCampaigns(int $id, int $userId)
+    {
+        $tenant = $this->tenantService->getById($id);
+        if (!$tenant) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Penggalang tidak ditemukan',
+            ])->setStatusCode(404);
+        }
+
+        try {
+            $db = Database::connect();
+            
+            // Verify user belongs to this tenant and is staff
+            $user = $db->table('users')
+                ->where('id', $userId)
+                ->where('tenant_id', (int) $id)
+                ->whereIn('role', ['staff', 'tenant_staff'])
+                ->get()
+                ->getRowArray();
+            
+            if (!$user) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Staff tidak ditemukan',
+                ])->setStatusCode(404);
+            }
+
+            // Get campaign_ids from POST
+            $campaignIds = $this->request->getPost('campaign_ids') ?? [];
+            if (!is_array($campaignIds)) {
+                $campaignIds = [];
+            }
+            $campaignIds = array_map('intval', $campaignIds);
+            $campaignIds = array_filter($campaignIds);
+
+            // Verify all campaigns belong to this tenant
+            if (!empty($campaignIds)) {
+                $validCampaigns = $db->table('campaigns')
+                    ->where('tenant_id', (int) $id)
+                    ->whereIn('id', $campaignIds)
+                    ->countAllResults();
+                
+                if ($validCampaigns !== count($campaignIds)) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Beberapa urunan tidak valid atau tidak milik penggalang ini',
+                    ])->setStatusCode(400);
+                }
+            }
+
+            // Delete existing assignments
+            $db->table('campaign_staff')
+                ->where('user_id', $userId)
+                ->delete();
+
+            // Insert new assignments (if any)
+            if (!empty($campaignIds)) {
+                $insertData = [];
+                foreach ($campaignIds as $campaignId) {
+                    $insertData[] = [
+                        'campaign_id' => $campaignId,
+                        'user_id' => $userId,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ];
+                }
+                $db->table('campaign_staff')->insertBatch($insertData);
+            }
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => empty($campaignIds) ? 'Staff sekarang bisa mengelola semua urunan' : 'Assignment urunan berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Gagal menyimpan assignment: ' . $e->getMessage(),
+            ])->setStatusCode(500);
         }
     }
 }
