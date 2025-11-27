@@ -2,6 +2,27 @@
 
 ## ⚠️ PENTING: Setelah Pull di Produksi
 
+### Langkah-Langkah Setelah `git pull origin master`
+
+```bash
+# 1. Pull latest code
+git pull origin master
+
+# 2. Install/update dependencies (jika ada perubahan composer.json)
+composer install --no-dev --optimize-autoloader
+
+# 3. Jalankan migrations (WAJIB!)
+php spark migrate
+
+# 4. Clear cache
+php spark cache:clear
+
+# 5. Optimize (opsional, untuk performance)
+php spark optimize
+```
+
+---
+
 ### 0. Jalankan Database Migrations (WAJIB!)
 
 **Cara 1: Menggunakan Spark Command (Recommended)**
