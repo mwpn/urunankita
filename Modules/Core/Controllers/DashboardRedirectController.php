@@ -30,8 +30,8 @@ class DashboardRedirectController extends BaseController
             return redirect()->to('/admin/dashboard');
         }
 
-        // Tenant roles
-        if (in_array($role, ['tenant_owner', 'tenant_admin', 'tenant_user'], true)) {
+        // Tenant roles (including staff)
+        if (in_array($role, ['tenant_owner', 'tenant_admin', 'tenant_user', 'penggalang_dana', 'staff', 'tenant_staff'], true)) {
             return redirect()->to('/tenant/dashboard');
         }
 

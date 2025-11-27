@@ -12,7 +12,7 @@ $isAdmin = false;
 if (in_array($userRoleRaw, ['superadmin', 'super_admin', 'admin'])) {
     $userRole = 'admin';
     $isAdmin = true;
-} elseif (in_array($userRoleRaw, ['tenant_owner', 'tenant_admin', 'tenant_user', 'penggalang_dana'])) {
+} elseif (in_array($userRoleRaw, ['tenant_owner', 'tenant_admin', 'tenant_user', 'penggalang_dana', 'staff', 'tenant_staff'])) {
     $userRole = 'penggalang_dana';
     $isAdmin = false;
 } else {

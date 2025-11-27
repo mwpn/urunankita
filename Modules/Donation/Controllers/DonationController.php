@@ -395,6 +395,26 @@ class DonationController extends BaseController
     }
 
     /**
+     * Check if current user is tenant staff (can manage donations and reports)
+     */
+    protected function isTenantStaff(): bool
+    {
+        $authUser = session()->get('auth_user') ?? [];
+        $userRole = $authUser['role'] ?? '';
+        return in_array($userRole, ['staff', 'tenant_staff', 'penggalang_dana'], true);
+    }
+
+    /**
+     * Check if current user can manage tenant (owner, admin, or staff)
+     */
+    protected function canManageTenant(): bool
+    {
+        $authUser = session()->get('auth_user') ?? [];
+        $userRole = $authUser['role'] ?? '';
+        return in_array($userRole, ['tenant_owner', 'tenant_admin', 'penggalang_dana', 'staff', 'tenant_staff'], true);
+    }
+
+    /**
      * Confirm donation payment manually (by tenant or admin)
      * POST /donation/confirm/{id}
      */
