@@ -60,9 +60,43 @@ class TenantController extends BaseController
                         
                         if ($tenant) {
                             $tenantId = (int) $tenant['id'];
+                        } else {
+                            // 2. Fallback: Get first active tenant and assign staff to first campaign
+                            $firstTenant = $db->table('tenants')
+                                ->where('status', 'active')
+                                ->orderBy('id', 'ASC')
+                                ->limit(1)
+                                ->get()
+                                ->getRowArray();
+                            
+                            if ($firstTenant) {
+                                $firstCampaign = $db->table('campaigns')
+                                    ->where('tenant_id', (int) $firstTenant['id'])
+                                    ->orderBy('id', 'ASC')
+                                    ->limit(1)
+                                    ->get()
+                                    ->getRowArray();
+                                
+                                if ($firstCampaign) {
+                                    // Auto-assign staff to first campaign as fallback
+                                    $existing = $db->table('campaign_staff')
+                                        ->where('campaign_id', (int) $firstCampaign['id'])
+                                        ->where('user_id', (int) $userId)
+                                        ->countAllResults();
+                                    
+                                    if ($existing === 0) {
+                                        $db->table('campaign_staff')->insert([
+                                            'campaign_id' => (int) $firstCampaign['id'],
+                                            'user_id' => (int) $userId,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s'),
+                                        ]);
+                                    }
+                                    
+                                    $tenantId = (int) $firstTenant['id'];
+                                }
+                            }
                         }
-                        // Note: If staff has no campaign assignment and is not owner,
-                        // they need to be assigned to at least one campaign to login
                     }
                 }
                 

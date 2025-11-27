@@ -29,7 +29,6 @@ class DashboardRedirectController extends BaseController
                     $tenantId = (int) $userRow['tenant_id'];
                 } elseif (in_array($role, ['staff', 'tenant_staff'], true)) {
                     // For staff: resolve tenant from campaign_staff assignments
-                    // Get all campaigns assigned to this staff, then get tenant_id from any of them
                     $campaignStaff = $db->table('campaign_staff')
                         ->where('user_id', (int) $userId)
                         ->join('campaigns', 'campaigns.id = campaign_staff.campaign_id', 'left')
@@ -52,12 +51,42 @@ class DashboardRedirectController extends BaseController
                         if ($tenant) {
                             $tenantId = (int) $tenant['id'];
                         } else {
-                            // 2. Try to find tenant by checking which tenant created this staff
-                            // Since we don't have tenant_id in users, we can't do this directly
-                            // But we can check: if staff has role staff/tenant_staff, they must belong to a tenant
-                            // For now, we'll need to rely on campaign assignment
-                            // If staff has no campaign assignment, they can't login
-                            // Admin should assign staff to at least one campaign
+                            // 2. Fallback: Get first active tenant and assign staff to first campaign
+                            // This is a workaround for staff created before auto-assign feature
+                            $firstTenant = $db->table('tenants')
+                                ->where('status', 'active')
+                                ->orderBy('id', 'ASC')
+                                ->limit(1)
+                                ->get()
+                                ->getRowArray();
+                            
+                            if ($firstTenant) {
+                                $firstCampaign = $db->table('campaigns')
+                                    ->where('tenant_id', (int) $firstTenant['id'])
+                                    ->orderBy('id', 'ASC')
+                                    ->limit(1)
+                                    ->get()
+                                    ->getRowArray();
+                                
+                                if ($firstCampaign) {
+                                    // Auto-assign staff to first campaign as fallback
+                                    $existing = $db->table('campaign_staff')
+                                        ->where('campaign_id', (int) $firstCampaign['id'])
+                                        ->where('user_id', (int) $userId)
+                                        ->countAllResults();
+                                    
+                                    if ($existing === 0) {
+                                        $db->table('campaign_staff')->insert([
+                                            'campaign_id' => (int) $firstCampaign['id'],
+                                            'user_id' => (int) $userId,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s'),
+                                        ]);
+                                    }
+                                    
+                                    $tenantId = (int) $firstTenant['id'];
+                                }
+                            }
                         }
                     }
                 }
