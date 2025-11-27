@@ -587,43 +587,59 @@ function openEditStaffModal(userId, userName, userEmail, userRole) {
 }
 
 // Handle form edit staff
-document.getElementById('formEditStaff')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const formDataObj = {};
-    formData.forEach((value, key) => {
-        formDataObj[key] = value;
+const formEditStaff = document.getElementById('formEditStaff');
+if (formEditStaff) {
+    formEditStaff.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get CSRF token from form
+        const csrfInput = this.querySelector('input[name="<?= csrf_token() ?>"]');
+        const csrfToken = csrfInput ? csrfInput.value : '<?= csrf_hash() ?>';
+        
+        const formData = new FormData(this);
+        const formDataObj = {};
+        formData.forEach((value, key) => {
+            formDataObj[key] = value;
+        });
+        
+        // Add CSRF
+        formDataObj['<?= csrf_token() ?>'] = csrfToken;
+        
+        console.log('Updating staff:', this.action, formDataObj);
+        
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: new URLSearchParams(formDataObj).toString()
+        })
+        .then(res => {
+            console.log('Response status:', res.status);
+            if (!res.ok) {
+                return res.text().then(text => {
+                    console.error('Response text:', text);
+                    throw new Error('HTTP error! status: ' + res.status);
+                });
+            }
+            return res.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data && data.success) {
+                alert('Staff berhasil diperbarui');
+                location.reload();
+            } else {
+                alert('Error: ' + (data && data.message ? data.message : 'Gagal memperbarui staff'));
+            }
+        })
+        .catch(err => {
+            console.error('Error updating staff:', err);
+            alert('Error: ' + err.message + '. Cek console untuk detail.');
+        });
     });
-    
-    // Add CSRF
-    formDataObj['<?= csrf_token() ?>'] = '<?= csrf_hash() ?>';
-    
-    fetch(this.action, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(formDataObj).toString()
-    })
-    .then(res => {
-        if (!res.ok) {
-            throw new Error('HTTP error! status: ' + res.status);
-        }
-        return res.json();
-    })
-    .then(data => {
-        if (data && data.success) {
-            location.reload();
-        } else {
-            alert('Error: ' + (data && data.message ? data.message : 'Gagal memperbarui staff'));
-        }
-    })
-    .catch(err => {
-        console.error('Error updating staff:', err);
-        alert('Error: ' + err.message);
-    });
-});
+}
 
 // Open assign campaign modal
 function openAssignCampaignModal(userId, userName, assignedCampaignIds) {
