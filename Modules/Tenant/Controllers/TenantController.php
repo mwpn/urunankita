@@ -697,15 +697,23 @@ class TenantController extends BaseController
                 $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
             }
 
-            $db->table('users')
+            $result = $db->table('users')
                 ->where('id', $userId)
                 ->update($updateData);
+
+            if ($result === false) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Gagal memperbarui staff: Database update failed',
+                ])->setStatusCode(500);
+            }
 
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Staff berhasil diperbarui',
             ]);
         } catch (\Exception $e) {
+            log_message('error', 'Error updating staff: ' . $e->getMessage());
             return $this->response->setJSON([
                 'success' => false,
                 'message' => 'Gagal memperbarui staff: ' . $e->getMessage(),

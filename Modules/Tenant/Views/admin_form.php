@@ -606,15 +606,21 @@ document.getElementById('formEditStaff')?.addEventListener('submit', function(e)
         },
         body: new URLSearchParams(formDataObj).toString()
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('HTTP error! status: ' + res.status);
+        }
+        return res.json();
+    })
     .then(data => {
-        if (data.success) {
+        if (data && data.success) {
             location.reload();
         } else {
-            alert('Error: ' + (data.message || 'Gagal memperbarui staff'));
+            alert('Error: ' + (data && data.message ? data.message : 'Gagal memperbarui staff'));
         }
     })
     .catch(err => {
+        console.error('Error updating staff:', err);
         alert('Error: ' + err.message);
     });
 });
