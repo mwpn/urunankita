@@ -62,11 +62,17 @@ class AuthController extends BaseController
 
         if ($isSubdomain && $tenantId) {
             $db = Database::connect();
-            $user = $db->table('users')
-                ->where('tenant_id', (int) $tenantId)
-                ->where('email', $email)
-                ->get()
-                ->getRowArray();
+            
+            // Check if tenant_id column exists
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
+            $userQuery = $db->table('users')->where('email', $email);
+            if ($hasTenantId) {
+                $userQuery->where('tenant_id', (int) $tenantId);
+            }
+            
+            $user = $userQuery->get()->getRowArray();
 
             if ($user && password_verify($password, $user['password'])) {
                 Services::modulesCoreAuth()->login([
