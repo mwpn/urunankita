@@ -94,11 +94,12 @@ $siteName = $settingService->get('site_name', 'Urunankita', 'global', null);
                 
                 // Replace Urunan Kita menu items
                 $baseUrl = $isAdmin ? base_url('admin') : base_url('tenant');
-                $menuContent = str_replace('href="index.php?page=urunan-create" data-content="includes/urunan-create-content.html"', 'href="' . $baseUrl . '/campaigns/create"', $menuContent);
-                $menuContent = str_replace('href="index.php?page=urunan-list" data-content="includes/urunan-list-content.html"', 'href="' . $baseUrl . '/campaigns"', $menuContent);
-                $menuContent = str_replace('href="index.php?page=urunan-donasi" data-content="includes/urunan-donasi-content.html"', 'href="' . $baseUrl . '/donations"', $menuContent);
-                $menuContent = str_replace('href="index.php?page=urunan-laporan" data-content="includes/urunan-laporan-content.html"', 'href="' . $baseUrl . '/reports"', $menuContent);
-                $menuContent = str_replace('href="index.php?page=urunan-diskusi" data-content="includes/urunan-diskusi-content.html"', 'href="' . $baseUrl . '/discussions"', $menuContent);
+                // Use str_replace with full href attribute to ensure exact match
+                $menuContent = preg_replace('/href="index\.php\?page=urunan-create"[^>]*/', 'href="' . $baseUrl . '/campaigns/create"', $menuContent);
+                $menuContent = preg_replace('/href="index\.php\?page=urunan-list"[^>]*/', 'href="' . $baseUrl . '/campaigns"', $menuContent);
+                $menuContent = preg_replace('/href="index\.php\?page=urunan-donasi"[^>]*/', 'href="' . $baseUrl . '/donations"', $menuContent);
+                $menuContent = preg_replace('/href="index\.php\?page=urunan-laporan"[^>]*/', 'href="' . $baseUrl . '/reports"', $menuContent);
+                $menuContent = preg_replace('/href="index\.php\?page=urunan-diskusi"[^>]*/', 'href="' . $baseUrl . '/discussions"', $menuContent);
                 
                 // Replace Semua Urunan menu items (admin only)
                 if ($isAdmin) {
