@@ -735,13 +735,20 @@ class TenantController extends BaseController
         try {
             $db = Database::connect();
             
+            // Check if tenant_id column exists in users table
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
             // Verify user belongs to this tenant and is staff
-            $user = $db->table('users')
+            $userQuery = $db->table('users')
                 ->where('id', $userId)
-                ->where('tenant_id', (int) $id)
-                ->whereIn('role', ['staff', 'tenant_staff'])
-                ->get()
-                ->getRowArray();
+                ->whereIn('role', ['staff', 'tenant_staff']);
+            
+            if ($hasTenantId) {
+                $userQuery->where('tenant_id', (int) $id);
+            }
+            
+            $user = $userQuery->get()->getRowArray();
             
             if (!$user) {
                 return $this->response->setJSON([
