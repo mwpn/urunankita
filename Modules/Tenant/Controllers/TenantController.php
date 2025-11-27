@@ -454,4 +454,109 @@ class TenantController extends BaseController
             ])->setStatusCode(400);
         }
     }
+
+    /**
+     * Create staff user for tenant
+     * POST /admin/tenants/{id}/staff/create
+     */
+    public function createStaff(int $id)
+    {
+        $tenant = $this->tenantService->getById($id);
+        if (!$tenant) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Penggalang tidak ditemukan',
+            ])->setStatusCode(404);
+        }
+
+        $name = trim($this->request->getPost('name') ?? '');
+        $email = trim($this->request->getPost('email') ?? '');
+        $password = trim($this->request->getPost('password') ?? 'admin123');
+        $role = $this->request->getPost('role') ?? 'staff';
+
+        if (empty($name) || empty($email)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Nama dan email wajib diisi',
+            ])->setStatusCode(400);
+        }
+
+        if (!in_array($role, ['staff', 'tenant_staff'], true)) {
+            $role = 'staff';
+        }
+
+        try {
+            $db = Database::connect();
+            
+            // Check duplicate email
+            $exists = $db->table('users')
+                ->where('tenant_id', (int) $id)
+                ->where('email', $email)
+                ->countAllResults();
+            
+            if ($exists > 0) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Email sudah terdaftar pada penggalang ini',
+                ])->setStatusCode(400);
+            }
+
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            
+            $db->table('users')->insert([
+                'tenant_id' => (int) $id,
+                'name' => $name,
+                'email' => $email,
+                'password' => $passwordHash,
+                'role' => $role,
+                'status' => 'active',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Staff berhasil ditambahkan',
+            ]);
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Gagal menambahkan staff: ' . $e->getMessage(),
+            ])->setStatusCode(500);
+        }
+    }
+
+    /**
+     * Delete staff user
+     * POST /admin/tenants/{id}/staff/{userId}/delete
+     */
+    public function deleteStaff(int $id, int $userId)
+    {
+        $tenant = $this->tenantService->getById($id);
+        if (!$tenant) {
+            return redirect()->back()->with('error', 'Penggalang tidak ditemukan');
+        }
+
+        try {
+            $db = Database::connect();
+            
+            // Verify user belongs to this tenant and is staff
+            $user = $db->table('users')
+                ->where('id', $userId)
+                ->where('tenant_id', (int) $id)
+                ->whereIn('role', ['staff', 'tenant_staff'])
+                ->get()
+                ->getRowArray();
+            
+            if (!$user) {
+                return redirect()->back()->with('error', 'Staff tidak ditemukan');
+            }
+
+            $db->table('users')->where('id', $userId)->delete();
+
+            return redirect()->to("/admin/tenants/{$id}/edit")->with('success', 'Staff berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus staff: ' . $e->getMessage());
+        }
+    }
 }
