@@ -92,8 +92,42 @@ class AuthController extends BaseController
             $role = $roleRaw ?: 'tenant_user';
 
             // If user belongs to a tenant, set tenant context in session (single DB)
-            if (!empty($user['tenant_id']) && $role !== 'super_admin') {
-                $tenantRow = $db->table('tenants')->where('id', (int) $user['tenant_id'])->get()->getRowArray();
+            $tenantId = null;
+            
+            // Check if tenant_id column exists
+            $columns = $db->getFieldNames('users');
+            $hasTenantId = in_array('tenant_id', $columns);
+            
+            if ($hasTenantId && !empty($user['tenant_id']) && $role !== 'super_admin') {
+                $tenantId = (int) $user['tenant_id'];
+            } elseif (in_array($role, ['staff', 'tenant_staff'], true) && $role !== 'super_admin') {
+                // For staff: resolve tenant from campaign_staff assignments
+                $campaignStaff = $db->table('campaign_staff')
+                    ->where('user_id', (int) $user['id'])
+                    ->join('campaigns', 'campaigns.id = campaign_staff.campaign_id', 'left')
+                    ->select('campaigns.tenant_id')
+                    ->limit(1)
+                    ->get()
+                    ->getRowArray();
+                
+                if ($campaignStaff && !empty($campaignStaff['tenant_id'])) {
+                    $tenantId = (int) $campaignStaff['tenant_id'];
+                } else {
+                    // If no campaign assignment, try to find tenant from owner_id
+                    $tenant = $db->table('tenants')
+                        ->where('owner_id', (int) $user['id'])
+                        ->limit(1)
+                        ->get()
+                        ->getRowArray();
+                    
+                    if ($tenant) {
+                        $tenantId = (int) $tenant['id'];
+                    }
+                }
+            }
+            
+            if ($tenantId) {
+                $tenantRow = $db->table('tenants')->where('id', $tenantId)->get()->getRowArray();
                 if ($tenantRow) {
                     session()->set('tenant_id', (int) $tenantRow['id']);
                     session()->set('tenant_slug', $tenantRow['slug']);
